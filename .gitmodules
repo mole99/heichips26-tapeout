@@ -7,3 +7,6 @@
 [submodule "ip/user_projects/heiChips2025_sap3_and_sorter"]
 	path = ip/user_projects/heiChips2025_sap3_and_sorter
 	url = ../../HeiChips/heiChips2025_sap3_and_sorter.git
+[submodule "ip/user_projects/heichips_25_snitch_core"]
+	path = ip/user_projects/heichips_25_snitch_core
+	url = ../../HeiChips/heichips_25_snitch_core.git

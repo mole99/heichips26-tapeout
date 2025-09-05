@@ -961,7 +961,7 @@ module fabric_wrapper #(
 
     // TT_PROJECT
     
-    heichips25_example_large heichips25_example_large_0 (
+    heichips25_snitch_wrapper heichips25_example_large_0 (
         .clk        (tt_project_0_clk),
         .rst_n      (tt_project_0_rst_n),
         .ena        (tt_project_0_ena),

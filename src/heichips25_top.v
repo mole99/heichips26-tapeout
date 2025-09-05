@@ -2,6 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 module heichips25_top (
+    `ifdef USE_POWER_PINS
+    inout wire VDD,
+    inout wire VSS,
+    inout wire IOVDD,
+    inout wire IOVSS,
+    `endif
+
     inout  wire         fpga_clk_PAD,
     inout  wire         fpga_rst_n_PAD,
 
@@ -53,28 +60,84 @@ module heichips25_top (
     // Power/Ground IO pad instances
     
     (* keep *)
-    sg13g2_IOPadVdd sg13g2_IOPadVdd_east ();
+    sg13g2_IOPadVdd sg13g2_IOPadVdd_east (
+        `ifdef USE_POWER_PINS
+        .vss    (VSS),
+        .vdd    (VDD),
+        .iovss  (IOVSS),
+        .iovdd  (IOVDD)
+        `endif
+    );
 
     (* keep *)
-    sg13g2_IOPadVss sg13g2_IOPadVss_east ();
+    sg13g2_IOPadVss sg13g2_IOPadVss_east (
+        `ifdef USE_POWER_PINS
+        .vss    (VSS),
+        .vdd    (VDD),
+        .iovss  (IOVSS),
+        .iovdd  (IOVDD)
+        `endif
+    );
 
     (* keep *)
-    sg13g2_IOPadIOVss sg13g2_IOPadIOVss_east ();
+    sg13g2_IOPadIOVss sg13g2_IOPadIOVss_east (
+        `ifdef USE_POWER_PINS
+        .vss    (VSS),
+        .vdd    (VDD),
+        .iovss  (IOVSS),
+        .iovdd  (IOVDD)
+        `endif
+    );
 
     (* keep *)
-    sg13g2_IOPadIOVdd sg13g2_IOPadIOVdd_east ();
+    sg13g2_IOPadIOVdd sg13g2_IOPadIOVdd_east (
+        `ifdef USE_POWER_PINS
+        .vss    (VSS),
+        .vdd    (VDD),
+        .iovss  (IOVSS),
+        .iovdd  (IOVDD)
+        `endif
+    );
 
     (* keep *)
-    sg13g2_IOPadVdd sg13g2_IOPadVdd_west ();
+    sg13g2_IOPadVdd sg13g2_IOPadVdd_west (
+        `ifdef USE_POWER_PINS
+        .vss    (VSS),
+        .vdd    (VDD),
+        .iovss  (IOVSS),
+        .iovdd  (IOVDD)
+        `endif
+    );
 
     (* keep *)
-    sg13g2_IOPadVss sg13g2_IOPadVss_west ();
+    sg13g2_IOPadVss sg13g2_IOPadVss_west (
+        `ifdef USE_POWER_PINS
+        .vss    (VSS),
+        .vdd    (VDD),
+        .iovss  (IOVSS),
+        .iovdd  (IOVDD)
+        `endif
+    );
 
     (* keep *)
-    sg13g2_IOPadIOVss sg13g2_IOPadIOVss_west ();
+    sg13g2_IOPadIOVss sg13g2_IOPadIOVss_west (
+        `ifdef USE_POWER_PINS
+        .vss    (VSS),
+        .vdd    (VDD),
+        .iovss  (IOVSS),
+        .iovdd  (IOVDD)
+        `endif
+    );
 
     (* keep *)
-    sg13g2_IOPadIOVdd sg13g2_IOPadIOVdd_west ();
+    sg13g2_IOPadIOVdd sg13g2_IOPadIOVdd_west (
+        `ifdef USE_POWER_PINS
+        .vss    (VSS),
+        .vdd    (VDD),
+        .iovss  (IOVSS),
+        .iovdd  (IOVDD)
+        `endif
+    );
 
     // FPGA IO pad instances
 
