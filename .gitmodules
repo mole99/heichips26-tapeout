@@ -10,3 +10,9 @@
 [submodule "ip/user_projects/heichips_25_snitch_core"]
 	path = ip/user_projects/heichips_25_snitch_core
 	url = ../../HeiChips/heichips_25_snitch_core.git
+[submodule "ip/user_projects/heichips25_bagel"]
+	path = ip/user_projects/heichips25_bagel
+	url = ../../HeiChips/heichips25_bagel.git
+[submodule "ip/user_projects/heichips25_systolicArray4x4"]
+	path = ip/user_projects/heichips25_systolicArray4x4
+	url = ../../HeiChips/heichips25_systolicArray4x4.git

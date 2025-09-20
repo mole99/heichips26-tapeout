@@ -1005,7 +1005,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_3_uio_oe)
     );
 
-    heichips25_example_small heichips25_example_small_3 (
+    heichips25_systolicArrayTop heichips25_example_small_3 (
         .clk        (tt_project_4_clk),
         .rst_n      (tt_project_4_rst_n),
         .ena        (tt_project_4_ena),
@@ -1049,7 +1049,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_7_uio_oe)
     );
 
-    heichips25_example_small heichips25_example_small_6 (
+    heichips25_bagel heichips25_example_small_6 (
         .clk        (tt_project_8_clk),
         .rst_n      (tt_project_8_rst_n),
         .ena        (tt_project_8_ena),

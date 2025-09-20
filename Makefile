@@ -1,10 +1,17 @@
-RUN_TAG = $(shell ls runs/ -1 | tail -n 1)
+MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+
+RUN_TAG = $(shell ls runs/ | tail -n 1)
 TOP = heichips25_top
 
 $(echo $RUN_TAG)
 
-PDK_ROOT ?= /home/leo/Repositories/IHP-Open-PDK
+PDK_ROOT ?= $(MAKEFILE_DIR)/IHP-Open-PDK
 PDK ?= ihp-sg13g2
+
+clone-pdk:
+	rm -rf $(MAKEFILE_DIR)/IHP-Open-PDK
+	git clone https://github.com/mole99/IHP-Open-PDK.git $(MAKEFILE_DIR)/IHP-Open-PDK --single-branch -b leo/padring --recurse-submodules --depth 1
+.PHONY: clone-pdk
 
 librelane:
 	librelane config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk
@@ -35,8 +42,8 @@ copy-final:
 	cp runs/${RUN_TAG}/final/def/${TOP}.def final/def/${TOP}.def
 	cp runs/${RUN_TAG}/final/spef/nom/${TOP}.nom.spef final/spef/nom/${TOP}.nom.spef
 	
-	gzip final/gds/${TOP}.gds
-	gzip final/odb/${TOP}.odb
+	gzip --force final/gds/${TOP}.gds
+	gzip --force final/odb/${TOP}.odb
 	
 .PHONY: copy-final
 

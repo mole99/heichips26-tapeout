@@ -31,17 +31,17 @@ The chip includes several user submitted designs from the HeiChips 2025 Hackatho
 
 The following user projects are included:
 
-| Group | Size | Location | Description |
+| Project | Size | Location | Description |
 |---------------|---------------|---------------|---------------|
-|               |               | X0Y2          |               |
+| heichips25_snitch_wrapper | Large | X0Y2          |               |
 | heichips25_CORDIC | Small | X0Y3          |               |
-|               |               | X0Y4          |               |
-|               |               | X0Y5          |               |
-|               |               | X0Y6          |               |
+| heichips25_sap3 | Small | X0Y4          |               |
+| heichips25_top_sorter | Small | X0Y5          |               |
+| heichips25_systolicArrayTop | Small | X0Y6          |               |
 |               |               | X0Y7          |               |
 |               |               | X0Y8          |               |
 | heichips25_fazyrv_exotiny | Large | X5Y4          |               |
-|               |               | X5Y5          |               |
+| heichips25_bagel | Small | X5Y5          |               |
 |               |               | X5Y6          |               |
 |               |               | X5Y7          |               |
 |               |               | X5Y8          |               |
