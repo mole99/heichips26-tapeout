@@ -42,7 +42,7 @@ The following user projects are included:
 |               |               | X0Y8          |               |
 | heichips25_fazyrv_exotiny | Large | X5Y4          |               |
 | heichips25_bagel | Small | X5Y5          |               |
-|               |               | X5Y6          |               |
+| heichips25_usb_cdc | Small | X5Y6          |               |
 |               |               | X5Y7          |               |
 |               |               | X5Y8          |               |
 
