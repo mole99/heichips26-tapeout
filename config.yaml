@@ -251,9 +251,9 @@ MACROS:
       #heichips25_core.fabric_wrapper.heichips25_example_small_6:
       #  location: [2109, 1110]
       #  orientation: N
-      heichips25_core.fabric_wrapper.heichips25_example_small_7:
-        location: [2109, 895]
-        orientation: N
+      #heichips25_core.fabric_wrapper.heichips25_example_small_7:
+      #  location: [2109, 895]
+      #  orientation: N
       heichips25_core.fabric_wrapper.heichips25_example_small_8:
         location: [2109, 680]
         orientation: N
@@ -387,8 +387,23 @@ MACROS:
         location: [2109, 1110]
         orientation: N
 
+  heichips25_usb_cdc:
+    gds:
+      - dir::ip/user_projects/heichips25-usb_cdc/macro/gds/heichips25_usb_cdc.gds
+    lef:
+      - dir::ip/user_projects/heichips25-usb_cdc/macro/lef/heichips25_usb_cdc.lef
+    nl:
+      - dir::ip/user_projects/heichips25-usb_cdc/macro/nl/heichips25_usb_cdc.nl.v
+    spef:
+      "nom_*":
+        - dir::ip/user_projects/heichips25-usb_cdc/macro/spef/nom/heichips25_usb_cdc.nom.spef
+    instances:
+      heichips25_core.fabric_wrapper.heichips25_example_small_7:
+        location: [2109, 895]
+        orientation: N
+
 PDN_OBSTRUCTIONS:
-# Left
+ # Left
  - [TopMetal1,  388, 1755,  888, 2170] # heichips25_example_large_0
  - [TopMetal1,  388, 1540,  888, 1740] # heichips25_example_small_0
  - [TopMetal1,  388, 1325,  888, 1525] # heichips25_example_small_1
@@ -399,14 +414,20 @@ PDN_OBSTRUCTIONS:
  - [TopMetal1, 2109, 1325, 2609, 1740] # heichips25_example_large_1
  - [TopMetal2, 2517, 1333, 2572, 1385] # heichips25_example_large_1 logo window
  - [TopMetal1, 2109, 1110, 2609, 1310] # heichips25_example_small_6
+ - [TopMetal1, 2109,  895, 2609, 1095] # heichips25_example_small_7
  
 ROUTING_OBSTRUCTIONS:
+ # Left
  - [TopMetal1,  388, 1755,  888, 2170] # heichips25_example_large_0
  - [TopMetal1,  388, 1540,  888, 1740] # heichips25_example_small_0
  - [TopMetal1,  388, 1325,  888, 1525] # heichips25_example_small_1
  - [TopMetal1,  388, 1110,  888, 1310] # heichips25_example_small_2
+ 
+ # Right
  - [TopMetal1, 2109, 1325, 2609, 1740] # heichips25_example_large_1
  - [TopMetal2, 2517, 1333, 2572, 1385] # heichips25_example_large_1 logo window
+ - [TopMetal1, 2109, 1110, 2609, 1310] # heichips25_example_small_6
+ - [TopMetal1, 2109,  895, 2609, 1095] # heichips25_example_small_7
  
 # TODO update pdn config
 PDN_MACRO_CONNECTIONS:

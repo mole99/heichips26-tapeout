@@ -21,7 +21,7 @@ tt_projects = {
     # SRAM Bot
     'X5Y4': ('heichips25_fazyrv_exotiny', 'heichips25_example_large_1'),
     'X5Y5': ('heichips25_bagel', 'heichips25_example_small_6'),
-    'X5Y6': ('heichips25_example_small', 'heichips25_example_small_7'),
+    'X5Y6': ('heichips25_usb_cdc', 'heichips25_example_small_7'),
     'X5Y7': ('heichips25_example_small', 'heichips25_example_small_8'),
     'X5Y8': ('heichips25_example_small', 'heichips25_example_small_9'),
 }

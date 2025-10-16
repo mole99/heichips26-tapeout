@@ -16,3 +16,6 @@
 [submodule "ip/user_projects/heichips25_systolicArray4x4"]
 	path = ip/user_projects/heichips25_systolicArray4x4
 	url = ../../HeiChips/heichips25_systolicArray4x4.git
+[submodule "ip/user_projects/heichips25-usb_cdc"]
+	path = ip/user_projects/heichips25-usb_cdc
+	url = ../../HeiChips/heichips25-usb_cdc.git

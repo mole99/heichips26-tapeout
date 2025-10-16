@@ -259,7 +259,15 @@ module heichips25_top (
         // I/Os FPGA
         .fabric_io_in_i     (fpga_io_PAD2CORE),
         .fabric_io_out_o    (fpga_io_CORE2PAD),
-        .fabric_io_oe_o     (fpga_io_CORE2PAD_EN)
+        .fabric_io_oe_o     (fpga_io_CORE2PAD_EN),
+        
+        .usb_dn_en_o    (),
+        .usb_dn_rx_i    (1'b0),
+        .usb_dn_tx_o    (),
+        .usb_dp_en_o    (),
+        .usb_dp_rx_i    (1'b0),
+        .usb_dp_tx_o    (),
+        .usb_dp_up_o    ()
     );
 
 endmodule

@@ -34,7 +34,15 @@ module heichips25_core (
     // I/Os FPGA
     input  wire [32-1:0] fabric_io_in_i,
     output wire [32-1:0] fabric_io_out_o,
-    output wire [32-1:0] fabric_io_oe_o
+    output wire [32-1:0] fabric_io_oe_o,
+    
+    output usb_dn_en_o,
+    input  usb_dn_rx_i,
+    output usb_dn_tx_o,
+    output usb_dp_en_o,
+    input  usb_dp_rx_i,
+    output usb_dp_tx_o,
+    output usb_dp_up_o
 );
     
     // Fabric parameters
@@ -311,7 +319,15 @@ module heichips25_core (
         // I/Os South
         .io_south_in_i  (fabric_io_south_in_i),
         .io_south_out_o (fabric_io_south_out_o),
-        .io_south_oe_o  (fabric_io_south_oe_o)
+        .io_south_oe_o  (fabric_io_south_oe_o),
+        
+        .usb_dn_en_o    (usb_dn_en_o),
+        .usb_dn_rx_i    (usb_dn_rx_i),
+        .usb_dn_tx_o    (usb_dn_tx_o),
+        .usb_dp_en_o    (usb_dp_en_o),
+        .usb_dp_rx_i    (usb_dp_rx_i),
+        .usb_dp_tx_o    (usb_dp_tx_o),
+        .usb_dp_up_o    (usb_dp_up_o)
     );
     
     //$assert(fabric_wrapper.FrameBitsPerRow ...)
