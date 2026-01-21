@@ -76,32 +76,37 @@ You can select a different test case in the Pyhon testbench.
 
 ## Building the Chip
 
-> [!NOTE]
-> The build process currently relies on specific branches of [LibreLane](https://github.com/librelane/librelane/tree/leo/padring) and the [IHP Open PDK](https://github.com/mole99/IHP-Open-PDK/tree/leo/padring).
+### Prerequisites
 
-TODO
+To clone the latest PDK version, simply run `make clone-pdk`.
+
+In the next step, install LibreLane by following the Nix-based installation instructions: https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html
+
+### Running LibreLane
 
 To build the chip with LibreLane:
 
 ```console
-librelane --manual-pdk config.yaml
+make librelane
 ```
 
-> [!NOTE]
-> You need to export `PDK_ROOT` and `PDK` to the path of the IHP Open PDK and the name of the PDK.
+To view the design in OpenROAD:
+
+```console
+make librelane-openroad
+```
+
+Or to view it in KLayout:
+
+```console
+make librelane-klayout
+```
 
 The final steps:
 
 ```
 make copy-final
-make extract
-make edit-netlists
-make lvs
-make insert-logo
 make create-image
-make fill
-make drc
-make zip
 ```
 
 And with this the chip is ready for tapeout. 

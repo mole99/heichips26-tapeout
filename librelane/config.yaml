@@ -1,0 +1,488 @@
+meta:
+  version: 3
+  flow: Chip
+  substituting_steps:
+
+    # Magic reports some overlaps which can be ignored
+    Checker.IllegalOverlap: null
+
+    # Disable KLayout DRC
+    #KLayout.DRC: null
+    #Checker.KLayoutDRC: null
+
+    # Disable magic DRC
+    #Magic.DRC: null
+    #Checker.MagicDRC: null
+
+    # Disable KLayout antenna check
+    #KLayout.Antenna: null
+    #Checker.KLayoutAntenna: null
+
+    # Disable KLayout density check
+    #KLayout.Density: null
+    #Checker.KLayoutDensity: null
+    
+    # Save time
+    #OpenROAD.IRDropReport: null
+    #KLayout.XOR: null
+    #Netgen.LVS: null
+    #Checker.LVS: null
+
+DESIGN_NAME: heichips25_top
+VERILOG_FILES:
+- dir::../src/heichips25_top.v
+- dir::../src/heichips25_core.sv
+- dir::../ip/fabric/rtl/fabric_wrapper.sv
+- dir::../ip/fabric_config/fabric_config.sv
+- dir::../ip/fabric_config/fabric_spi_controller.sv
+- dir::../ip/fabric_config/fabric_spi_receiver.sv
+
+# SRAMs require FUNCTIONAL
+VERILOG_DEFINES:
+- FUNCTIONAL
+
+# Slightly smaller file sizes
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+
+PAD_SOUTH: [
+    "fpga_ios\\[16\\].fpga_io",
+    "fpga_ios\\[17\\].fpga_io",
+    "fpga_ios\\[18\\].fpga_io",
+    "fpga_ios\\[19\\].fpga_io",
+    "fpga_ios\\[20\\].fpga_io",
+    "fpga_ios\\[21\\].fpga_io",
+    "fpga_ios\\[22\\].fpga_io",
+    "fpga_ios\\[23\\].fpga_io",
+    "fpga_ios\\[24\\].fpga_io",
+    "fpga_ios\\[25\\].fpga_io",
+    "fpga_ios\\[26\\].fpga_io",
+    "fpga_ios\\[27\\].fpga_io",
+    "fpga_ios\\[28\\].fpga_io",
+    "fpga_ios\\[29\\].fpga_io",
+    "fpga_ios\\[30\\].fpga_io",
+    "fpga_ios\\[31\\].fpga_io"
+]
+
+PAD_EAST: [
+    "iovdd_pads\\[0\\].iovdd_pad",
+    "iovss_pads\\[0\\].iovss_pad",
+        
+    sg13g2_IOPadOut30mA_fpga_config_busy,
+    sg13g2_IOPadOut30mA_fpga_config_configured,
+    
+    "analogs\\[0\\].analog",
+    "analogs\\[1\\].analog",
+    "analogs\\[2\\].analog",
+    "analogs\\[3\\].analog",
+    "analogs\\[4\\].analog",
+    "analogs\\[5\\].analog",
+    "analogs\\[6\\].analog",
+    "analogs\\[7\\].analog",
+    "analogs\\[8\\].analog",
+    "analogs\\[9\\].analog",
+
+    "vdd_pads\\[0\\].vdd_pad",
+    "vss_pads\\[0\\].vss_pad"
+]
+
+PAD_NORTH: [
+    "fpga_ios\\[0\\].fpga_io",
+    "fpga_ios\\[1\\].fpga_io",
+    "fpga_ios\\[2\\].fpga_io",
+    "fpga_ios\\[3\\].fpga_io",
+    "fpga_ios\\[4\\].fpga_io",
+    "fpga_ios\\[5\\].fpga_io",
+    "fpga_ios\\[6\\].fpga_io",
+    "fpga_ios\\[7\\].fpga_io",
+    "fpga_ios\\[8\\].fpga_io",
+    "fpga_ios\\[9\\].fpga_io",
+    "fpga_ios\\[10\\].fpga_io",
+    "fpga_ios\\[11\\].fpga_io",
+    "fpga_ios\\[12\\].fpga_io",
+    "fpga_ios\\[13\\].fpga_io",
+    "fpga_ios\\[14\\].fpga_io",
+    "fpga_ios\\[15\\].fpga_io"
+]
+
+PAD_WEST: [
+    "vdd_pads\\[1\\].vdd_pad",
+    "vss_pads\\[1\\].vss_pad",
+
+    fpga_clk,
+    fpga_rst_n,
+    
+    fpga_sclk,
+    fpga_cs_n,
+    fpga_mosi,
+    fpga_miso,
+    
+    fpga_mode,
+
+    "fpga_config_slot\\[0\\].fpga_config_slot",
+    "fpga_config_slot\\[1\\].fpga_config_slot",
+    "fpga_config_slot\\[2\\].fpga_config_slot",
+    "fpga_config_slot\\[3\\].fpga_config_slot",
+    fpga_config_trigger,
+    
+    "iovdd_pads\\[1\\].iovdd_pad",
+    "iovss_pads\\[1\\].iovss_pad"
+]
+
+PNR_SDC_FILE: dir::chip_top.sdc
+SIGNOFF_SDC_FILE: dir::chip_top.sdc
+FALLBACK_SDC: dir::chip_top.sdc
+
+VDD_NETS:
+- VDD
+GND_NETS:
+- VSS
+
+GRT_ALLOW_CONGESTION: true
+
+# Clock
+CLOCK_PORT: fpga_clk_PAD
+CLOCK_NET: fpga_clk/p2c
+CLOCK_PERIOD: 100
+FP_SIZING: absolute
+DIE_AREA: [0, 0, 3000, 3000]
+CORE_AREA: [365, 365, "expr::$DIE_AREA[2] - 365", "expr::$DIE_AREA[3] - 365"]
+PL_TARGET_DENSITY_PCT: 50
+
+# Power Distribution Network
+PDN_CFG: dir::pdn_cfg.tcl
+PDN_CORE_RING: True
+
+# Maximum metal width without slotting: 30um
+PDN_CORE_RING_VWIDTH: 15
+PDN_CORE_RING_HWIDTH: 15
+# Ensure minimum spacing for long metals
+PDN_CORE_RING_VSPACING: 5
+PDN_CORE_RING_HSPACING: 5
+
+PDN_CORE_RING_CONNECT_TO_PADS: True
+PDN_ENABLE_PINS: False
+
+# Override bondpad name
+PAD_BONDPAD_NAME: bondpad_70x70_novias
+
+# Bondpad is not yet included in the PDK
+EXTRA_GDS:
+- dir::../ip/bondpad_70x70/gds/bondpad_70x70.gds
+- dir::../ip/bondpad_70x70_novias/gds/bondpad_70x70_novias.gds
+
+EXTRA_LEFS:
+- dir::../ip/bondpad_70x70/lef/bondpad_70x70.lef
+- dir::../ip/bondpad_70x70_novias/lef/bondpad_70x70_novias.lef
+
+IGNORE_DISCONNECTED_MODULES:
+- bondpad_70x70
+- bondpad_70x70_novias
+- alignment_mark
+
+# Because we have mutiple power
+# pads for one power domain
+MAGIC_EXT_UNIQUE: notopports
+
+MACROS:
+  alignment_mark:
+    gds:
+      - dir::../ip/alignment_mark/gds/alignment_mark.gds
+    lef:
+      - dir::../ip/alignment_mark/lef/alignment_mark.lef
+    vh:
+      - dir::../ip/alignment_mark/vh/alignment_mark.v
+    instances:
+      alignment_mark_0:
+        location: [55, 55]
+        orientation: N
+      alignment_mark_1:
+        location: ["expr::$DIE_AREA[2] - 70 - 55", 55]
+        orientation: N
+      alignment_mark_2:
+        location: [55, "expr::$DIE_AREA[3] - 70 - 55"]
+        orientation: N
+      alignment_mark_3:
+        location: ["expr::$DIE_AREA[2] - 70 - 55", "expr::$DIE_AREA[3] - 70 - 55"]
+        orientation: N
+  eFPGA:
+    gds:
+      - dir::../ip/fabric/macro/ihp-sg13g2/gds/eFPGA.gds
+    lef:
+      - dir::../ip/fabric/macro/ihp-sg13g2/lef/eFPGA.lef
+    nl:
+      - dir::../ip/fabric/macro/ihp-sg13g2/nl/eFPGA.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/fabric/macro/ihp-sg13g2/spef/nom/eFPGA.nom.spef
+    instances: 
+      heichips25_core.fabric_wrapper.eFPGA:
+        # X should be multiple of 0.48 (Metal2 pitch)
+        # Y should be multiple of 0.42 (Metal3 pitch)
+        location: [974.88, 381.36]
+        orientation: N
+  RM_IHPSG13_1P_512x32_c2_bm_bist:
+    gds:
+      #- pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
+      - dir::../tmp/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
+    lef:
+      - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_512x32_c2_bm_bist.lef
+    nl:
+      - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_512x32_c2_bm_bist.v
+    lib:
+      "nom_typ_1p20V_25C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_typ_1p20V_25C.lib
+      "nom_fast_1p32V_m40C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_fast_1p32V_m55C.lib
+      "nom_slow_1p08V_125C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_slow_1p08V_125C.lib
+    instances:
+      heichips25_core.fabric_wrapper.sram0_0:
+        location: [2150, 1750]
+        orientation: S
+      heichips25_core.fabric_wrapper.sram0_1:
+        location: [2150, 2020]
+        orientation: N
+  heichips25_example_small:
+    gds:
+      - dir::../ip/user_projects/heichips25_example_small/macro/gds/heichips25_example_small.gds
+    lef:
+      - dir::../ip/user_projects/heichips25_example_small/macro/lef/heichips25_example_small.lef
+    nl:
+      - dir::../ip/user_projects/heichips25_example_small/macro/nl/heichips25_example_small.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25_example_small/macro/spef/nom/heichips25_example_small.nom.spef
+    instances:
+      #heichips25_core.fabric_wrapper.heichips25_example_small_0:
+      #  location: [390, 1540]
+      #  orientation: FN
+      #heichips25_core.fabric_wrapper.heichips25_example_small_1:
+      #  location: [390, 1325]
+      #  orientation: FN
+      #heichips25_core.fabric_wrapper.heichips25_example_small_2:
+      #  location: [390, 1110]
+      #  orientation: FN
+      #heichips25_core.fabric_wrapper.heichips25_example_small_3:
+      #  location: [390, 895]
+      #  orientation: FN
+      heichips25_core.fabric_wrapper.heichips25_example_small_4:
+        location: [390, 680]
+        orientation: FN
+      heichips25_core.fabric_wrapper.heichips25_example_small_5:
+        location: [390, 465]
+        orientation: FN
+
+      #heichips25_core.fabric_wrapper.heichips25_example_small_6:
+      #  location: [2109, 1110]
+      #  orientation: N
+      #heichips25_core.fabric_wrapper.heichips25_example_small_7:
+      #  location: [2109, 895]
+      #  orientation: N
+      heichips25_core.fabric_wrapper.heichips25_example_small_8:
+        location: [2109, 680]
+        orientation: N
+      heichips25_core.fabric_wrapper.heichips25_example_small_9:
+        location: [2109, 465]
+        orientation: N
+
+  heichips25_example_large:
+    gds:
+      - dir::../ip/user_projects/heichips25_example_large/macro/gds/heichips25_example_large.gds
+    lef:
+      - dir::../ip/user_projects/heichips25_example_large/macro/lef/heichips25_example_large.lef
+    nl:
+      - dir::../ip/user_projects/heichips25_example_large/macro/nl/heichips25_example_large.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25_example_large/macro/spef/nom/heichips25_example_large.nom.spef
+    #instances:
+      #heichips25_core.fabric_wrapper.heichips25_example_large_0:
+      #  location: [390, 1755]
+      #  orientation: FN
+      #heichips25_core.fabric_wrapper.heichips25_example_large_1:
+      #  location: [2109, 1325]
+      #  orientation: N
+
+  heichips25_snitch_wrapper:
+    gds:
+      - dir::../ip/user_projects/heichips_25_snitch_core/macro/gds/heichips25_snitch_wrapper.gds
+    lef:
+      - dir::../ip/user_projects/heichips_25_snitch_core/macro/lef/heichips25_snitch_wrapper.lef
+    nl:
+      - dir::../ip/user_projects/heichips_25_snitch_core/macro/nl/heichips25_snitch_wrapper.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips_25_snitch_core/macro/spef/nom/heichips25_snitch_wrapper.nom.spef
+    instances:
+      heichips25_core.fabric_wrapper.heichips25_example_large_0:
+        location: [390, 1755]
+        orientation: FN
+      #heichips25_core.fabric_wrapper.heichips25_example_large_1:
+      #  location: [2109, 1325]
+      #  orientation: N
+
+  heichips25_fazyrv_exotiny:
+    gds:
+      - dir::../ip/user_projects/heichips25-fazyrv-exotiny/macro/gds/heichips25_fazyrv_exotiny.gds
+    lef:
+      - dir::../ip/user_projects/heichips25-fazyrv-exotiny/macro/lef/heichips25_fazyrv_exotiny.lef
+    nl:
+      - dir::../ip/user_projects/heichips25-fazyrv-exotiny/macro/nl/heichips25_fazyrv_exotiny.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25-fazyrv-exotiny/macro/spef/nom/heichips25_fazyrv_exotiny.nom.spef
+    instances:
+      heichips25_core.fabric_wrapper.heichips25_example_large_1:
+        location: [2109, 1325]
+        orientation: N
+
+  heichips25_CORDIC:
+    gds:
+      - dir::../ip/user_projects/heichips25_CORDIC/macro/gds/heichips25_CORDIC.gds
+    lef:
+      - dir::../ip/user_projects/heichips25_CORDIC/macro/lef/heichips25_CORDIC.lef
+    nl:
+      - dir::../ip/user_projects/heichips25_CORDIC/macro/nl/heichips25_CORDIC.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25_CORDIC/macro/spef/nom/heichips25_CORDIC.nom.spef
+    instances:
+      heichips25_core.fabric_wrapper.heichips25_example_small_0:
+        location: [390, 1540]
+        orientation: FN
+
+  heichips25_sap3:
+    gds:
+      - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/gds/heichips25_sap3.gds
+    lef:
+      - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/lef/heichips25_sap3.lef
+    nl:
+      - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/nl/heichips25_sap3.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/spef/nom/heichips25_sap3.nom.spef
+    instances:
+      heichips25_core.fabric_wrapper.heichips25_example_small_1:
+        location: [390, 1325]
+        orientation: FN
+
+  heichips25_top_sorter:
+    gds:
+      - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_top_sorter/macro/gds/heichips25_top_sorter.gds
+    lef:
+      - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_top_sorter/macro/lef/heichips25_top_sorter.lef
+    nl:
+      - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_top_sorter/macro/nl/heichips25_top_sorter.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_top_sorter/macro/spef/nom/heichips25_top_sorter.nom.spef
+    instances:
+      heichips25_core.fabric_wrapper.heichips25_example_small_2:
+        location: [390, 1110]
+        orientation: FN
+
+  heichips25_systolicArrayTop:
+    gds:
+      - dir::../ip/user_projects/heichips25_systolicArray4x4/macro/gds/heichips25_systolicArrayTop.gds
+    lef:
+      - dir::../ip/user_projects/heichips25_systolicArray4x4/macro/lef/heichips25_systolicArrayTop.lef
+    nl:
+      - dir::../ip/user_projects/heichips25_systolicArray4x4/macro/nl/heichips25_systolicArrayTop.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25_systolicArray4x4/macro/spef/nom/heichips25_systolicArrayTop.nom.spef
+    instances:
+      heichips25_core.fabric_wrapper.heichips25_example_small_3:
+        location: [390, 895]
+        orientation: FN
+
+  heichips25_bagel:
+    gds:
+      - dir::../ip/user_projects/heichips25_bagel/macro/gds/heichips25_bagel.gds
+    lef:
+      - dir::../ip/user_projects/heichips25_bagel/macro/lef/heichips25_bagel.lef
+    nl:
+      - dir::../ip/user_projects/heichips25_bagel/macro/nl/heichips25_bagel.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25_bagel/macro/spef/nom/heichips25_bagel.nom.spef
+    instances:
+      heichips25_core.fabric_wrapper.heichips25_example_small_6:
+        location: [2109, 1110]
+        orientation: N
+
+  heichips25_usb_cdc:
+    gds:
+      - dir::../ip/user_projects/heichips25-usb_cdc/macro/gds/heichips25_usb_cdc.gds
+    lef:
+      - dir::../ip/user_projects/heichips25-usb_cdc/macro/lef/heichips25_usb_cdc.lef
+    nl:
+      - dir::../ip/user_projects/heichips25-usb_cdc/macro/nl/heichips25_usb_cdc.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25-usb_cdc/macro/spef/nom/heichips25_usb_cdc.nom.spef
+    instances:
+      heichips25_core.fabric_wrapper.heichips25_example_small_7:
+        location: [2109, 895]
+        orientation: N
+
+PDN_OBSTRUCTIONS:
+ # Left
+ - [TopMetal1,  390, 1755,  888, 2170] # heichips25_example_large_0
+ - [TopMetal1,  390, 1540,  888, 1740] # heichips25_example_small_0
+ - [TopMetal1,  390, 1325,  888, 1525] # heichips25_example_small_1
+ - [TopMetal1,  390, 1110,  888, 1310] # heichips25_example_small_2
+ - [TopMetal1,  390, 895,   888, 1095] # heichips25_example_small_3
+  
+ # Right
+ - [TopMetal1, 2109, 1325, 2609, 1740] # heichips25_example_large_1
+ - [TopMetal2, 2517, 1333, 2572, 1385] # heichips25_example_large_1 logo window
+ - [TopMetal1, 2109, 1110, 2609, 1310] # heichips25_example_small_6
+ - [TopMetal1, 2109,  895, 2609, 1095] # heichips25_example_small_7
+ 
+ROUTING_OBSTRUCTIONS:
+ # Left
+ - [TopMetal1,  390, 1755,  888, 2170] # heichips25_example_large_0
+ - [TopMetal1,  390, 1540,  888, 1740] # heichips25_example_small_0
+ - [TopMetal1,  390, 1325,  888, 1525] # heichips25_example_small_1
+ - [TopMetal1,  390, 1110,  888, 1310] # heichips25_example_small_2
+ 
+ # Right
+ - [TopMetal1, 2109, 1325, 2609, 1740] # heichips25_example_large_1
+ - [TopMetal2, 2517, 1333, 2572, 1385] # heichips25_example_large_1 logo window
+ - [TopMetal1, 2109, 1110, 2609, 1310] # heichips25_example_small_6
+ - [TopMetal1, 2109,  895, 2609, 1095] # heichips25_example_small_7
+ 
+# TODO update pdn config
+PDN_MACRO_CONNECTIONS:
+  # eFPGA
+  - "heichips25_core.fabric_wrapper.eFPGA VDD VSS VPWR VGND" 
+  # Large User Projects
+  - "heichips25_core.fabric_wrapper.heichips25_example_large_0 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_large_1 VDD VSS VPWR VGND"
+  # Small User Projects
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_0 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_1 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_2 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_3 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_4 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_5 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_6 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_7 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_8 VDD VSS VPWR VGND"
+  - "heichips25_core.fabric_wrapper.heichips25_example_small_9 VDD VSS VPWR VGND"
+  # SRAM
+  - "heichips25_core.fabric_wrapper.sram0_0 VDD VSS VDD! VSS!"
+  - "heichips25_core.fabric_wrapper.sram0_0 VDD VSS VDDARRAY! VSS!"
+  - "heichips25_core.fabric_wrapper.sram0_1 VDD VSS VDD! VSS!"
+  - "heichips25_core.fabric_wrapper.sram0_1 VDD VSS VDDARRAY! VSS!"
+
+# Make sure netgen doesn't create 'no_connect' nets
+# Not needed since netgen 1.5.303
+LVS_FLATTEN_CELLS:
+- alignment_mark
+
+# IP has no ports and components
+# therefore make it an abstract cell in the layout
+MAGIC_EXT_ABSTRACT_CELLS:
+- alignment_mark

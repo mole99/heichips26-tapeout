@@ -1,7 +1,15 @@
 // SPDX-FileCopyrightText: © 2025 Leo Moser <leo.moser@pm.me>
 // SPDX-License-Identifier: Apache-2.0
 
-module heichips25_top (
+module heichips25_top #(
+    // Power/ground pads for core
+    parameter NUM_VDD_PADS = 2,
+    parameter NUM_VSS_PADS = 2,
+    
+    // Power/ground pads for I/O
+    parameter NUM_IOVDD_PADS = 2,
+    parameter NUM_IOVSS_PADS = 2
+    )(
     `ifdef USE_POWER_PINS
     inout wire VDD,
     inout wire VSS,
@@ -57,129 +65,96 @@ module heichips25_top (
     wire [31:0] fpga_io_CORE2PAD;
     wire [31:0] fpga_io_CORE2PAD_EN;
 
-    // Power/Ground IO pad instances
-    
-    (* keep *)
-    sg13g2_IOPadVdd sg13g2_IOPadVdd_east (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
+    // Power/ground pad instances
 
-    (* keep *)
-    sg13g2_IOPadVss sg13g2_IOPadVss_east (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadIOVss sg13g2_IOPadIOVss_east (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadIOVdd sg13g2_IOPadIOVdd_east (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadVdd sg13g2_IOPadVdd_west (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadVss sg13g2_IOPadVss_west (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadIOVss sg13g2_IOPadIOVss_west (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadIOVdd sg13g2_IOPadIOVdd_west (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
+    generate
+    for (genvar i=0; i<NUM_IOVDD_PADS; i++) begin : iovdd_pads
+        (* keep *)
+        sg13g2_IOPadIOVdd iovdd_pad  (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS)
+            `endif
+        );
+    end
+    for (genvar i=0; i<NUM_IOVSS_PADS; i++) begin : iovss_pads
+        (* keep *)
+        sg13g2_IOPadIOVss iovss_pad  (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS)
+            `endif
+        );
+    end
+    for (genvar i=0; i<NUM_VDD_PADS; i++) begin : vdd_pads
+        (* keep *)
+        sg13g2_IOPadVdd vdd_pad  (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS)
+            `endif
+        );
+    end
+    for (genvar i=0; i<NUM_VSS_PADS; i++) begin : vss_pads
+        (* keep *)
+        sg13g2_IOPadVss vss_pad  (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS)
+            `endif
+        );
+    end
+    endgenerate
 
     // FPGA IO pad instances
 
-    sg13g2_IOPadIn sg13g2_IOPadIn_fpga_clk (
+    sg13g2_IOPadIn fpga_clk (
         .p2c (fpga_clk_PAD2CORE),
         .pad (fpga_clk_PAD)
     );
     
-    sg13g2_IOPadIn sg13g2_IOPadIn_fpga_rst_n (
+    sg13g2_IOPadIn fpga_rst_n (
         .p2c (fpga_rst_n_PAD2CORE),
         .pad (fpga_rst_n_PAD)
     );
 
-    sg13g2_IOPadInOut30mA sg13g2_IOPadInOut30mA_fpga_sclk (
+    sg13g2_IOPadInOut30mA fpga_sclk (
         .c2p    (fpga_sclk_CORE2PAD),
         .c2p_en (fpga_sclk_CORE2PAD_EN),
         .p2c    (fpga_sclk_PAD2CORE),
         .pad    (fpga_sclk_PAD )
     );
     
-    sg13g2_IOPadInOut30mA sg13g2_IOPadInOut30mA_fpga_cs_n (
+    sg13g2_IOPadInOut30mA fpga_cs_n (
         .c2p    (fpga_cs_n_CORE2PAD),
         .c2p_en (fpga_cs_n_CORE2PAD_EN),
         .p2c    (fpga_cs_n_PAD2CORE),
         .pad    (fpga_cs_n_PAD )
     );
     
-    sg13g2_IOPadInOut30mA sg13g2_IOPadInOut30mA_fpga_mosi (
+    sg13g2_IOPadInOut30mA fpga_mosi (
         .c2p    (fpga_mosi_CORE2PAD),
         .c2p_en (fpga_mosi_CORE2PAD_EN),
         .p2c    (fpga_mosi_PAD2CORE),
         .pad    (fpga_mosi_PAD )
     );
     
-    sg13g2_IOPadInOut30mA sg13g2_IOPadInOut30mA_fpga_miso (
+    sg13g2_IOPadInOut30mA fpga_miso (
         .c2p    (fpga_miso_CORE2PAD),
         .c2p_en (fpga_miso_CORE2PAD_EN),
         .p2c    (fpga_miso_PAD2CORE),
         .pad    (fpga_miso_PAD )
     );
 
-    sg13g2_IOPadIn sg13g2_IOPadIn_fpga_mode (
+    sg13g2_IOPadIn fpga_mode (
         .p2c (fpga_mode_PAD2CORE),
         .pad (fpga_mode_PAD)
     );
@@ -190,7 +165,7 @@ module heichips25_top (
     );
     
     generate
-    for (genvar i=0; i<32; i++) begin : sg13g2_IOPadInOut30mA_fpga_io
+    for (genvar i=0; i<32; i++) begin : fpga_ios
         sg13g2_IOPadInOut30mA fpga_io (
             .c2p    (fpga_io_CORE2PAD[i]),
             .c2p_en (fpga_io_CORE2PAD_EN[i]),
@@ -206,7 +181,7 @@ module heichips25_top (
     );
 
     generate
-    for (genvar i=0; i<4; i++) begin : sg13g2_IOPadIn_fpga_config_slot
+    for (genvar i=0; i<4; i++) begin : fpga_config_slot
         sg13g2_IOPadIn fpga_config_slot (
             .p2c (fpga_config_slot_PAD2CORE[i]),
             .pad (fpga_config_slot_PAD[i])
@@ -214,13 +189,13 @@ module heichips25_top (
     end
     endgenerate
 
-    sg13g2_IOPadIn sg13g2_IOPadIn_fpga_config_trigger (
+    sg13g2_IOPadIn fpga_config_trigger (
         .p2c (fpga_config_trigger_PAD2CORE),
         .pad (fpga_config_trigger_PAD)
     );
     
     generate
-    for (genvar i=0; i<10; i++) begin : sg13g2_IOPadAnalog_analog
+    for (genvar i=0; i<10; i++) begin : analogs
         (* keep *) sg13g2_IOPadAnalog analog (
             .padres (),
             .pad (analog_PAD[i])
@@ -269,5 +244,11 @@ module heichips25_top (
         .usb_dp_tx_o    (),
         .usb_dp_up_o    ()
     );
+
+    // Alignment marks for bonding
+    (* keep *) alignment_mark alignment_mark_0 ();
+    (* keep *) alignment_mark alignment_mark_1 ();
+    (* keep *) alignment_mark alignment_mark_2 ();
+    (* keep *) alignment_mark alignment_mark_3 ();
 
 endmodule
