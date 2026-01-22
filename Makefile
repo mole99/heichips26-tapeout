@@ -50,7 +50,7 @@ sim-gl: $(PDK_ROOT)/$(PDK) ## Run gate-level simulation with cocotb
 .PHONY: sim-gl
 
 sim-view: ## View simulation waveforms in GTKWave
-	gtkwave cocotb/sim_build/chip_top.fst
+	gtkwave tb/heichips25_top/sim_build/heichips25_top_tb.fst
 .PHONY: sim-view
 
 copy-final: ## Copy final output files from the last run

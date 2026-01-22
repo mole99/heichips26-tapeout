@@ -9,7 +9,7 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer, Edge, RisingEdge, FallingEdge
 from cocotb.regression import TestFactory
-from cocotb.runner import get_runner
+from cocotb_tools.runner import get_runner
 
 from cocotbext.spi import SpiBus, SpiConfig, SpiMaster
 
@@ -34,7 +34,7 @@ fpga_counter_top = {
     'dump_waveforms': True,
 }
 
-enabled = fpga_counter_top
+enabled = fpga_all_zeros
 
 async def start_clock(clock, freq=50):
     """ Start the clock @ freq MHz """
@@ -153,9 +153,9 @@ async def test_fpga_counter_top(dut):
     
     print("FPGA configured!")
     
-    dut.fpga_io_PAD[31].value = 1 # Assert design reset
+    dut.fpga_io_PAD.value = 0x80000000 #1 # Assert design reset
     await ClockCycles(dut.fpga_clk_PAD, 5)
-    dut.fpga_io_PAD[31].value = 0 # Deassert design reset
+    dut.fpga_io_PAD.value = 0 # Deassert design reset
     
     MAX_CNT = 30
     
@@ -189,6 +189,11 @@ if __name__ == "__main__":
         # IO Pad models
         Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_io" / "verilog" / "sg13g2_io.v",
         
+        # Alignment mark
+        testbench_path / '../../ip/alignment_mark/vh/alignment_mark.v',
+
+        # Blacbox user projects
+        testbench_path / '../../ip/user_projects/bb_user_projects.v',
     ]
     defines = {}
 
@@ -218,8 +223,11 @@ if __name__ == "__main__":
     # Add primitives
     PRIMITIVES_ROOT = testbench_path / '../../ip/tile_library/primitives'
     
-    # TT_PROJECT
     verilog_sources.append(f'{PRIMITIVES_ROOT}/TT_PROJECT/TT_PROJECT.v')
+    verilog_sources.append(f'{PRIMITIVES_ROOT}/LUT4c_frame_config_dffesr/LUT4c_frame_config_dffesr.v')
+    verilog_sources.append(f'{PRIMITIVES_ROOT}/MUX8LUT_frame_config_mux/MUX8LUT_frame_config_mux.v')
+    verilog_sources.append(f'{PRIMITIVES_ROOT}/IO_1_bidirectional_frame_config_pass/IO_1_bidirectional_frame_config_pass.v')
+    verilog_sources.append(f'{PRIMITIVES_ROOT}/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v')
 
     # Add tiles
     TILES_ROOT = testbench_path / '../../ip/tile_library/tiles'
@@ -228,8 +236,6 @@ if __name__ == "__main__":
     verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4AB.v')
     verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4AB_ConfigMem.v')
     verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4AB_switch_matrix.v')
-    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4c_frame_config_dffesr.v')
-    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/MUX8LUT_frame_config_mux.v')
     
     # E_TT_IF
     verilog_sources.append(f'{TILES_ROOT}/E_TT_IF/E_TT_IF.v')
@@ -240,13 +246,30 @@ if __name__ == "__main__":
     verilog_sources.append(f'{TILES_ROOT}/W_TT_IF/W_TT_IF.v')
     verilog_sources.append(f'{TILES_ROOT}/W_TT_IF/W_TT_IF_ConfigMem.v')
     verilog_sources.append(f'{TILES_ROOT}/W_TT_IF/W_TT_IF_switch_matrix.v')
+
+    # E_TT_IF2
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_bot/E_TT_IF2_bot.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_bot/E_TT_IF2_bot_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_bot/E_TT_IF2_bot_switch_matrix.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_top/E_TT_IF2_top.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_top/E_TT_IF2_top_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_top/E_TT_IF2_top_switch_matrix.v')
     
+    # W_TT_IF2
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_bot/W_TT_IF2_bot.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_bot/W_TT_IF2_bot_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_bot/W_TT_IF2_bot_switch_matrix.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_top/W_TT_IF2_top.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_top/W_TT_IF2_top_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_top/W_TT_IF2_top_switch_matrix.v')
+
     # N_IO4
     verilog_sources.append(f'{TILES_ROOT}/N_IO4/N_IO4.v')
     verilog_sources.append(f'{TILES_ROOT}/N_IO4/N_IO4_ConfigMem.v')
     verilog_sources.append(f'{TILES_ROOT}/N_IO4/N_IO4_switch_matrix.v')
-    verilog_sources.append(f'{TILES_ROOT}/N_IO4/IO_1_bidirectional_frame_config_pass.v')
-    
+
     # S_IO4
     verilog_sources.append(f'{TILES_ROOT}/S_IO4/S_IO4.v')
     verilog_sources.append(f'{TILES_ROOT}/S_IO4/S_IO4_ConfigMem.v')
@@ -257,29 +280,24 @@ if __name__ == "__main__":
     verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_bot.v')
     verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_bot_ConfigMem.v')
     verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_bot_switch_matrix.v')
-    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_1024x32.v')
     verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_top/IHP_SRAM_top.v')
     verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_top/IHP_SRAM_top_ConfigMem.v')
     verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_top/IHP_SRAM_top_switch_matrix.v')
     
     # NE_term
     verilog_sources.append(f'{TILES_ROOT}/NE_term/NE_term.v')
-    verilog_sources.append(f'{TILES_ROOT}/NE_term/NE_term_ConfigMem.v')
     verilog_sources.append(f'{TILES_ROOT}/NE_term/NE_term_switch_matrix.v')
     
     # SE_term
     verilog_sources.append(f'{TILES_ROOT}/SE_term/SE_term.v')
-    verilog_sources.append(f'{TILES_ROOT}/SE_term/SE_term_ConfigMem.v')
     verilog_sources.append(f'{TILES_ROOT}/SE_term/SE_term_switch_matrix.v')
     
     # NW_term
     verilog_sources.append(f'{TILES_ROOT}/NW_term/NW_term.v')
-    verilog_sources.append(f'{TILES_ROOT}/NW_term/NW_term_ConfigMem.v')
     verilog_sources.append(f'{TILES_ROOT}/NW_term/NW_term_switch_matrix.v')
     
     # SW_term
     verilog_sources.append(f'{TILES_ROOT}/SW_term/SW_term.v')
-    verilog_sources.append(f'{TILES_ROOT}/SW_term/SW_term_ConfigMem.v')
     verilog_sources.append(f'{TILES_ROOT}/SW_term/SW_term_switch_matrix.v')
 
     verilog_sources.append(testbench_path / '../../ip/tile_library/models_pack.v')
@@ -304,7 +322,7 @@ if __name__ == "__main__":
 
     runner = get_runner(sim)
     runner.build(
-        verilog_sources=verilog_sources,
+        sources=verilog_sources,
         hdl_toplevel=hdl_toplevel,
         defines=defines,
         always=True,

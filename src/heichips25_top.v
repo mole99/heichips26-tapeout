@@ -117,16 +117,34 @@ module heichips25_top #(
     // FPGA IO pad instances
 
     sg13g2_IOPadIn fpga_clk (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .p2c (fpga_clk_PAD2CORE),
         .pad (fpga_clk_PAD)
     );
     
     sg13g2_IOPadIn fpga_rst_n (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .p2c (fpga_rst_n_PAD2CORE),
         .pad (fpga_rst_n_PAD)
     );
 
     sg13g2_IOPadInOut30mA fpga_sclk (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p    (fpga_sclk_CORE2PAD),
         .c2p_en (fpga_sclk_CORE2PAD_EN),
         .p2c    (fpga_sclk_PAD2CORE),
@@ -134,6 +152,12 @@ module heichips25_top #(
     );
     
     sg13g2_IOPadInOut30mA fpga_cs_n (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p    (fpga_cs_n_CORE2PAD),
         .c2p_en (fpga_cs_n_CORE2PAD_EN),
         .p2c    (fpga_cs_n_PAD2CORE),
@@ -141,6 +165,12 @@ module heichips25_top #(
     );
     
     sg13g2_IOPadInOut30mA fpga_mosi (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p    (fpga_mosi_CORE2PAD),
         .c2p_en (fpga_mosi_CORE2PAD_EN),
         .p2c    (fpga_mosi_PAD2CORE),
@@ -148,6 +178,12 @@ module heichips25_top #(
     );
     
     sg13g2_IOPadInOut30mA fpga_miso (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p    (fpga_miso_CORE2PAD),
         .c2p_en (fpga_miso_CORE2PAD_EN),
         .p2c    (fpga_miso_PAD2CORE),
@@ -155,11 +191,23 @@ module heichips25_top #(
     );
 
     sg13g2_IOPadIn fpga_mode (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .p2c (fpga_mode_PAD2CORE),
         .pad (fpga_mode_PAD)
     );
     
     sg13g2_IOPadOut30mA sg13g2_IOPadOut30mA_fpga_config_busy (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p (fpga_config_busy_CORE2PAD),
         .pad (fpga_config_busy_PAD)
     );
@@ -167,6 +215,12 @@ module heichips25_top #(
     generate
     for (genvar i=0; i<32; i++) begin : fpga_ios
         sg13g2_IOPadInOut30mA fpga_io (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS),
+            `endif
             .c2p    (fpga_io_CORE2PAD[i]),
             .c2p_en (fpga_io_CORE2PAD_EN[i]),
             .p2c    (fpga_io_PAD2CORE[i]),
@@ -176,6 +230,12 @@ module heichips25_top #(
     endgenerate
 
     sg13g2_IOPadOut30mA sg13g2_IOPadOut30mA_fpga_config_configured (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p (fpga_config_configured_CORE2PAD),
         .pad (fpga_config_configured_PAD)
     );
@@ -183,6 +243,12 @@ module heichips25_top #(
     generate
     for (genvar i=0; i<4; i++) begin : fpga_config_slot
         sg13g2_IOPadIn fpga_config_slot (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS),
+            `endif
             .p2c (fpga_config_slot_PAD2CORE[i]),
             .pad (fpga_config_slot_PAD[i])
         );
@@ -190,6 +256,12 @@ module heichips25_top #(
     endgenerate
 
     sg13g2_IOPadIn fpga_config_trigger (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .p2c (fpga_config_trigger_PAD2CORE),
         .pad (fpga_config_trigger_PAD)
     );
@@ -197,6 +269,12 @@ module heichips25_top #(
     generate
     for (genvar i=0; i<10; i++) begin : analogs
         (* keep *) sg13g2_IOPadAnalog analog (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS),
+            `endif
             .padres (),
             .pad (analog_PAD[i])
         );

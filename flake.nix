@@ -38,6 +38,15 @@
             nix-eda.overlays.default
             devshell.overlays.default
             librelane.overlays.default
+            (nix-eda.composePythonOverlay (
+            pkgs': pkgs: pypkgs': pypkgs:
+            let
+              callPythonPackage = lib.callPackageWith (pkgs' // pypkgs');
+            in
+            {
+              cocotbext-spi = callPythonPackage ./nix/cocotbext-spi.nix { };
+            }
+          ))
           ];
         }
       );
@@ -72,6 +81,7 @@
             extra-python-packages = with pkgs.python3.pkgs; [
               # Verification
               cocotb
+              cocotbext-spi
 
               # For logo generation
               pillow
