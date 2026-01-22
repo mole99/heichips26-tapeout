@@ -1,14 +1,10 @@
 {
-  "creator": "Yosys 0.54 (git sha1 db72ec3bde296a9512b2d1e6fabf81cfb07c2c1b, clang++ 19.1.7 -fPIC -O3)",
+  "creator": "Yosys 0.60 (git sha1 5bafeb77dc71e054fa331ab9efa613e6fb0a1c49, clang++ 21.1.2 -fPIC -O3)",
   "modules": {
     "TT_PROJECT": {
       "attributes": {
-        "dynports": 1,
-        "cells_not_processed": 1,
-        "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/W_TT_IF2/W_TT_IF2_bot/../../../primitives/TT_PROJECT/TT_PROJECT.v:15.1-53.10"
-      },
-      "parameter_default_values": {
-        "NoConfigBits": 0
+        "top": 1,
+        "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/W_TT_IF2/W_TT_IF2_bot/../../../primitives/TT_PROJECT/TT_PROJECT.v:15.1-51.10"
       },
       "ports": {
         "UI_IN": {
@@ -74,12 +70,6 @@
         "UserCLK": {
           "direction": "input",
           "bits": [ 44 ]
-        },
-        "ConfigBits": {
-          "direction": "input",
-          "offset": -1,
-          "upto": 1,
-          "bits": [ 45, 46 ]
         }
       },
       "cells": {
@@ -92,17 +82,6 @@
             "EXTERNAL": 1,
             "FABulous": 1,
             "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/W_TT_IF2/W_TT_IF2_bot/../../../primitives/TT_PROJECT/TT_PROJECT.v:34.48-34.62"
-          }
-        },
-        "ConfigBits": {
-          "hide_name": 0,
-          "bits": [ 45, 46 ],
-          "offset": -1,
-          "upto": 1,
-          "attributes": {
-            "FABulous": 1,
-            "GLOBAL": 1,
-            "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/W_TT_IF2/W_TT_IF2_bot/../../../primitives/TT_PROJECT/TT_PROJECT.v:40.54-40.64"
           }
         },
         "ENA": {

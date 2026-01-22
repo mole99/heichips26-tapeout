@@ -1,37 +1,24 @@
-module S_IO4
+module N_term_single
     #(
 `ifdef EMULATION
         parameter [639:0] Emulate_Bitstream=640'b0,
 `endif
         parameter MaxFramesPerCol=20,
-        parameter FrameBitsPerRow=32,
-        parameter NoConfigBits=132
+        parameter FrameBitsPerRow=32
     )
     (
- //N
-        output  [3:0] N1BEG,        //Port(Name=N1BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=4,Side=N)
-        output  [7:0] N2BEG,        //Port(Name=N2BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
-        output  [7:0] N2BEGb,        //Port(Name=N2BEGb,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
-        output  [15:0] N4BEG,        //Port(Name=N4BEG,IO=OUTPUT,XOffset=0,YOffset=-4,WireCount=4,Side=N)
-        output  [15:0] NN4BEG,        //Port(Name=NN4BEG,IO=OUTPUT,XOffset=0,YOffset=4,WireCount=4,Side=N)
-        output  [0:0] Co,        //Port(Name=Co,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=1,Side=N)
-        input  [3:0] S1END,        //Port(Name=S1END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=4,Side=N)
-        input  [7:0] S2MID,        //Port(Name=S2MID,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
-        input  [7:0] S2END,        //Port(Name=S2END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
-        input  [15:0] S4END,        //Port(Name=S4END,IO=INPUT,XOffset=0,YOffset=4,WireCount=4,Side=N)
-        input  [15:0] SS4END,        //Port(Name=SS4END,IO=INPUT,XOffset=0,YOffset=-4,WireCount=4,Side=N)
-        input  A_O_top,
-        output  A_I_top,
-        output  A_T_top,
-        input  B_O_top,
-        output  B_I_top,
-        output  B_T_top,
-        input  C_O_top,
-        output  C_I_top,
-        output  C_T_top,
-        input  D_O_top,
-        output  D_I_top,
-        output  D_T_top,
+ //S
+        input  [3:0] N1END,        //Port(Name=N1END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=4,Side=S)
+        input  [7:0] N2MID,        //Port(Name=N2MID,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=S)
+        input  [7:0] N2END,        //Port(Name=N2END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=S)
+        input  [15:0] N4END,        //Port(Name=N4END,IO=INPUT,XOffset=0,YOffset=-4,WireCount=4,Side=S)
+        input  [15:0] NN4END,        //Port(Name=NN4END,IO=INPUT,XOffset=0,YOffset=-4,WireCount=4,Side=S)
+        input  [0:0] Ci,        //Port(Name=Ci,IO=INPUT,XOffset=0,YOffset=-1,WireCount=1,Side=S)
+        output  [3:0] S1BEG,        //Port(Name=S1BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=4,Side=S)
+        output  [7:0] S2BEG,        //Port(Name=S2BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=S)
+        output  [7:0] S2BEGb,        //Port(Name=S2BEGb,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=S)
+        output  [15:0] S4BEG,        //Port(Name=S4BEG,IO=OUTPUT,XOffset=0,YOffset=4,WireCount=4,Side=S)
+        output  [15:0] SS4BEG,        //Port(Name=SS4BEG,IO=OUTPUT,XOffset=0,YOffset=4,WireCount=4,Side=S)
     //Tile IO ports from BELs
         input  UserCLK,
         output  UserCLKo,
@@ -43,26 +30,8 @@ module S_IO4
 );
  //signal declarations
  //BEL ports (e.g., slices)
-wire A_I;
-wire A_T;
-wire A_O;
-wire A_Q;
-wire B_I;
-wire B_T;
-wire B_O;
-wire B_Q;
-wire C_I;
-wire C_T;
-wire C_O;
-wire C_Q;
-wire D_I;
-wire D_T;
-wire D_O;
-wire D_Q;
  //Jump wires
  //internal configuration data signal to daisy-chain all BELs (if any and in the order they are listed in the fabric.csv)
-wire[NoConfigBits-1:0] ConfigBits;
-wire[NoConfigBits-1:0] ConfigBits_N;
 
  //Connection for outgoing wires
 wire[FrameBitsPerRow-1:0] FrameData_i;
@@ -600,191 +569,112 @@ clk_buf inst_clk_buf (
 );
 
 
- //configuration storage latches
-S_IO4_ConfigMem
-`ifdef EMULATION
-    #(
-    .Emulate_Bitstream(Emulate_Bitstream)
-    )
-`endif
-    Inst_S_IO4_ConfigMem
-    (
-    .FrameData(FrameData),
-    .FrameStrobe(FrameStrobe),
-    .ConfigBits(ConfigBits),
-    .ConfigBits_N(ConfigBits_N)
-);
-
-
- //BEL component instantiations
-IO_1_bidirectional_frame_config_pass Inst_A_IO_1_bidirectional_frame_config_pass (
-    .I(A_I),
-    .T(A_T),
-    .O(A_O),
-    .Q(A_Q),
-    .I_top(A_I_top),
-    .T_top(A_T_top),
-    .O_top(A_O_top),
-    .UserCLK(UserCLK)
-);
-
-IO_1_bidirectional_frame_config_pass Inst_B_IO_1_bidirectional_frame_config_pass (
-    .I(B_I),
-    .T(B_T),
-    .O(B_O),
-    .Q(B_Q),
-    .I_top(B_I_top),
-    .T_top(B_T_top),
-    .O_top(B_O_top),
-    .UserCLK(UserCLK)
-);
-
-IO_1_bidirectional_frame_config_pass Inst_C_IO_1_bidirectional_frame_config_pass (
-    .I(C_I),
-    .T(C_T),
-    .O(C_O),
-    .Q(C_Q),
-    .I_top(C_I_top),
-    .T_top(C_T_top),
-    .O_top(C_O_top),
-    .UserCLK(UserCLK)
-);
-
-IO_1_bidirectional_frame_config_pass Inst_D_IO_1_bidirectional_frame_config_pass (
-    .I(D_I),
-    .T(D_T),
-    .O(D_O),
-    .Q(D_Q),
-    .I_top(D_I_top),
-    .T_top(D_T_top),
-    .O_top(D_O_top),
-    .UserCLK(UserCLK)
-);
-
-S_IO4_switch_matrix Inst_S_IO4_switch_matrix (
-    .S1END0(S1END[0]),
-    .S1END1(S1END[1]),
-    .S1END2(S1END[2]),
-    .S1END3(S1END[3]),
-    .S2MID0(S2MID[0]),
-    .S2MID1(S2MID[1]),
-    .S2MID2(S2MID[2]),
-    .S2MID3(S2MID[3]),
-    .S2MID4(S2MID[4]),
-    .S2MID5(S2MID[5]),
-    .S2MID6(S2MID[6]),
-    .S2MID7(S2MID[7]),
-    .S2END0(S2END[0]),
-    .S2END1(S2END[1]),
-    .S2END2(S2END[2]),
-    .S2END3(S2END[3]),
-    .S2END4(S2END[4]),
-    .S2END5(S2END[5]),
-    .S2END6(S2END[6]),
-    .S2END7(S2END[7]),
-    .S4END0(S4END[0]),
-    .S4END1(S4END[1]),
-    .S4END2(S4END[2]),
-    .S4END3(S4END[3]),
-    .S4END4(S4END[4]),
-    .S4END5(S4END[5]),
-    .S4END6(S4END[6]),
-    .S4END7(S4END[7]),
-    .S4END8(S4END[8]),
-    .S4END9(S4END[9]),
-    .S4END10(S4END[10]),
-    .S4END11(S4END[11]),
-    .S4END12(S4END[12]),
-    .S4END13(S4END[13]),
-    .S4END14(S4END[14]),
-    .S4END15(S4END[15]),
-    .SS4END0(SS4END[0]),
-    .SS4END1(SS4END[1]),
-    .SS4END2(SS4END[2]),
-    .SS4END3(SS4END[3]),
-    .SS4END4(SS4END[4]),
-    .SS4END5(SS4END[5]),
-    .SS4END6(SS4END[6]),
-    .SS4END7(SS4END[7]),
-    .SS4END8(SS4END[8]),
-    .SS4END9(SS4END[9]),
-    .SS4END10(SS4END[10]),
-    .SS4END11(SS4END[11]),
-    .SS4END12(SS4END[12]),
-    .SS4END13(SS4END[13]),
-    .SS4END14(SS4END[14]),
-    .SS4END15(SS4END[15]),
-    .A_O(A_O),
-    .A_Q(A_Q),
-    .B_O(B_O),
-    .B_Q(B_Q),
-    .C_O(C_O),
-    .C_Q(C_Q),
-    .D_O(D_O),
-    .D_Q(D_Q),
-    .N1BEG0(N1BEG[0]),
-    .N1BEG1(N1BEG[1]),
-    .N1BEG2(N1BEG[2]),
-    .N1BEG3(N1BEG[3]),
-    .N2BEG0(N2BEG[0]),
-    .N2BEG1(N2BEG[1]),
-    .N2BEG2(N2BEG[2]),
-    .N2BEG3(N2BEG[3]),
-    .N2BEG4(N2BEG[4]),
-    .N2BEG5(N2BEG[5]),
-    .N2BEG6(N2BEG[6]),
-    .N2BEG7(N2BEG[7]),
-    .N2BEGb0(N2BEGb[0]),
-    .N2BEGb1(N2BEGb[1]),
-    .N2BEGb2(N2BEGb[2]),
-    .N2BEGb3(N2BEGb[3]),
-    .N2BEGb4(N2BEGb[4]),
-    .N2BEGb5(N2BEGb[5]),
-    .N2BEGb6(N2BEGb[6]),
-    .N2BEGb7(N2BEGb[7]),
-    .N4BEG0(N4BEG[0]),
-    .N4BEG1(N4BEG[1]),
-    .N4BEG2(N4BEG[2]),
-    .N4BEG3(N4BEG[3]),
-    .N4BEG4(N4BEG[4]),
-    .N4BEG5(N4BEG[5]),
-    .N4BEG6(N4BEG[6]),
-    .N4BEG7(N4BEG[7]),
-    .N4BEG8(N4BEG[8]),
-    .N4BEG9(N4BEG[9]),
-    .N4BEG10(N4BEG[10]),
-    .N4BEG11(N4BEG[11]),
-    .N4BEG12(N4BEG[12]),
-    .N4BEG13(N4BEG[13]),
-    .N4BEG14(N4BEG[14]),
-    .N4BEG15(N4BEG[15]),
-    .NN4BEG0(NN4BEG[0]),
-    .NN4BEG1(NN4BEG[1]),
-    .NN4BEG2(NN4BEG[2]),
-    .NN4BEG3(NN4BEG[3]),
-    .NN4BEG4(NN4BEG[4]),
-    .NN4BEG5(NN4BEG[5]),
-    .NN4BEG6(NN4BEG[6]),
-    .NN4BEG7(NN4BEG[7]),
-    .NN4BEG8(NN4BEG[8]),
-    .NN4BEG9(NN4BEG[9]),
-    .NN4BEG10(NN4BEG[10]),
-    .NN4BEG11(NN4BEG[11]),
-    .NN4BEG12(NN4BEG[12]),
-    .NN4BEG13(NN4BEG[13]),
-    .NN4BEG14(NN4BEG[14]),
-    .NN4BEG15(NN4BEG[15]),
-    .Co0(Co[0]),
-    .A_I(A_I),
-    .A_T(A_T),
-    .B_I(B_I),
-    .B_T(B_T),
-    .C_I(C_I),
-    .C_T(C_T),
-    .D_I(D_I),
-    .D_T(D_T),
-    .ConfigBits(ConfigBits[132-1:0]),
-    .ConfigBits_N(ConfigBits_N[132-1:0])
+N_term_single_switch_matrix Inst_N_term_single_switch_matrix (
+    .N1END0(N1END[0]),
+    .N1END1(N1END[1]),
+    .N1END2(N1END[2]),
+    .N1END3(N1END[3]),
+    .N2MID0(N2MID[0]),
+    .N2MID1(N2MID[1]),
+    .N2MID2(N2MID[2]),
+    .N2MID3(N2MID[3]),
+    .N2MID4(N2MID[4]),
+    .N2MID5(N2MID[5]),
+    .N2MID6(N2MID[6]),
+    .N2MID7(N2MID[7]),
+    .N2END0(N2END[0]),
+    .N2END1(N2END[1]),
+    .N2END2(N2END[2]),
+    .N2END3(N2END[3]),
+    .N2END4(N2END[4]),
+    .N2END5(N2END[5]),
+    .N2END6(N2END[6]),
+    .N2END7(N2END[7]),
+    .N4END0(N4END[0]),
+    .N4END1(N4END[1]),
+    .N4END2(N4END[2]),
+    .N4END3(N4END[3]),
+    .N4END4(N4END[4]),
+    .N4END5(N4END[5]),
+    .N4END6(N4END[6]),
+    .N4END7(N4END[7]),
+    .N4END8(N4END[8]),
+    .N4END9(N4END[9]),
+    .N4END10(N4END[10]),
+    .N4END11(N4END[11]),
+    .N4END12(N4END[12]),
+    .N4END13(N4END[13]),
+    .N4END14(N4END[14]),
+    .N4END15(N4END[15]),
+    .NN4END0(NN4END[0]),
+    .NN4END1(NN4END[1]),
+    .NN4END2(NN4END[2]),
+    .NN4END3(NN4END[3]),
+    .NN4END4(NN4END[4]),
+    .NN4END5(NN4END[5]),
+    .NN4END6(NN4END[6]),
+    .NN4END7(NN4END[7]),
+    .NN4END8(NN4END[8]),
+    .NN4END9(NN4END[9]),
+    .NN4END10(NN4END[10]),
+    .NN4END11(NN4END[11]),
+    .NN4END12(NN4END[12]),
+    .NN4END13(NN4END[13]),
+    .NN4END14(NN4END[14]),
+    .NN4END15(NN4END[15]),
+    .Ci0(Ci[0]),
+    .S1BEG0(S1BEG[0]),
+    .S1BEG1(S1BEG[1]),
+    .S1BEG2(S1BEG[2]),
+    .S1BEG3(S1BEG[3]),
+    .S2BEG0(S2BEG[0]),
+    .S2BEG1(S2BEG[1]),
+    .S2BEG2(S2BEG[2]),
+    .S2BEG3(S2BEG[3]),
+    .S2BEG4(S2BEG[4]),
+    .S2BEG5(S2BEG[5]),
+    .S2BEG6(S2BEG[6]),
+    .S2BEG7(S2BEG[7]),
+    .S2BEGb0(S2BEGb[0]),
+    .S2BEGb1(S2BEGb[1]),
+    .S2BEGb2(S2BEGb[2]),
+    .S2BEGb3(S2BEGb[3]),
+    .S2BEGb4(S2BEGb[4]),
+    .S2BEGb5(S2BEGb[5]),
+    .S2BEGb6(S2BEGb[6]),
+    .S2BEGb7(S2BEGb[7]),
+    .S4BEG0(S4BEG[0]),
+    .S4BEG1(S4BEG[1]),
+    .S4BEG2(S4BEG[2]),
+    .S4BEG3(S4BEG[3]),
+    .S4BEG4(S4BEG[4]),
+    .S4BEG5(S4BEG[5]),
+    .S4BEG6(S4BEG[6]),
+    .S4BEG7(S4BEG[7]),
+    .S4BEG8(S4BEG[8]),
+    .S4BEG9(S4BEG[9]),
+    .S4BEG10(S4BEG[10]),
+    .S4BEG11(S4BEG[11]),
+    .S4BEG12(S4BEG[12]),
+    .S4BEG13(S4BEG[13]),
+    .S4BEG14(S4BEG[14]),
+    .S4BEG15(S4BEG[15]),
+    .SS4BEG0(SS4BEG[0]),
+    .SS4BEG1(SS4BEG[1]),
+    .SS4BEG2(SS4BEG[2]),
+    .SS4BEG3(SS4BEG[3]),
+    .SS4BEG4(SS4BEG[4]),
+    .SS4BEG5(SS4BEG[5]),
+    .SS4BEG6(SS4BEG[6]),
+    .SS4BEG7(SS4BEG[7]),
+    .SS4BEG8(SS4BEG[8]),
+    .SS4BEG9(SS4BEG[9]),
+    .SS4BEG10(SS4BEG[10]),
+    .SS4BEG11(SS4BEG[11]),
+    .SS4BEG12(SS4BEG[12]),
+    .SS4BEG13(SS4BEG[13]),
+    .SS4BEG14(SS4BEG[14]),
+    .SS4BEG15(SS4BEG[15])
 );
 
 endmodule

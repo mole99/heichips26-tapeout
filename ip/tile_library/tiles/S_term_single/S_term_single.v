@@ -1,37 +1,24 @@
-module S_IO4
+module S_term_single
     #(
 `ifdef EMULATION
         parameter [639:0] Emulate_Bitstream=640'b0,
 `endif
         parameter MaxFramesPerCol=20,
-        parameter FrameBitsPerRow=32,
-        parameter NoConfigBits=132
+        parameter FrameBitsPerRow=32
     )
     (
  //N
-        output  [3:0] N1BEG,        //Port(Name=N1BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=4,Side=N)
-        output  [7:0] N2BEG,        //Port(Name=N2BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
-        output  [7:0] N2BEGb,        //Port(Name=N2BEGb,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
+        output  [3:0] N1BEG,        //Port(Name=N1BEG,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=4,Side=N)
+        output  [7:0] N2BEG,        //Port(Name=N2BEG,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
+        output  [7:0] N2BEGb,        //Port(Name=N2BEGb,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
         output  [15:0] N4BEG,        //Port(Name=N4BEG,IO=OUTPUT,XOffset=0,YOffset=-4,WireCount=4,Side=N)
-        output  [15:0] NN4BEG,        //Port(Name=NN4BEG,IO=OUTPUT,XOffset=0,YOffset=4,WireCount=4,Side=N)
-        output  [0:0] Co,        //Port(Name=Co,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=1,Side=N)
-        input  [3:0] S1END,        //Port(Name=S1END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=4,Side=N)
-        input  [7:0] S2MID,        //Port(Name=S2MID,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
-        input  [7:0] S2END,        //Port(Name=S2END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
+        output  [15:0] NN4BEG,        //Port(Name=NN4BEG,IO=OUTPUT,XOffset=0,YOffset=-4,WireCount=4,Side=N)
+        output  [0:0] Co,        //Port(Name=Co,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=1,Side=N)
+        input  [3:0] S1END,        //Port(Name=S1END,IO=INPUT,XOffset=0,YOffset=1,WireCount=4,Side=N)
+        input  [7:0] S2MID,        //Port(Name=S2MID,IO=INPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
+        input  [7:0] S2END,        //Port(Name=S2END,IO=INPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
         input  [15:0] S4END,        //Port(Name=S4END,IO=INPUT,XOffset=0,YOffset=4,WireCount=4,Side=N)
-        input  [15:0] SS4END,        //Port(Name=SS4END,IO=INPUT,XOffset=0,YOffset=-4,WireCount=4,Side=N)
-        input  A_O_top,
-        output  A_I_top,
-        output  A_T_top,
-        input  B_O_top,
-        output  B_I_top,
-        output  B_T_top,
-        input  C_O_top,
-        output  C_I_top,
-        output  C_T_top,
-        input  D_O_top,
-        output  D_I_top,
-        output  D_T_top,
+        input  [15:0] SS4END,        //Port(Name=SS4END,IO=INPUT,XOffset=0,YOffset=4,WireCount=4,Side=N)
     //Tile IO ports from BELs
         input  UserCLK,
         output  UserCLKo,
@@ -43,26 +30,8 @@ module S_IO4
 );
  //signal declarations
  //BEL ports (e.g., slices)
-wire A_I;
-wire A_T;
-wire A_O;
-wire A_Q;
-wire B_I;
-wire B_T;
-wire B_O;
-wire B_Q;
-wire C_I;
-wire C_T;
-wire C_O;
-wire C_Q;
-wire D_I;
-wire D_T;
-wire D_O;
-wire D_Q;
  //Jump wires
  //internal configuration data signal to daisy-chain all BELs (if any and in the order they are listed in the fabric.csv)
-wire[NoConfigBits-1:0] ConfigBits;
-wire[NoConfigBits-1:0] ConfigBits_N;
 
  //Connection for outgoing wires
 wire[FrameBitsPerRow-1:0] FrameData_i;
@@ -600,68 +569,7 @@ clk_buf inst_clk_buf (
 );
 
 
- //configuration storage latches
-S_IO4_ConfigMem
-`ifdef EMULATION
-    #(
-    .Emulate_Bitstream(Emulate_Bitstream)
-    )
-`endif
-    Inst_S_IO4_ConfigMem
-    (
-    .FrameData(FrameData),
-    .FrameStrobe(FrameStrobe),
-    .ConfigBits(ConfigBits),
-    .ConfigBits_N(ConfigBits_N)
-);
-
-
- //BEL component instantiations
-IO_1_bidirectional_frame_config_pass Inst_A_IO_1_bidirectional_frame_config_pass (
-    .I(A_I),
-    .T(A_T),
-    .O(A_O),
-    .Q(A_Q),
-    .I_top(A_I_top),
-    .T_top(A_T_top),
-    .O_top(A_O_top),
-    .UserCLK(UserCLK)
-);
-
-IO_1_bidirectional_frame_config_pass Inst_B_IO_1_bidirectional_frame_config_pass (
-    .I(B_I),
-    .T(B_T),
-    .O(B_O),
-    .Q(B_Q),
-    .I_top(B_I_top),
-    .T_top(B_T_top),
-    .O_top(B_O_top),
-    .UserCLK(UserCLK)
-);
-
-IO_1_bidirectional_frame_config_pass Inst_C_IO_1_bidirectional_frame_config_pass (
-    .I(C_I),
-    .T(C_T),
-    .O(C_O),
-    .Q(C_Q),
-    .I_top(C_I_top),
-    .T_top(C_T_top),
-    .O_top(C_O_top),
-    .UserCLK(UserCLK)
-);
-
-IO_1_bidirectional_frame_config_pass Inst_D_IO_1_bidirectional_frame_config_pass (
-    .I(D_I),
-    .T(D_T),
-    .O(D_O),
-    .Q(D_Q),
-    .I_top(D_I_top),
-    .T_top(D_T_top),
-    .O_top(D_O_top),
-    .UserCLK(UserCLK)
-);
-
-S_IO4_switch_matrix Inst_S_IO4_switch_matrix (
+S_term_single_switch_matrix Inst_S_term_single_switch_matrix (
     .S1END0(S1END[0]),
     .S1END1(S1END[1]),
     .S1END2(S1END[2]),
@@ -714,14 +622,6 @@ S_IO4_switch_matrix Inst_S_IO4_switch_matrix (
     .SS4END13(SS4END[13]),
     .SS4END14(SS4END[14]),
     .SS4END15(SS4END[15]),
-    .A_O(A_O),
-    .A_Q(A_Q),
-    .B_O(B_O),
-    .B_Q(B_Q),
-    .C_O(C_O),
-    .C_Q(C_Q),
-    .D_O(D_O),
-    .D_Q(D_Q),
     .N1BEG0(N1BEG[0]),
     .N1BEG1(N1BEG[1]),
     .N1BEG2(N1BEG[2]),
@@ -774,17 +674,7 @@ S_IO4_switch_matrix Inst_S_IO4_switch_matrix (
     .NN4BEG13(NN4BEG[13]),
     .NN4BEG14(NN4BEG[14]),
     .NN4BEG15(NN4BEG[15]),
-    .Co0(Co[0]),
-    .A_I(A_I),
-    .A_T(A_T),
-    .B_I(B_I),
-    .B_T(B_T),
-    .C_I(C_I),
-    .C_T(C_T),
-    .D_I(D_I),
-    .D_T(D_T),
-    .ConfigBits(ConfigBits[132-1:0]),
-    .ConfigBits_N(ConfigBits_N[132-1:0])
+    .Co0(Co[0])
 );
 
 endmodule

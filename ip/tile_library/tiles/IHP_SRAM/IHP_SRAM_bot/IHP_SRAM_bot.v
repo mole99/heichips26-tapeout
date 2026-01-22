@@ -8,39 +8,39 @@ module IHP_SRAM_bot
         parameter NoConfigBits=310
     )
     (
- //Side.NORTH
-        output  [3:0] N1BEG,        //Port(Name=N1BEG, IO=OUTPUT, XOffset=0, YOffset=-1, WireCount=4, Side=NORTH)
-        output  [7:0] N2BEG,        //Port(Name=N2BEG, IO=OUTPUT, XOffset=0, YOffset=-1, WireCount=8, Side=NORTH)
-        output  [7:0] N2BEGb,        //Port(Name=N2BEGb, IO=OUTPUT, XOffset=0, YOffset=-1, WireCount=8, Side=NORTH)
-        output  [15:0] N4BEG,        //Port(Name=N4BEG, IO=OUTPUT, XOffset=0, YOffset=-4, WireCount=4, Side=NORTH)
-        input  [3:0] S1END,        //Port(Name=S1END, IO=INPUT, XOffset=0, YOffset=1, WireCount=4, Side=NORTH)
-        input  [7:0] S2MID,        //Port(Name=S2MID, IO=INPUT, XOffset=0, YOffset=1, WireCount=8, Side=NORTH)
-        input  [7:0] S2END,        //Port(Name=S2END, IO=INPUT, XOffset=0, YOffset=1, WireCount=8, Side=NORTH)
-        input  [15:0] S4END,        //Port(Name=S4END, IO=INPUT, XOffset=0, YOffset=4, WireCount=4, Side=NORTH)
-        output  [15:0] bot2top_DOUT,        //Port(Name=bot2top_DOUT, IO=OUTPUT, XOffset=0, YOffset=-1, WireCount=16, Side=NORTH)
-        input  [15:0] top2bot_DIN,        //Port(Name=top2bot_DIN, IO=INPUT, XOffset=0, YOffset=1, WireCount=16, Side=NORTH)
-        input  [15:0] top2bot_BM,        //Port(Name=top2bot_BM, IO=INPUT, XOffset=0, YOffset=1, WireCount=16, Side=NORTH)
-        input  [4:0] top2bot_ADDR,        //Port(Name=top2bot_ADDR, IO=INPUT, XOffset=0, YOffset=1, WireCount=5, Side=NORTH)
- //Side.WEST
-        input  [3:0] E1END,        //Port(Name=E1END, IO=INPUT, XOffset=1, YOffset=0, WireCount=4, Side=WEST)
-        input  [7:0] E2MID,        //Port(Name=E2MID, IO=INPUT, XOffset=1, YOffset=0, WireCount=8, Side=WEST)
-        input  [7:0] E2END,        //Port(Name=E2END, IO=INPUT, XOffset=1, YOffset=0, WireCount=8, Side=WEST)
-        input  [15:0] EE4END,        //Port(Name=EE4END, IO=INPUT, XOffset=4, YOffset=0, WireCount=4, Side=WEST)
-        input  [11:0] E6END,        //Port(Name=E6END, IO=INPUT, XOffset=6, YOffset=0, WireCount=2, Side=WEST)
-        output  [3:0] W1BEG,        //Port(Name=W1BEG, IO=OUTPUT, XOffset=-1, YOffset=0, WireCount=4, Side=WEST)
-        output  [7:0] W2BEG,        //Port(Name=W2BEG, IO=OUTPUT, XOffset=-1, YOffset=0, WireCount=8, Side=WEST)
-        output  [7:0] W2BEGb,        //Port(Name=W2BEGb, IO=OUTPUT, XOffset=-1, YOffset=0, WireCount=8, Side=WEST)
-        output  [15:0] WW4BEG,        //Port(Name=WW4BEG, IO=OUTPUT, XOffset=-4, YOffset=0, WireCount=4, Side=WEST)
-        output  [11:0] W6BEG,        //Port(Name=W6BEG, IO=OUTPUT, XOffset=-6, YOffset=0, WireCount=2, Side=WEST)
- //Side.SOUTH
-        input  [3:0] N1END,        //Port(Name=N1END, IO=INPUT, XOffset=0, YOffset=-1, WireCount=4, Side=SOUTH)
-        input  [7:0] N2MID,        //Port(Name=N2MID, IO=INPUT, XOffset=0, YOffset=-1, WireCount=8, Side=SOUTH)
-        input  [7:0] N2END,        //Port(Name=N2END, IO=INPUT, XOffset=0, YOffset=-1, WireCount=8, Side=SOUTH)
-        input  [15:0] N4END,        //Port(Name=N4END, IO=INPUT, XOffset=0, YOffset=-4, WireCount=4, Side=SOUTH)
-        output  [3:0] S1BEG,        //Port(Name=S1BEG, IO=OUTPUT, XOffset=0, YOffset=1, WireCount=4, Side=SOUTH)
-        output  [7:0] S2BEG,        //Port(Name=S2BEG, IO=OUTPUT, XOffset=0, YOffset=1, WireCount=8, Side=SOUTH)
-        output  [7:0] S2BEGb,        //Port(Name=S2BEGb, IO=OUTPUT, XOffset=0, YOffset=1, WireCount=8, Side=SOUTH)
-        output  [15:0] S4BEG,        //Port(Name=S4BEG, IO=OUTPUT, XOffset=0, YOffset=4, WireCount=4, Side=SOUTH)
+ //N
+        output  [3:0] N1BEG,        //Port(Name=N1BEG,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=4,Side=N)
+        output  [7:0] N2BEG,        //Port(Name=N2BEG,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
+        output  [7:0] N2BEGb,        //Port(Name=N2BEGb,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
+        output  [15:0] N4BEG,        //Port(Name=N4BEG,IO=OUTPUT,XOffset=0,YOffset=-4,WireCount=4,Side=N)
+        input  [3:0] S1END,        //Port(Name=S1END,IO=INPUT,XOffset=0,YOffset=1,WireCount=4,Side=N)
+        input  [7:0] S2MID,        //Port(Name=S2MID,IO=INPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
+        input  [7:0] S2END,        //Port(Name=S2END,IO=INPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
+        input  [15:0] S4END,        //Port(Name=S4END,IO=INPUT,XOffset=0,YOffset=4,WireCount=4,Side=N)
+        output  [15:0] bot2top_DOUT,        //Port(Name=bot2top_DOUT,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=16,Side=N)
+        input  [15:0] top2bot_DIN,        //Port(Name=top2bot_DIN,IO=INPUT,XOffset=0,YOffset=1,WireCount=16,Side=N)
+        input  [15:0] top2bot_BM,        //Port(Name=top2bot_BM,IO=INPUT,XOffset=0,YOffset=1,WireCount=16,Side=N)
+        input  [4:0] top2bot_ADDR,        //Port(Name=top2bot_ADDR,IO=INPUT,XOffset=0,YOffset=1,WireCount=5,Side=N)
+ //W
+        input  [3:0] E1END,        //Port(Name=E1END,IO=INPUT,XOffset=1,YOffset=0,WireCount=4,Side=W)
+        input  [7:0] E2MID,        //Port(Name=E2MID,IO=INPUT,XOffset=1,YOffset=0,WireCount=8,Side=W)
+        input  [7:0] E2END,        //Port(Name=E2END,IO=INPUT,XOffset=1,YOffset=0,WireCount=8,Side=W)
+        input  [15:0] EE4END,        //Port(Name=EE4END,IO=INPUT,XOffset=4,YOffset=0,WireCount=4,Side=W)
+        input  [11:0] E6END,        //Port(Name=E6END,IO=INPUT,XOffset=6,YOffset=0,WireCount=2,Side=W)
+        output  [3:0] W1BEG,        //Port(Name=W1BEG,IO=OUTPUT,XOffset=-1,YOffset=0,WireCount=4,Side=W)
+        output  [7:0] W2BEG,        //Port(Name=W2BEG,IO=OUTPUT,XOffset=-1,YOffset=0,WireCount=8,Side=W)
+        output  [7:0] W2BEGb,        //Port(Name=W2BEGb,IO=OUTPUT,XOffset=-1,YOffset=0,WireCount=8,Side=W)
+        output  [15:0] WW4BEG,        //Port(Name=WW4BEG,IO=OUTPUT,XOffset=-4,YOffset=0,WireCount=4,Side=W)
+        output  [11:0] W6BEG,        //Port(Name=W6BEG,IO=OUTPUT,XOffset=-6,YOffset=0,WireCount=2,Side=W)
+ //S
+        input  [3:0] N1END,        //Port(Name=N1END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=4,Side=S)
+        input  [7:0] N2MID,        //Port(Name=N2MID,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=S)
+        input  [7:0] N2END,        //Port(Name=N2END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=S)
+        input  [15:0] N4END,        //Port(Name=N4END,IO=INPUT,XOffset=0,YOffset=-4,WireCount=4,Side=S)
+        output  [3:0] S1BEG,        //Port(Name=S1BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=4,Side=S)
+        output  [7:0] S2BEG,        //Port(Name=S2BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=S)
+        output  [7:0] S2BEGb,        //Port(Name=S2BEGb,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=S)
+        output  [15:0] S4BEG,        //Port(Name=S4BEG,IO=OUTPUT,XOffset=0,YOffset=4,WireCount=4,Side=S)
         input  DOUT_SRAM0,
         input  DOUT_SRAM1,
         input  DOUT_SRAM2,
@@ -1091,17 +1091,17 @@ IHP_SRAM_1024x32 Inst_IHP_SRAM_1024x32 (
     .MEN(MEN),
     .REN(REN),
     .DOUT({DOUT31, DOUT30, DOUT29, DOUT28, DOUT27, DOUT26, DOUT25, DOUT24, DOUT23, DOUT22, DOUT21, DOUT20, DOUT19, DOUT18, DOUT17, DOUT16, DOUT15, DOUT14, DOUT13, DOUT12, DOUT11, DOUT10, DOUT9, DOUT8, DOUT7, DOUT6, DOUT5, DOUT4, DOUT3, DOUT2, DOUT1, DOUT0}),
-    .DOUT_SRAM({DOUT_SRAM31, DOUT_SRAM30, DOUT_SRAM29, DOUT_SRAM28, DOUT_SRAM27, DOUT_SRAM26, DOUT_SRAM25, DOUT_SRAM24, DOUT_SRAM23, DOUT_SRAM22, DOUT_SRAM21, DOUT_SRAM20, DOUT_SRAM19, DOUT_SRAM18, DOUT_SRAM17, DOUT_SRAM16, DOUT_SRAM15, DOUT_SRAM14, DOUT_SRAM13, DOUT_SRAM12, DOUT_SRAM11, DOUT_SRAM10, DOUT_SRAM9, DOUT_SRAM8, DOUT_SRAM7, DOUT_SRAM6, DOUT_SRAM5, DOUT_SRAM4, DOUT_SRAM3, DOUT_SRAM2, DOUT_SRAM1, DOUT_SRAM0}),
-    .CONFIGURED_top(CONFIGURED_top),
     .ADDR_SRAM({ADDR_SRAM9, ADDR_SRAM8, ADDR_SRAM7, ADDR_SRAM6, ADDR_SRAM5, ADDR_SRAM4, ADDR_SRAM3, ADDR_SRAM2, ADDR_SRAM1, ADDR_SRAM0}),
     .DIN_SRAM({DIN_SRAM31, DIN_SRAM30, DIN_SRAM29, DIN_SRAM28, DIN_SRAM27, DIN_SRAM26, DIN_SRAM25, DIN_SRAM24, DIN_SRAM23, DIN_SRAM22, DIN_SRAM21, DIN_SRAM20, DIN_SRAM19, DIN_SRAM18, DIN_SRAM17, DIN_SRAM16, DIN_SRAM15, DIN_SRAM14, DIN_SRAM13, DIN_SRAM12, DIN_SRAM11, DIN_SRAM10, DIN_SRAM9, DIN_SRAM8, DIN_SRAM7, DIN_SRAM6, DIN_SRAM5, DIN_SRAM4, DIN_SRAM3, DIN_SRAM2, DIN_SRAM1, DIN_SRAM0}),
     .BM_SRAM({BM_SRAM31, BM_SRAM30, BM_SRAM29, BM_SRAM28, BM_SRAM27, BM_SRAM26, BM_SRAM25, BM_SRAM24, BM_SRAM23, BM_SRAM22, BM_SRAM21, BM_SRAM20, BM_SRAM19, BM_SRAM18, BM_SRAM17, BM_SRAM16, BM_SRAM15, BM_SRAM14, BM_SRAM13, BM_SRAM12, BM_SRAM11, BM_SRAM10, BM_SRAM9, BM_SRAM8, BM_SRAM7, BM_SRAM6, BM_SRAM5, BM_SRAM4, BM_SRAM3, BM_SRAM2, BM_SRAM1, BM_SRAM0}),
     .WEN_SRAM(WEN_SRAM),
     .MEN_SRAM(MEN_SRAM),
     .REN_SRAM(REN_SRAM),
+    .DOUT_SRAM({DOUT_SRAM31, DOUT_SRAM30, DOUT_SRAM29, DOUT_SRAM28, DOUT_SRAM27, DOUT_SRAM26, DOUT_SRAM25, DOUT_SRAM24, DOUT_SRAM23, DOUT_SRAM22, DOUT_SRAM21, DOUT_SRAM20, DOUT_SRAM19, DOUT_SRAM18, DOUT_SRAM17, DOUT_SRAM16, DOUT_SRAM15, DOUT_SRAM14, DOUT_SRAM13, DOUT_SRAM12, DOUT_SRAM11, DOUT_SRAM10, DOUT_SRAM9, DOUT_SRAM8, DOUT_SRAM7, DOUT_SRAM6, DOUT_SRAM5, DOUT_SRAM4, DOUT_SRAM3, DOUT_SRAM2, DOUT_SRAM1, DOUT_SRAM0}),
     .CLK_SRAM(CLK_SRAM),
     .TIE_HIGH_SRAM(TIE_HIGH_SRAM),
     .TIE_LOW_SRAM(TIE_LOW_SRAM),
+    .CONFIGURED_top(CONFIGURED_top),
     .UserCLK(UserCLK)
 );
 

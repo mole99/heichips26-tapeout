@@ -21,7 +21,7 @@ VERILOG_FILES: []
 
 # No extract-unique, because the power straps
 # are connected in the top-level integration
-MAGIC_NO_EXT_UNIQUE: true
+MAGIC_EXT_UNIQUE: notopports
 
 # Unfortunately needed
 GRT_ALLOW_CONGESTION: true
@@ -102,7 +102,6 @@ CLOCK_PORT: UserCLK
 # Routing
 RT_CLOCK_MAX_LAYER: TopMetal1
 RT_MAX_LAYER: TopMetal1
-DRT_MAX_LAYER: TopMetal1
 
 # Disable stdcells
 #SYNTH_ELABORATE_ONLY: true

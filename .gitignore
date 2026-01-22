@@ -1,6 +1,5 @@
 __pycache__/
 sim_build/
-runs/
 *.vvp
 *.fst
 *.a
@@ -20,9 +19,12 @@ netgen_lvs.json
 netgen_lvs.rpt
 out.def
 
-sg13g2_minimal.lyrdb
-
 !bitStreamSpec.bin
 
+# PDK
 IHP-Open-PDK/
+
+# LibreLane builds
+runs/
+macro/
 final/

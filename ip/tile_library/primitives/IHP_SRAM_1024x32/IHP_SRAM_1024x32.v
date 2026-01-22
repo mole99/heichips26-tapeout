@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-module IHP_SRAM_1024x32 #(parameter NoConfigBits = 0)(
+module IHP_SRAM_1024x32 (
 	// ConfigBits has to be adjusted manually (we don't use an arithmetic parser for the value)
 	
 	// User design
@@ -41,9 +41,7 @@ module IHP_SRAM_1024x32 #(parameter NoConfigBits = 0)(
     (* FABulous, EXTERNAL *) input                 CONFIGURED_top,
     
     // External and shared clock
-    (* FABulous, EXTERNAL, SHARED_PORT *) input UserCLK,
-    
-    	(* FABulous, GLOBAL *) input [NoConfigBits-1:0] ConfigBits
+    (* FABulous, EXTERNAL, SHARED_PORT *) input UserCLK
 );
     
 	assign ADDR_SRAM    = ADDR;

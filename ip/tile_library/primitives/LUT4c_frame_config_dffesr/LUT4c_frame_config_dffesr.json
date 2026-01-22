@@ -1,5 +1,5 @@
 {
-  "creator": "Yosys 0.54 (git sha1 db72ec3bde296a9512b2d1e6fabf81cfb07c2c1b, clang++ 19.1.7 -fPIC -O3)",
+  "creator": "Yosys 0.60 (git sha1 5bafeb77dc71e054fa331ab9efa613e6fb0a1c49, clang++ 21.1.2 -fPIC -O3)",
   "modules": {
     "LUT4c_frame_config_dffesr": {
       "attributes": {
@@ -23,9 +23,9 @@
         "INIT_1": 1,
         "BelMap": 1,
         "FABulous": 1,
-        "INIT": 0,
         "dynports": 1,
-        "cells_not_processed": 1,
+        "INIT": 0,
+        "top": 1,
         "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/LUT4AB/../../primitives/LUT4c_frame_config_dffesr/LUT4c_frame_config_dffesr.v:36.1-147.10"
       },
       "parameter_default_values": {

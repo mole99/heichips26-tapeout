@@ -8,35 +8,35 @@ module E_TT_IF
         parameter NoConfigBits=298
     )
     (
- //Side.NORTH
-        output  [3:0] N1BEG,        //Port(Name=N1BEG, IO=OUTPUT, XOffset=0, YOffset=-1, WireCount=4, Side=NORTH)
-        output  [7:0] N2BEG,        //Port(Name=N2BEG, IO=OUTPUT, XOffset=0, YOffset=-1, WireCount=8, Side=NORTH)
-        output  [7:0] N2BEGb,        //Port(Name=N2BEGb, IO=OUTPUT, XOffset=0, YOffset=-1, WireCount=8, Side=NORTH)
-        output  [15:0] N4BEG,        //Port(Name=N4BEG, IO=OUTPUT, XOffset=0, YOffset=-4, WireCount=4, Side=NORTH)
-        input  [3:0] S1END,        //Port(Name=S1END, IO=INPUT, XOffset=0, YOffset=1, WireCount=4, Side=NORTH)
-        input  [7:0] S2MID,        //Port(Name=S2MID, IO=INPUT, XOffset=0, YOffset=1, WireCount=8, Side=NORTH)
-        input  [7:0] S2END,        //Port(Name=S2END, IO=INPUT, XOffset=0, YOffset=1, WireCount=8, Side=NORTH)
-        input  [15:0] S4END,        //Port(Name=S4END, IO=INPUT, XOffset=0, YOffset=4, WireCount=4, Side=NORTH)
- //Side.WEST
-        input  [3:0] E1END,        //Port(Name=E1END, IO=INPUT, XOffset=1, YOffset=0, WireCount=4, Side=WEST)
-        input  [7:0] E2MID,        //Port(Name=E2MID, IO=INPUT, XOffset=1, YOffset=0, WireCount=8, Side=WEST)
-        input  [7:0] E2END,        //Port(Name=E2END, IO=INPUT, XOffset=1, YOffset=0, WireCount=8, Side=WEST)
-        input  [15:0] EE4END,        //Port(Name=EE4END, IO=INPUT, XOffset=4, YOffset=0, WireCount=4, Side=WEST)
-        input  [11:0] E6END,        //Port(Name=E6END, IO=INPUT, XOffset=6, YOffset=0, WireCount=2, Side=WEST)
-        output  [3:0] W1BEG,        //Port(Name=W1BEG, IO=OUTPUT, XOffset=-1, YOffset=0, WireCount=4, Side=WEST)
-        output  [7:0] W2BEG,        //Port(Name=W2BEG, IO=OUTPUT, XOffset=-1, YOffset=0, WireCount=8, Side=WEST)
-        output  [7:0] W2BEGb,        //Port(Name=W2BEGb, IO=OUTPUT, XOffset=-1, YOffset=0, WireCount=8, Side=WEST)
-        output  [15:0] WW4BEG,        //Port(Name=WW4BEG, IO=OUTPUT, XOffset=-4, YOffset=0, WireCount=4, Side=WEST)
-        output  [11:0] W6BEG,        //Port(Name=W6BEG, IO=OUTPUT, XOffset=-6, YOffset=0, WireCount=2, Side=WEST)
- //Side.SOUTH
-        input  [3:0] N1END,        //Port(Name=N1END, IO=INPUT, XOffset=0, YOffset=-1, WireCount=4, Side=SOUTH)
-        input  [7:0] N2MID,        //Port(Name=N2MID, IO=INPUT, XOffset=0, YOffset=-1, WireCount=8, Side=SOUTH)
-        input  [7:0] N2END,        //Port(Name=N2END, IO=INPUT, XOffset=0, YOffset=-1, WireCount=8, Side=SOUTH)
-        input  [15:0] N4END,        //Port(Name=N4END, IO=INPUT, XOffset=0, YOffset=-4, WireCount=4, Side=SOUTH)
-        output  [3:0] S1BEG,        //Port(Name=S1BEG, IO=OUTPUT, XOffset=0, YOffset=1, WireCount=4, Side=SOUTH)
-        output  [7:0] S2BEG,        //Port(Name=S2BEG, IO=OUTPUT, XOffset=0, YOffset=1, WireCount=8, Side=SOUTH)
-        output  [7:0] S2BEGb,        //Port(Name=S2BEGb, IO=OUTPUT, XOffset=0, YOffset=1, WireCount=8, Side=SOUTH)
-        output  [15:0] S4BEG,        //Port(Name=S4BEG, IO=OUTPUT, XOffset=0, YOffset=4, WireCount=4, Side=SOUTH)
+ //N
+        output  [3:0] N1BEG,        //Port(Name=N1BEG,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=4,Side=N)
+        output  [7:0] N2BEG,        //Port(Name=N2BEG,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
+        output  [7:0] N2BEGb,        //Port(Name=N2BEGb,IO=OUTPUT,XOffset=0,YOffset=-1,WireCount=8,Side=N)
+        output  [15:0] N4BEG,        //Port(Name=N4BEG,IO=OUTPUT,XOffset=0,YOffset=-4,WireCount=4,Side=N)
+        input  [3:0] S1END,        //Port(Name=S1END,IO=INPUT,XOffset=0,YOffset=1,WireCount=4,Side=N)
+        input  [7:0] S2MID,        //Port(Name=S2MID,IO=INPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
+        input  [7:0] S2END,        //Port(Name=S2END,IO=INPUT,XOffset=0,YOffset=1,WireCount=8,Side=N)
+        input  [15:0] S4END,        //Port(Name=S4END,IO=INPUT,XOffset=0,YOffset=4,WireCount=4,Side=N)
+ //W
+        input  [3:0] E1END,        //Port(Name=E1END,IO=INPUT,XOffset=1,YOffset=0,WireCount=4,Side=W)
+        input  [7:0] E2MID,        //Port(Name=E2MID,IO=INPUT,XOffset=1,YOffset=0,WireCount=8,Side=W)
+        input  [7:0] E2END,        //Port(Name=E2END,IO=INPUT,XOffset=1,YOffset=0,WireCount=8,Side=W)
+        input  [15:0] EE4END,        //Port(Name=EE4END,IO=INPUT,XOffset=4,YOffset=0,WireCount=4,Side=W)
+        input  [11:0] E6END,        //Port(Name=E6END,IO=INPUT,XOffset=6,YOffset=0,WireCount=2,Side=W)
+        output  [3:0] W1BEG,        //Port(Name=W1BEG,IO=OUTPUT,XOffset=-1,YOffset=0,WireCount=4,Side=W)
+        output  [7:0] W2BEG,        //Port(Name=W2BEG,IO=OUTPUT,XOffset=-1,YOffset=0,WireCount=8,Side=W)
+        output  [7:0] W2BEGb,        //Port(Name=W2BEGb,IO=OUTPUT,XOffset=-1,YOffset=0,WireCount=8,Side=W)
+        output  [15:0] WW4BEG,        //Port(Name=WW4BEG,IO=OUTPUT,XOffset=-4,YOffset=0,WireCount=4,Side=W)
+        output  [11:0] W6BEG,        //Port(Name=W6BEG,IO=OUTPUT,XOffset=-6,YOffset=0,WireCount=2,Side=W)
+ //S
+        input  [3:0] N1END,        //Port(Name=N1END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=4,Side=S)
+        input  [7:0] N2MID,        //Port(Name=N2MID,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=S)
+        input  [7:0] N2END,        //Port(Name=N2END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=S)
+        input  [15:0] N4END,        //Port(Name=N4END,IO=INPUT,XOffset=0,YOffset=-4,WireCount=4,Side=S)
+        output  [3:0] S1BEG,        //Port(Name=S1BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=4,Side=S)
+        output  [7:0] S2BEG,        //Port(Name=S2BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=S)
+        output  [7:0] S2BEGb,        //Port(Name=S2BEGb,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=S)
+        output  [15:0] S4BEG,        //Port(Name=S4BEG,IO=OUTPUT,XOffset=0,YOffset=4,WireCount=4,Side=S)
         input  UO_OUT_TT_PROJECT0,
         input  UO_OUT_TT_PROJECT1,
         input  UO_OUT_TT_PROJECT2,
@@ -944,17 +944,17 @@ E_TT_IF_ConfigMem
  //BEL component instantiations
 TT_PROJECT Inst_TT_PROJECT (
     .UI_IN({UI_IN7, UI_IN6, UI_IN5, UI_IN4, UI_IN3, UI_IN2, UI_IN1, UI_IN0}),
-    .UIO_IN({UIO_IN7, UIO_IN6, UIO_IN5, UIO_IN4, UIO_IN3, UIO_IN2, UIO_IN1, UIO_IN0}),
-    .ENA(ENA),
-    .RST_N(RST_N),
     .UO_OUT({UO_OUT7, UO_OUT6, UO_OUT5, UO_OUT4, UO_OUT3, UO_OUT2, UO_OUT1, UO_OUT0}),
+    .UIO_IN({UIO_IN7, UIO_IN6, UIO_IN5, UIO_IN4, UIO_IN3, UIO_IN2, UIO_IN1, UIO_IN0}),
     .UIO_OUT({UIO_OUT7, UIO_OUT6, UIO_OUT5, UIO_OUT4, UIO_OUT3, UIO_OUT2, UIO_OUT1, UIO_OUT0}),
     .UIO_OE({UIO_OE7, UIO_OE6, UIO_OE5, UIO_OE4, UIO_OE3, UIO_OE2, UIO_OE1, UIO_OE0}),
+    .ENA(ENA),
+    .RST_N(RST_N),
+    .UI_IN_TT_PROJECT({UI_IN_TT_PROJECT7, UI_IN_TT_PROJECT6, UI_IN_TT_PROJECT5, UI_IN_TT_PROJECT4, UI_IN_TT_PROJECT3, UI_IN_TT_PROJECT2, UI_IN_TT_PROJECT1, UI_IN_TT_PROJECT0}),
     .UO_OUT_TT_PROJECT({UO_OUT_TT_PROJECT7, UO_OUT_TT_PROJECT6, UO_OUT_TT_PROJECT5, UO_OUT_TT_PROJECT4, UO_OUT_TT_PROJECT3, UO_OUT_TT_PROJECT2, UO_OUT_TT_PROJECT1, UO_OUT_TT_PROJECT0}),
+    .UIO_IN_TT_PROJECT({UIO_IN_TT_PROJECT7, UIO_IN_TT_PROJECT6, UIO_IN_TT_PROJECT5, UIO_IN_TT_PROJECT4, UIO_IN_TT_PROJECT3, UIO_IN_TT_PROJECT2, UIO_IN_TT_PROJECT1, UIO_IN_TT_PROJECT0}),
     .UIO_OUT_TT_PROJECT({UIO_OUT_TT_PROJECT7, UIO_OUT_TT_PROJECT6, UIO_OUT_TT_PROJECT5, UIO_OUT_TT_PROJECT4, UIO_OUT_TT_PROJECT3, UIO_OUT_TT_PROJECT2, UIO_OUT_TT_PROJECT1, UIO_OUT_TT_PROJECT0}),
     .UIO_OE_TT_PROJECT({UIO_OE_TT_PROJECT7, UIO_OE_TT_PROJECT6, UIO_OE_TT_PROJECT5, UIO_OE_TT_PROJECT4, UIO_OE_TT_PROJECT3, UIO_OE_TT_PROJECT2, UIO_OE_TT_PROJECT1, UIO_OE_TT_PROJECT0}),
-    .UI_IN_TT_PROJECT({UI_IN_TT_PROJECT7, UI_IN_TT_PROJECT6, UI_IN_TT_PROJECT5, UI_IN_TT_PROJECT4, UI_IN_TT_PROJECT3, UI_IN_TT_PROJECT2, UI_IN_TT_PROJECT1, UI_IN_TT_PROJECT0}),
-    .UIO_IN_TT_PROJECT({UIO_IN_TT_PROJECT7, UIO_IN_TT_PROJECT6, UIO_IN_TT_PROJECT5, UIO_IN_TT_PROJECT4, UIO_IN_TT_PROJECT3, UIO_IN_TT_PROJECT2, UIO_IN_TT_PROJECT1, UIO_IN_TT_PROJECT0}),
     .ENA_TT_PROJECT(ENA_TT_PROJECT),
     .CLK_TT_PROJECT(CLK_TT_PROJECT),
     .RST_N_TT_PROJECT(RST_N_TT_PROJECT),

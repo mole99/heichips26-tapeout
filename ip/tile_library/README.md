@@ -1,6 +1,6 @@
 # FABulous Tiles
 
-This repository hosts tiles for the [FABulous](https://github.com/FPGA-Research/FABulous) framework and configuration files in order to harden them with the [FABulous OpenLane 2 plugin](https://github.com/mole99/openlane_plugin_fabulous).
+This repository hosts tiles for the [FABulous](https://github.com/FPGA-Research/FABulous) framework and configuration files in order to harden them with the [FABulous LibreLane plugin](https://github.com/mole99/librelane_plugin_fabulous).
 
 Enable the plugin and harden all tiles using `make` or harden individual tiles using e.g. `make tiles/LUT4AB`.
 
@@ -13,15 +13,17 @@ The custom tiles created for special use.
 
 | Name           | Description |
 |----------------|-------------|
-| S_CPU_IF       | 16 inputs and 16 output to the CPU domain |
-| S_CPU_IRQ      | 4 IRQs to the CPU domain |
-| S_WARMBOOT     | Trigger fabric reconfiguration from the selected slot, provides a `RESET` signal |
-| IHP_SRAM        | Single-ported SRAM 32-bit wide, 4kB deep |
-| N_term_IHP_SRAM | Termination tile for IHP_SRAM |
-| S_term_IHP_SRAM | Termination tile for IHP_SRAM |
-| N_IO           | IO tile for the north side |
-| E_IO           | IO tile for the east side |
-| S_IO           | IO tile for the south side |
+| N_IO4          | 4xIO tile for the north side |
+| S_IO4          | 4xIO tile for the south side |
+| E_TT_IF        | Tiny Tapeout interface, east side |
+| E_TT_IF2       | Tiny Tapeout interface, east side, 2 tiles high |
+| W_TT_IF        | Tiny Tapeout interface, west side |
+| W_TT_IF2       | Tiny Tapeout interface, west side, 2 tiles high |
+| SE_term        | corner termination tile |
+| NW_term        | corner termination tile |
+| SW_term        | corner termination tile |
+| NE_term        | corner termination tile |
+| IHP_SRAM       | 1024x32 single ported SRAM |
 
 ## Default Tiles
 
@@ -29,20 +31,9 @@ Some of the default tiles provided by FABulous.
 
 | Name           | Description |
 |----------------|-------------|
-| DSP            | DSP tile for MAC |
-| LUT4AB         | Tile with two bels of 4 LUT and FF each |
-| RegFile        | Register file 1w1r1r  |
-| N_term_DSP     | Termination tile for DSP     |
+| LUT4AB         | Tile with 8x LUT4 and FF |
 | N_term_single  | Termination tile for LUT4AB  |
-| N_term_single2 | Termination tile for RegFile |
-| S_term_DSP     | Termination tile for DSP     |
 | S_term_single  | Termination tile for LUT4AB  |
-| S_term_single2 | Termination tile for RegFile |
-| W_IO           | IO tile for the west side |
-
-## Note
-
-There are some remains for a planned design in sky130. The tiles are `EF_SRAM`, `N_EF_ADC12` and `N_EF_DAC8`. Please use with caution, but they might be useful as a reference.
 
 ## License
 
