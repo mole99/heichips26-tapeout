@@ -34,7 +34,7 @@ fpga_counter_top = {
     'dump_waveforms': True,
 }
 
-enabled = fpga_all_zeros
+enabled = fpga_all_ones
 
 async def start_clock(clock, freq=50):
     """ Start the clock @ freq MHz """
@@ -172,9 +172,33 @@ if __name__ == "__main__":
 
     testbench_path = Path(__file__).resolve().parent
     
-    includes = [testbench_path / '../../rtl/include']
-    
-    verilog_sources = [
+    includes = []
+    verilog_sources = []
+    defines = {}
+
+    if gl:
+        # SCL models
+        verilog_sources.append(Path(pdk_root).expanduser() / pdk / "libs.ref" / scl / "verilog" / f"{scl}.v" )
+        
+        # The NL netlist currently needs "`default_nettype wire"
+        # So make sure no file sets it to "wire" before
+        verilog_sources.append(testbench_path / '../../final/nl/heichips25_top.nl.v')
+        
+        defines = {'FUNCTIONAL': True, 'UNIT_DELAY': '#0'}
+    else:
+        verilog_sources.extend([
+            testbench_path / '../../src/heichips25_top.v',
+            testbench_path / '../../src/heichips25_core.sv',
+            
+            testbench_path / '../../ip/fabric/rtl/fabric_wrapper.sv',
+            testbench_path / '../../ip/fabric_config/fabric_config.sv',
+            testbench_path / '../../ip/fabric_config/fabric_spi_receiver.sv',
+            testbench_path / '../../ip/fabric_config/fabric_spi_controller.sv',
+        ])
+        
+        defines = {'RTL': True, 'FUNCTIONAL': True, 'UNIT_DELAY': '#0'}
+
+    verilog_sources += [
         testbench_path / 'heichips25_top_tb.v',
         testbench_path / 'spiflash_powered.v',
         
@@ -192,31 +216,13 @@ if __name__ == "__main__":
         # Alignment mark
         testbench_path / '../../ip/alignment_mark/vh/alignment_mark.v',
 
-        # Blacbox user projects
+        # Blackbox user projects
         testbench_path / '../../ip/user_projects/bb_user_projects.v',
+        
+        # Bondpads
+        testbench_path / '../../ip/bondpad_70x70_novias/vh/bondpad_70x70_novias.v',
     ]
-    defines = {}
 
-    if gl:
-        # SCL models
-        verilog_sources.append(Path(pdk_root).expanduser() / pdk / "libs.ref" / scl / "verilog" / f"{scl}.v" )
-        
-        verilog_sources.append(testbench_path / '../../final/nl_edit/heichips25_top.nl.v')
-        
-        defines = {'FUNCTIONAL': True, 'UNIT_DELAY': '#0'}
-    else:
-        verilog_sources.extend([
-            testbench_path / '../../src/heichips25_top.v',
-            testbench_path / '../../src/heichips25_core.sv',
-            
-            testbench_path / '../../ip/fabric/rtl/fabric_wrapper.sv',
-            testbench_path / '../../ip/fabric_config/fabric_config.sv',
-            testbench_path / '../../ip/fabric_config/fabric_spi_receiver.sv',
-            testbench_path / '../../ip/fabric_config/fabric_spi_controller.sv',
-        ])
-        
-        defines = {'RTL': True, 'FUNCTIONAL': True, 'UNIT_DELAY': '#0'}
-        
     # Add FPGA fabric
     verilog_sources.append(testbench_path / f'../../ip/fabric/macro/{pdk}/fabulous/eFPGA.v')
 
