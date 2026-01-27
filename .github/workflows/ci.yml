@@ -59,12 +59,7 @@ jobs:
           cd ip/fabric/user_designs/; nix shell nixpkgs#{yosys,nextpnr} --command make build_all
       - name: Run RTL simulation
         run: |
-          nix develop --command bash -c "cd tb/heichips25_top/; python3 heichips25_top_tb.py fpga_all_zeros"
-          ! grep failure tb/heichips25_top/sim_build/results.xml
-          nix develop --command bash -c "cd tb/heichips25_top/; python3 heichips25_top_tb.py fpga_all_ones"
-          ! grep failure tb/heichips25_top/sim_build/results.xml
-          nix develop --command bash -c "cd tb/heichips25_top/; python3 heichips25_top_tb.py fpga_counter_top"
-          ! grep failure tb/heichips25_top/sim_build/results.xml
+          nix develop --command make sim
       - name: Implement the Chip
         if: success() || failure()
         run: |
@@ -84,9 +79,4 @@ jobs:
       - name: Run GL simulation
         if: success() || failure()
         run: |
-          nix develop --command bash -c "cd tb/heichips25_top/; GL=1 python3 heichips25_top_tb.py fpga_all_zeros"
-          ! grep failure tb/heichips25_top/sim_build/results.xml
-          nix develop --command bash -c "cd tb/heichips25_top/; GL=1 python3 heichips25_top_tb.py fpga_all_ones"
-          ! grep failure tb/heichips25_top/sim_build/results.xml
-          nix develop --command bash -c "cd tb/heichips25_top/; GL=1 python3 heichips25_top_tb.py fpga_counter_top"
-          ! grep failure tb/heichips25_top/sim_build/results.xml
+          nix develop --command make sim-gl
