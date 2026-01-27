@@ -42,11 +42,21 @@ librelane-klayout: $(PDK_ROOT)/$(PDK) ## Open the last run in KLayout
 .PHONY: librelane-klayout
 
 sim: ## Run RTL simulation with cocotb
-	cd tb/heichips25_top; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py
+	cd tb/heichips25_top; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_all_zeros
+	! grep failure tb/heichips25_top/sim_build/results.xml
+	cd tb/heichips25_top; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_all_ones
+	! grep failure tb/heichips25_top/sim_build/results.xml
+	cd tb/heichips25_top; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_counter_top
+	! grep failure tb/heichips25_top/sim_build/results.xml
 .PHONY: sim
 
 sim-gl: $(PDK_ROOT)/$(PDK) ## Run gate-level simulation with cocotb
-	cd tb/heichips25_top; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py
+	cd tb/heichips25_top; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_all_zeros
+	! grep failure tb/heichips25_top/sim_build/results.xml
+	cd tb/heichips25_top; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_all_ones
+	! grep failure tb/heichips25_top/sim_build/results.xml
+	cd tb/heichips25_top; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_counter_top
+	! grep failure tb/heichips25_top/sim_build/results.xml
 .PHONY: sim-gl
 
 sim-view: ## View simulation waveforms in GTKWave

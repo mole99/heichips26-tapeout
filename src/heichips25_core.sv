@@ -46,11 +46,11 @@ module heichips25_core (
 );
     
     // Fabric parameters
-    	localparam FrameBitsPerRow = 32;
+        localparam FrameBitsPerRow = 32;
     localparam MaxFramesPerCol = 20;
     
     localparam NumColumns = 6;
-    localparam NumRows = 10;
+    localparam NumRows = 11;
     
     localparam FABRIC_NUM_IO_NORTH = 16;
     localparam FABRIC_NUM_IO_SOUTH = 16;
@@ -250,8 +250,10 @@ module heichips25_core (
     );
 
     // TODO update length
+    // bitstream size: 0x1698
+    // bitstream word size: 0x5A6
     fabric_spi_controller #(
-        .BITSTREAM_LENGTH_WORDS (32'h52E),
+        .BITSTREAM_LENGTH_WORDS (32'h5A6),
         .SLOT_OFFSET_WORDS      (32'h800),
         .NUM_SLOTS              (16)
     ) fabric_spi_controller (
@@ -277,11 +279,11 @@ module heichips25_core (
     );
     
     fabric_config #(
-        	.FrameBitsPerRow    (FrameBitsPerRow),
-	    .MaxFramesPerCol    (MaxFramesPerCol),
-	    
-	    .NumColumns         (NumColumns),
-	    .NumRows            (NumRows)
+        .FrameBitsPerRow    (FrameBitsPerRow),
+        .MaxFramesPerCol    (MaxFramesPerCol),
+        
+        .NumColumns         (NumColumns),
+        .NumRows            (NumRows)
     ) fabric_config (
         .clk_i              (fpga_clk_i),
         .rst_ni             (fpga_rst_n_sync),

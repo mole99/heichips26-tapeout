@@ -239,10 +239,10 @@ MACROS:
         - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_slow_1p08V_125C.lib
     instances:
       heichips25_core/fabric_wrapper/sram0_0:
-        location: [2150, 1750]
+        location: [2150, 1965]
         orientation: S
       heichips25_core/fabric_wrapper/sram0_1:
-        location: [2150, 2020]
+        location: [2150, 2235]
         orientation: N
   heichips25_example_small:
     gds:
@@ -256,36 +256,43 @@ MACROS:
         - dir::../ip/user_projects/heichips25_example_small/macro/spef/nom/heichips25_example_small.nom.spef
     instances:
       #heichips25_core/fabric_wrapper/heichips25_example_small_0:
-      #  location: [390, 1540]
+      #  location: [390, 1755]
       #  orientation: FN
       #heichips25_core/fabric_wrapper/heichips25_example_small_1:
-      #  location: [390, 1325]
+      #  location: [390, 1540]
       #  orientation: FN
       #heichips25_core/fabric_wrapper/heichips25_example_small_2:
-      #  location: [390, 1110]
+      #  location: [390, 1325]
       #  orientation: FN
       #heichips25_core/fabric_wrapper/heichips25_example_small_3:
-      #  location: [390, 895]
+      #  location: [390, 1110]
       #  orientation: FN
       heichips25_core/fabric_wrapper/heichips25_example_small_4:
-        location: [390, 680]
+        location: [390, 895]
         orientation: FN
       heichips25_core/fabric_wrapper/heichips25_example_small_5:
+        location: [390, 680]
+        orientation: FN
+      heichips25_core/fabric_wrapper/heichips25_example_small_6:
         location: [390, 465]
         orientation: FN
 
-      #heichips25_core/fabric_wrapper/heichips25_example_small_6:
+      #heichips25_core/fabric_wrapper/heichips25_example_small_7:
+      #  location: [2109, 1325]
+      #  orientation: N
+      #heichips25_core/fabric_wrapper/heichips25_example_small_8:
       #  location: [2109, 1110]
       #  orientation: N
-      #heichips25_core/fabric_wrapper/heichips25_example_small_7:
-      #  location: [2109, 895]
-      #  orientation: N
-      heichips25_core/fabric_wrapper/heichips25_example_small_8:
+      heichips25_core/fabric_wrapper/heichips25_example_small_9:
+        location: [2109, 895]
+        orientation: N
+      heichips25_core/fabric_wrapper/heichips25_example_small_10:
         location: [2109, 680]
         orientation: N
-      heichips25_core/fabric_wrapper/heichips25_example_small_9:
+      heichips25_core/fabric_wrapper/heichips25_example_small_11:
         location: [2109, 465]
         orientation: N
+
 
   heichips25_example_large:
     gds:
@@ -317,7 +324,7 @@ MACROS:
         - dir::../ip/user_projects/heichips_25_snitch_core/macro/spef/nom/heichips25_snitch_wrapper.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_large_0:
-        location: [390, 1755]
+        location: [390, 1970]
         orientation: FN
       #heichips25_core/fabric_wrapper/heichips25_example_large_1:
       #  location: [2109, 1325]
@@ -335,7 +342,7 @@ MACROS:
         - dir::../ip/user_projects/heichips25-fazyrv-exotiny/macro/spef/nom/heichips25_fazyrv_exotiny.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_large_1:
-        location: [2109, 1325]
+        location: [2109, 1540]
         orientation: N
 
   heichips25_CORDIC:
@@ -350,7 +357,7 @@ MACROS:
         - dir::../ip/user_projects/heichips25_CORDIC/macro/spef/nom/heichips25_CORDIC.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_0:
-        location: [390, 1540]
+        location: [390, 1755]
         orientation: FN
 
   heichips25_sap3:
@@ -365,7 +372,7 @@ MACROS:
         - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/spef/nom/heichips25_sap3.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_1:
-        location: [390, 1325]
+        location: [390, 1540]
         orientation: FN
 
   heichips25_top_sorter:
@@ -380,7 +387,7 @@ MACROS:
         - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_top_sorter/macro/spef/nom/heichips25_top_sorter.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_2:
-        location: [390, 1110]
+        location: [390, 1325]
         orientation: FN
 
   heichips25_systolicArrayTop:
@@ -395,7 +402,7 @@ MACROS:
         - dir::../ip/user_projects/heichips25_systolicArray4x4/macro/spef/nom/heichips25_systolicArrayTop.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_3:
-        location: [390, 895]
+        location: [390, 1110]
         orientation: FN
 
   heichips25_bagel:
@@ -409,8 +416,8 @@ MACROS:
       "nom_*":
         - dir::../ip/user_projects/heichips25_bagel/macro/spef/nom/heichips25_bagel.nom.spef
     instances:
-      heichips25_core/fabric_wrapper/heichips25_example_small_6:
-        location: [2109, 1110]
+      heichips25_core/fabric_wrapper/heichips25_example_small_7:
+        location: [2109, 1325]
         orientation: N
 
   heichips25_usb_cdc:
@@ -424,8 +431,8 @@ MACROS:
       "nom_*":
         - dir::../ip/user_projects/heichips25-usb_cdc/macro/spef/nom/heichips25_usb_cdc.nom.spef
     instances:
-      heichips25_core/fabric_wrapper/heichips25_example_small_7:
-        location: [2109, 895]
+      heichips25_core/fabric_wrapper/heichips25_example_small_8:
+        location: [2109, 1110]
         orientation: N
 
 PDN_OBSTRUCTIONS:
@@ -473,6 +480,8 @@ PDN_MACRO_CONNECTIONS:
   - "heichips25_core/fabric_wrapper/heichips25_example_small_7 VDD VSS VPWR VGND"
   - "heichips25_core/fabric_wrapper/heichips25_example_small_8 VDD VSS VPWR VGND"
   - "heichips25_core/fabric_wrapper/heichips25_example_small_9 VDD VSS VPWR VGND"
+  - "heichips25_core/fabric_wrapper/heichips25_example_small_10 VDD VSS VPWR VGND"
+  - "heichips25_core/fabric_wrapper/heichips25_example_small_11 VDD VSS VPWR VGND"
   # SRAM
   - "heichips25_core/fabric_wrapper/sram0_0 VDD VSS VDD! VSS!"
   - "heichips25_core/fabric_wrapper/sram0_0 VDD VSS VDDARRAY! VSS!"

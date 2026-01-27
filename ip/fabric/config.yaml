@@ -84,17 +84,30 @@ FABULOUS_MANUAL_PINS:
     "FrameStrobe[118]": [Metal2, 1064.64, 0.24, 0.4, 0.48]
     "FrameStrobe[119]": [Metal2, 1069.44, 0.24, 0.4, 0.48]
     
-    "FrameData[22]": [Metal3, 0.24, 1815.66, 0.48, 0.4]
-    "FrameData[23]": [Metal3, 0.24, 1817.34, 0.48, 0.4]
-    "FrameData[24]": [Metal3, 0.24, 1819.02, 0.48, 0.4]
-    "FrameData[25]": [Metal3, 0.24, 1820.70, 0.48, 0.4]
-    "FrameData[26]": [Metal3, 0.24, 1822.38, 0.48, 0.4]
-    "FrameData[27]": [Metal3, 0.24, 1824.06, 0.48, 0.4]
-    "FrameData[28]": [Metal3, 0.24, 1825.74, 0.48, 0.4]
-    "FrameData[29]": [Metal3, 0.24, 1827.42, 0.48, 0.4]
-    "FrameData[30]": [Metal3, 0.24, 1829.10, 0.48, 0.4]
-    "FrameData[31]": [Metal3, 0.24, 1830.78, 0.48, 0.4]
-    
+    "FrameData[22]": [Metal3, 0.24, 2030.70, 0.48, 0.4]
+    "FrameData[23]": [Metal3, 0.24, 2032.38, 0.48, 0.4]
+    "FrameData[24]": [Metal3, 0.24, 2034.06, 0.48, 0.4]
+    "FrameData[25]": [Metal3, 0.24, 2035.74, 0.48, 0.4]
+    "FrameData[26]": [Metal3, 0.24, 2037.42, 0.48, 0.4]
+    "FrameData[27]": [Metal3, 0.24, 2039.10, 0.48, 0.4]
+    "FrameData[28]": [Metal3, 0.24, 2040.78, 0.48, 0.4]
+    "FrameData[29]": [Metal3, 0.24, 2042.46, 0.48, 0.4]
+    "FrameData[30]": [Metal3, 0.24, 2044.14, 0.48, 0.4]
+    "FrameData[31]": [Metal3, 0.24, 2045.82, 0.48, 0.4]
+
+    "FrameData[343]": [Metal3, 0.24, 43.26, 0.48, 0.4]
+    "FrameData[342]": [Metal3, 0.24, 41.58, 0.48, 0.4]
+    "FrameData[341]": [Metal3, 0.24, 39.90, 0.48, 0.4]
+    "FrameData[340]": [Metal3, 0.24, 38.22, 0.48, 0.4]
+    "FrameData[339]": [Metal3, 0.24, 36.54, 0.48, 0.4]
+    "FrameData[338]": [Metal3, 0.24, 34.86, 0.48, 0.4]
+    "FrameData[337]": [Metal3, 0.24, 33.18, 0.48, 0.4]
+    "FrameData[336]": [Metal3, 0.24, 31.50, 0.48, 0.4]
+    "FrameData[335]": [Metal3, 0.24, 29.82, 0.48, 0.4]
+    "FrameData[334]": [Metal3, 0.24, 28.14, 0.48, 0.4]
+    "FrameData[333]": [Metal3, 0.24, 26.46, 0.48, 0.4]
+
+
 # Clock
 CLOCK_PERIOD: 20
 CLOCK_PORT: UserCLK

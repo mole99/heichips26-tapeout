@@ -1,12 +1,12 @@
 `default_nettype none
 
 module fabric_wrapper #(
-    	parameter FrameBitsPerRow = 32,
-	parameter MaxFramesPerCol = 20,
-	
-	parameter NumColumns = 6,
-	parameter NumRows = 10,
-	
+    parameter FrameBitsPerRow = 32,
+    parameter MaxFramesPerCol = 20,
+    
+    parameter NumColumns = 6,
+    parameter NumRows = 11,
+    
     parameter FABRIC_NUM_IO_NORTH = 16,
     parameter FABRIC_NUM_IO_SOUTH = 16
 )(
@@ -29,13 +29,13 @@ module fabric_wrapper #(
     output [FABRIC_NUM_IO_SOUTH-1:0]      io_south_out_o,
     output [FABRIC_NUM_IO_SOUTH-1:0]      io_south_oe_o,
     
-     output usb_dn_en_o,
-     input  usb_dn_rx_i,
-     output usb_dn_tx_o,
-     output usb_dp_en_o,
-     input  usb_dp_rx_i,
-     output usb_dp_tx_o,
-     output usb_dp_up_o
+    output usb_dn_en_o,
+    input  usb_dn_rx_i,
+    output usb_dn_tx_o,
+    output usb_dp_en_o,
+    input  usb_dp_rx_i,
+    output usb_dp_tx_o,
+    output usb_dp_up_o
 );
     
     // TT_PROJECT 0 (X0Y2)
@@ -108,7 +108,7 @@ module fabric_wrapper #(
     logic  tt_project_6_clk;
     logic  tt_project_6_rst_n;
 
-    // TT_PROJECT 7 (X5Y4)
+    // TT_PROJECT 7 (X0Y9)
     logic [7:0] tt_project_7_ui_in;
     logic [7:0] tt_project_7_uo_out;
     logic [7:0] tt_project_7_uio_in;
@@ -118,7 +118,7 @@ module fabric_wrapper #(
     logic  tt_project_7_clk;
     logic  tt_project_7_rst_n;
 
-    // TT_PROJECT 8 (X5Y5)
+    // TT_PROJECT 8 (X5Y4)
     logic [7:0] tt_project_8_ui_in;
     logic [7:0] tt_project_8_uo_out;
     logic [7:0] tt_project_8_uio_in;
@@ -128,7 +128,7 @@ module fabric_wrapper #(
     logic  tt_project_8_clk;
     logic  tt_project_8_rst_n;
 
-    // TT_PROJECT 9 (X5Y6)
+    // TT_PROJECT 9 (X5Y5)
     logic [7:0] tt_project_9_ui_in;
     logic [7:0] tt_project_9_uo_out;
     logic [7:0] tt_project_9_uio_in;
@@ -138,7 +138,7 @@ module fabric_wrapper #(
     logic  tt_project_9_clk;
     logic  tt_project_9_rst_n;
 
-    // TT_PROJECT 10 (X5Y7)
+    // TT_PROJECT 10 (X5Y6)
     logic [7:0] tt_project_10_ui_in;
     logic [7:0] tt_project_10_uo_out;
     logic [7:0] tt_project_10_uio_in;
@@ -148,7 +148,7 @@ module fabric_wrapper #(
     logic  tt_project_10_clk;
     logic  tt_project_10_rst_n;
 
-    // TT_PROJECT 11 (X5Y8)
+    // TT_PROJECT 11 (X5Y7)
     logic [7:0] tt_project_11_ui_in;
     logic [7:0] tt_project_11_uo_out;
     logic [7:0] tt_project_11_uio_in;
@@ -157,6 +157,26 @@ module fabric_wrapper #(
     logic  tt_project_11_ena;
     logic  tt_project_11_clk;
     logic  tt_project_11_rst_n;
+
+    // TT_PROJECT 12 (X5Y8)
+    logic [7:0] tt_project_12_ui_in;
+    logic [7:0] tt_project_12_uo_out;
+    logic [7:0] tt_project_12_uio_in;
+    logic [7:0] tt_project_12_uio_out;
+    logic [7:0] tt_project_12_uio_oe;
+    logic  tt_project_12_ena;
+    logic  tt_project_12_clk;
+    logic  tt_project_12_rst_n;
+
+    // TT_PROJECT 13 (X5Y9)
+    logic [7:0] tt_project_13_ui_in;
+    logic [7:0] tt_project_13_uo_out;
+    logic [7:0] tt_project_13_uio_in;
+    logic [7:0] tt_project_13_uio_out;
+    logic [7:0] tt_project_13_uio_oe;
+    logic  tt_project_13_ena;
+    logic  tt_project_13_clk;
+    logic  tt_project_13_rst_n;
 
     // SRAM 0
     logic [31:0] fabric_sram0_dout_i;
@@ -247,69 +267,69 @@ module fabric_wrapper #(
         .Tile_X4Y0_D_T_top(io_north_oe_o[15]),
 
         // South I/Os
-        .Tile_X1Y9_A_O_top(io_south_in_i[0]),
-        .Tile_X1Y9_A_I_top(io_south_out_o[0]),
-        .Tile_X1Y9_A_T_top(io_south_oe_o[0]),
+        .Tile_X1Y10_A_O_top(io_south_in_i[0]),
+        .Tile_X1Y10_A_I_top(io_south_out_o[0]),
+        .Tile_X1Y10_A_T_top(io_south_oe_o[0]),
 
-        .Tile_X1Y9_B_O_top(io_south_in_i[1]),
-        .Tile_X1Y9_B_I_top(io_south_out_o[1]),
-        .Tile_X1Y9_B_T_top(io_south_oe_o[1]),
+        .Tile_X1Y10_B_O_top(io_south_in_i[1]),
+        .Tile_X1Y10_B_I_top(io_south_out_o[1]),
+        .Tile_X1Y10_B_T_top(io_south_oe_o[1]),
 
-        .Tile_X1Y9_C_O_top(io_south_in_i[2]),
-        .Tile_X1Y9_C_I_top(io_south_out_o[2]),
-        .Tile_X1Y9_C_T_top(io_south_oe_o[2]),
+        .Tile_X1Y10_C_O_top(io_south_in_i[2]),
+        .Tile_X1Y10_C_I_top(io_south_out_o[2]),
+        .Tile_X1Y10_C_T_top(io_south_oe_o[2]),
 
-        .Tile_X1Y9_D_O_top(io_south_in_i[3]),
-        .Tile_X1Y9_D_I_top(io_south_out_o[3]),
-        .Tile_X1Y9_D_T_top(io_south_oe_o[3]),
+        .Tile_X1Y10_D_O_top(io_south_in_i[3]),
+        .Tile_X1Y10_D_I_top(io_south_out_o[3]),
+        .Tile_X1Y10_D_T_top(io_south_oe_o[3]),
 
-        .Tile_X2Y9_A_O_top(io_south_in_i[4]),
-        .Tile_X2Y9_A_I_top(io_south_out_o[4]),
-        .Tile_X2Y9_A_T_top(io_south_oe_o[4]),
+        .Tile_X2Y10_A_O_top(io_south_in_i[4]),
+        .Tile_X2Y10_A_I_top(io_south_out_o[4]),
+        .Tile_X2Y10_A_T_top(io_south_oe_o[4]),
 
-        .Tile_X2Y9_B_O_top(io_south_in_i[5]),
-        .Tile_X2Y9_B_I_top(io_south_out_o[5]),
-        .Tile_X2Y9_B_T_top(io_south_oe_o[5]),
+        .Tile_X2Y10_B_O_top(io_south_in_i[5]),
+        .Tile_X2Y10_B_I_top(io_south_out_o[5]),
+        .Tile_X2Y10_B_T_top(io_south_oe_o[5]),
 
-        .Tile_X2Y9_C_O_top(io_south_in_i[6]),
-        .Tile_X2Y9_C_I_top(io_south_out_o[6]),
-        .Tile_X2Y9_C_T_top(io_south_oe_o[6]),
+        .Tile_X2Y10_C_O_top(io_south_in_i[6]),
+        .Tile_X2Y10_C_I_top(io_south_out_o[6]),
+        .Tile_X2Y10_C_T_top(io_south_oe_o[6]),
 
-        .Tile_X2Y9_D_O_top(io_south_in_i[7]),
-        .Tile_X2Y9_D_I_top(io_south_out_o[7]),
-        .Tile_X2Y9_D_T_top(io_south_oe_o[7]),
+        .Tile_X2Y10_D_O_top(io_south_in_i[7]),
+        .Tile_X2Y10_D_I_top(io_south_out_o[7]),
+        .Tile_X2Y10_D_T_top(io_south_oe_o[7]),
 
-        .Tile_X3Y9_A_O_top(io_south_in_i[8]),
-        .Tile_X3Y9_A_I_top(io_south_out_o[8]),
-        .Tile_X3Y9_A_T_top(io_south_oe_o[8]),
+        .Tile_X3Y10_A_O_top(io_south_in_i[8]),
+        .Tile_X3Y10_A_I_top(io_south_out_o[8]),
+        .Tile_X3Y10_A_T_top(io_south_oe_o[8]),
 
-        .Tile_X3Y9_B_O_top(io_south_in_i[9]),
-        .Tile_X3Y9_B_I_top(io_south_out_o[9]),
-        .Tile_X3Y9_B_T_top(io_south_oe_o[9]),
+        .Tile_X3Y10_B_O_top(io_south_in_i[9]),
+        .Tile_X3Y10_B_I_top(io_south_out_o[9]),
+        .Tile_X3Y10_B_T_top(io_south_oe_o[9]),
 
-        .Tile_X3Y9_C_O_top(io_south_in_i[10]),
-        .Tile_X3Y9_C_I_top(io_south_out_o[10]),
-        .Tile_X3Y9_C_T_top(io_south_oe_o[10]),
+        .Tile_X3Y10_C_O_top(io_south_in_i[10]),
+        .Tile_X3Y10_C_I_top(io_south_out_o[10]),
+        .Tile_X3Y10_C_T_top(io_south_oe_o[10]),
 
-        .Tile_X3Y9_D_O_top(io_south_in_i[11]),
-        .Tile_X3Y9_D_I_top(io_south_out_o[11]),
-        .Tile_X3Y9_D_T_top(io_south_oe_o[11]),
+        .Tile_X3Y10_D_O_top(io_south_in_i[11]),
+        .Tile_X3Y10_D_I_top(io_south_out_o[11]),
+        .Tile_X3Y10_D_T_top(io_south_oe_o[11]),
 
-        .Tile_X4Y9_A_O_top(io_south_in_i[12]),
-        .Tile_X4Y9_A_I_top(io_south_out_o[12]),
-        .Tile_X4Y9_A_T_top(io_south_oe_o[12]),
+        .Tile_X4Y10_A_O_top(io_south_in_i[12]),
+        .Tile_X4Y10_A_I_top(io_south_out_o[12]),
+        .Tile_X4Y10_A_T_top(io_south_oe_o[12]),
 
-        .Tile_X4Y9_B_O_top(io_south_in_i[13]),
-        .Tile_X4Y9_B_I_top(io_south_out_o[13]),
-        .Tile_X4Y9_B_T_top(io_south_oe_o[13]),
+        .Tile_X4Y10_B_O_top(io_south_in_i[13]),
+        .Tile_X4Y10_B_I_top(io_south_out_o[13]),
+        .Tile_X4Y10_B_T_top(io_south_oe_o[13]),
 
-        .Tile_X4Y9_C_O_top(io_south_in_i[14]),
-        .Tile_X4Y9_C_I_top(io_south_out_o[14]),
-        .Tile_X4Y9_C_T_top(io_south_oe_o[14]),
+        .Tile_X4Y10_C_O_top(io_south_in_i[14]),
+        .Tile_X4Y10_C_I_top(io_south_out_o[14]),
+        .Tile_X4Y10_C_T_top(io_south_oe_o[14]),
 
-        .Tile_X4Y9_D_O_top(io_south_in_i[15]),
-        .Tile_X4Y9_D_I_top(io_south_out_o[15]),
-        .Tile_X4Y9_D_T_top(io_south_oe_o[15]),
+        .Tile_X4Y10_D_O_top(io_south_in_i[15]),
+        .Tile_X4Y10_D_I_top(io_south_out_o[15]),
+        .Tile_X4Y10_D_T_top(io_south_oe_o[15]),
 
         // TT_PROJECT 0 (X0Y2)
         .Tile_X0Y2_UI_IN_TT_PROJECT0(tt_project_0_ui_in[0]),
@@ -626,230 +646,320 @@ module fabric_wrapper #(
         .Tile_X0Y8_CLK_TT_PROJECT(tt_project_6_clk),
         .Tile_X0Y8_RST_N_TT_PROJECT(tt_project_6_rst_n),
 
-        // TT_PROJECT 7 (X5Y4)
-        .Tile_X5Y4_UI_IN_TT_PROJECT0(tt_project_7_ui_in[0]),
-        .Tile_X5Y4_UI_IN_TT_PROJECT1(tt_project_7_ui_in[1]),
-        .Tile_X5Y4_UI_IN_TT_PROJECT2(tt_project_7_ui_in[2]),
-        .Tile_X5Y4_UI_IN_TT_PROJECT3(tt_project_7_ui_in[3]),
-        .Tile_X5Y4_UI_IN_TT_PROJECT4(tt_project_7_ui_in[4]),
-        .Tile_X5Y4_UI_IN_TT_PROJECT5(tt_project_7_ui_in[5]),
-        .Tile_X5Y4_UI_IN_TT_PROJECT6(tt_project_7_ui_in[6]),
-        .Tile_X5Y4_UI_IN_TT_PROJECT7(tt_project_7_ui_in[7]),
-        .Tile_X5Y4_UO_OUT_TT_PROJECT0(tt_project_7_uo_out[0]),
-        .Tile_X5Y4_UO_OUT_TT_PROJECT1(tt_project_7_uo_out[1]),
-        .Tile_X5Y4_UO_OUT_TT_PROJECT2(tt_project_7_uo_out[2]),
-        .Tile_X5Y4_UO_OUT_TT_PROJECT3(tt_project_7_uo_out[3]),
-        .Tile_X5Y4_UO_OUT_TT_PROJECT4(tt_project_7_uo_out[4]),
-        .Tile_X5Y4_UO_OUT_TT_PROJECT5(tt_project_7_uo_out[5]),
-        .Tile_X5Y4_UO_OUT_TT_PROJECT6(tt_project_7_uo_out[6]),
-        .Tile_X5Y4_UO_OUT_TT_PROJECT7(tt_project_7_uo_out[7]),
-        .Tile_X5Y4_UIO_IN_TT_PROJECT0(tt_project_7_uio_in[0]),
-        .Tile_X5Y4_UIO_IN_TT_PROJECT1(tt_project_7_uio_in[1]),
-        .Tile_X5Y4_UIO_IN_TT_PROJECT2(tt_project_7_uio_in[2]),
-        .Tile_X5Y4_UIO_IN_TT_PROJECT3(tt_project_7_uio_in[3]),
-        .Tile_X5Y4_UIO_IN_TT_PROJECT4(tt_project_7_uio_in[4]),
-        .Tile_X5Y4_UIO_IN_TT_PROJECT5(tt_project_7_uio_in[5]),
-        .Tile_X5Y4_UIO_IN_TT_PROJECT6(tt_project_7_uio_in[6]),
-        .Tile_X5Y4_UIO_IN_TT_PROJECT7(tt_project_7_uio_in[7]),
-        .Tile_X5Y4_UIO_OUT_TT_PROJECT0(tt_project_7_uio_out[0]),
-        .Tile_X5Y4_UIO_OUT_TT_PROJECT1(tt_project_7_uio_out[1]),
-        .Tile_X5Y4_UIO_OUT_TT_PROJECT2(tt_project_7_uio_out[2]),
-        .Tile_X5Y4_UIO_OUT_TT_PROJECT3(tt_project_7_uio_out[3]),
-        .Tile_X5Y4_UIO_OUT_TT_PROJECT4(tt_project_7_uio_out[4]),
-        .Tile_X5Y4_UIO_OUT_TT_PROJECT5(tt_project_7_uio_out[5]),
-        .Tile_X5Y4_UIO_OUT_TT_PROJECT6(tt_project_7_uio_out[6]),
-        .Tile_X5Y4_UIO_OUT_TT_PROJECT7(tt_project_7_uio_out[7]),
-        .Tile_X5Y4_UIO_OE_TT_PROJECT0(tt_project_7_uio_oe[0]),
-        .Tile_X5Y4_UIO_OE_TT_PROJECT1(tt_project_7_uio_oe[1]),
-        .Tile_X5Y4_UIO_OE_TT_PROJECT2(tt_project_7_uio_oe[2]),
-        .Tile_X5Y4_UIO_OE_TT_PROJECT3(tt_project_7_uio_oe[3]),
-        .Tile_X5Y4_UIO_OE_TT_PROJECT4(tt_project_7_uio_oe[4]),
-        .Tile_X5Y4_UIO_OE_TT_PROJECT5(tt_project_7_uio_oe[5]),
-        .Tile_X5Y4_UIO_OE_TT_PROJECT6(tt_project_7_uio_oe[6]),
-        .Tile_X5Y4_UIO_OE_TT_PROJECT7(tt_project_7_uio_oe[7]),
-        .Tile_X5Y4_ENA_TT_PROJECT(tt_project_7_ena),
-        .Tile_X5Y4_CLK_TT_PROJECT(tt_project_7_clk),
-        .Tile_X5Y4_RST_N_TT_PROJECT(tt_project_7_rst_n),
+        // TT_PROJECT 7 (X0Y9)
+        .Tile_X0Y9_UI_IN_TT_PROJECT0(tt_project_7_ui_in[0]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT1(tt_project_7_ui_in[1]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT2(tt_project_7_ui_in[2]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT3(tt_project_7_ui_in[3]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT4(tt_project_7_ui_in[4]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT5(tt_project_7_ui_in[5]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT6(tt_project_7_ui_in[6]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT7(tt_project_7_ui_in[7]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT0(tt_project_7_uo_out[0]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT1(tt_project_7_uo_out[1]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT2(tt_project_7_uo_out[2]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT3(tt_project_7_uo_out[3]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT4(tt_project_7_uo_out[4]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT5(tt_project_7_uo_out[5]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT6(tt_project_7_uo_out[6]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT7(tt_project_7_uo_out[7]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT0(tt_project_7_uio_in[0]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT1(tt_project_7_uio_in[1]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT2(tt_project_7_uio_in[2]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT3(tt_project_7_uio_in[3]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT4(tt_project_7_uio_in[4]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT5(tt_project_7_uio_in[5]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT6(tt_project_7_uio_in[6]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT7(tt_project_7_uio_in[7]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT0(tt_project_7_uio_out[0]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT1(tt_project_7_uio_out[1]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT2(tt_project_7_uio_out[2]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT3(tt_project_7_uio_out[3]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT4(tt_project_7_uio_out[4]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT5(tt_project_7_uio_out[5]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT6(tt_project_7_uio_out[6]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT7(tt_project_7_uio_out[7]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT0(tt_project_7_uio_oe[0]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT1(tt_project_7_uio_oe[1]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT2(tt_project_7_uio_oe[2]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT3(tt_project_7_uio_oe[3]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT4(tt_project_7_uio_oe[4]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT5(tt_project_7_uio_oe[5]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT6(tt_project_7_uio_oe[6]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT7(tt_project_7_uio_oe[7]),
+        .Tile_X0Y9_ENA_TT_PROJECT(tt_project_7_ena),
+        .Tile_X0Y9_CLK_TT_PROJECT(tt_project_7_clk),
+        .Tile_X0Y9_RST_N_TT_PROJECT(tt_project_7_rst_n),
 
-        // TT_PROJECT 8 (X5Y5)
-        .Tile_X5Y5_UI_IN_TT_PROJECT0(tt_project_8_ui_in[0]),
-        .Tile_X5Y5_UI_IN_TT_PROJECT1(tt_project_8_ui_in[1]),
-        .Tile_X5Y5_UI_IN_TT_PROJECT2(tt_project_8_ui_in[2]),
-        .Tile_X5Y5_UI_IN_TT_PROJECT3(tt_project_8_ui_in[3]),
-        .Tile_X5Y5_UI_IN_TT_PROJECT4(tt_project_8_ui_in[4]),
-        .Tile_X5Y5_UI_IN_TT_PROJECT5(tt_project_8_ui_in[5]),
-        .Tile_X5Y5_UI_IN_TT_PROJECT6(tt_project_8_ui_in[6]),
-        .Tile_X5Y5_UI_IN_TT_PROJECT7(tt_project_8_ui_in[7]),
-        .Tile_X5Y5_UO_OUT_TT_PROJECT0(tt_project_8_uo_out[0]),
-        .Tile_X5Y5_UO_OUT_TT_PROJECT1(tt_project_8_uo_out[1]),
-        .Tile_X5Y5_UO_OUT_TT_PROJECT2(tt_project_8_uo_out[2]),
-        .Tile_X5Y5_UO_OUT_TT_PROJECT3(tt_project_8_uo_out[3]),
-        .Tile_X5Y5_UO_OUT_TT_PROJECT4(tt_project_8_uo_out[4]),
-        .Tile_X5Y5_UO_OUT_TT_PROJECT5(tt_project_8_uo_out[5]),
-        .Tile_X5Y5_UO_OUT_TT_PROJECT6(tt_project_8_uo_out[6]),
-        .Tile_X5Y5_UO_OUT_TT_PROJECT7(tt_project_8_uo_out[7]),
-        .Tile_X5Y5_UIO_IN_TT_PROJECT0(tt_project_8_uio_in[0]),
-        .Tile_X5Y5_UIO_IN_TT_PROJECT1(tt_project_8_uio_in[1]),
-        .Tile_X5Y5_UIO_IN_TT_PROJECT2(tt_project_8_uio_in[2]),
-        .Tile_X5Y5_UIO_IN_TT_PROJECT3(tt_project_8_uio_in[3]),
-        .Tile_X5Y5_UIO_IN_TT_PROJECT4(tt_project_8_uio_in[4]),
-        .Tile_X5Y5_UIO_IN_TT_PROJECT5(tt_project_8_uio_in[5]),
-        .Tile_X5Y5_UIO_IN_TT_PROJECT6(tt_project_8_uio_in[6]),
-        .Tile_X5Y5_UIO_IN_TT_PROJECT7(tt_project_8_uio_in[7]),
-        .Tile_X5Y5_UIO_OUT_TT_PROJECT0(tt_project_8_uio_out[0]),
-        .Tile_X5Y5_UIO_OUT_TT_PROJECT1(tt_project_8_uio_out[1]),
-        .Tile_X5Y5_UIO_OUT_TT_PROJECT2(tt_project_8_uio_out[2]),
-        .Tile_X5Y5_UIO_OUT_TT_PROJECT3(tt_project_8_uio_out[3]),
-        .Tile_X5Y5_UIO_OUT_TT_PROJECT4(tt_project_8_uio_out[4]),
-        .Tile_X5Y5_UIO_OUT_TT_PROJECT5(tt_project_8_uio_out[5]),
-        .Tile_X5Y5_UIO_OUT_TT_PROJECT6(tt_project_8_uio_out[6]),
-        .Tile_X5Y5_UIO_OUT_TT_PROJECT7(tt_project_8_uio_out[7]),
-        .Tile_X5Y5_UIO_OE_TT_PROJECT0(tt_project_8_uio_oe[0]),
-        .Tile_X5Y5_UIO_OE_TT_PROJECT1(tt_project_8_uio_oe[1]),
-        .Tile_X5Y5_UIO_OE_TT_PROJECT2(tt_project_8_uio_oe[2]),
-        .Tile_X5Y5_UIO_OE_TT_PROJECT3(tt_project_8_uio_oe[3]),
-        .Tile_X5Y5_UIO_OE_TT_PROJECT4(tt_project_8_uio_oe[4]),
-        .Tile_X5Y5_UIO_OE_TT_PROJECT5(tt_project_8_uio_oe[5]),
-        .Tile_X5Y5_UIO_OE_TT_PROJECT6(tt_project_8_uio_oe[6]),
-        .Tile_X5Y5_UIO_OE_TT_PROJECT7(tt_project_8_uio_oe[7]),
-        .Tile_X5Y5_ENA_TT_PROJECT(tt_project_8_ena),
-        .Tile_X5Y5_CLK_TT_PROJECT(tt_project_8_clk),
-        .Tile_X5Y5_RST_N_TT_PROJECT(tt_project_8_rst_n),
+        // TT_PROJECT 8 (X5Y4)
+        .Tile_X5Y4_UI_IN_TT_PROJECT0(tt_project_8_ui_in[0]),
+        .Tile_X5Y4_UI_IN_TT_PROJECT1(tt_project_8_ui_in[1]),
+        .Tile_X5Y4_UI_IN_TT_PROJECT2(tt_project_8_ui_in[2]),
+        .Tile_X5Y4_UI_IN_TT_PROJECT3(tt_project_8_ui_in[3]),
+        .Tile_X5Y4_UI_IN_TT_PROJECT4(tt_project_8_ui_in[4]),
+        .Tile_X5Y4_UI_IN_TT_PROJECT5(tt_project_8_ui_in[5]),
+        .Tile_X5Y4_UI_IN_TT_PROJECT6(tt_project_8_ui_in[6]),
+        .Tile_X5Y4_UI_IN_TT_PROJECT7(tt_project_8_ui_in[7]),
+        .Tile_X5Y4_UO_OUT_TT_PROJECT0(tt_project_8_uo_out[0]),
+        .Tile_X5Y4_UO_OUT_TT_PROJECT1(tt_project_8_uo_out[1]),
+        .Tile_X5Y4_UO_OUT_TT_PROJECT2(tt_project_8_uo_out[2]),
+        .Tile_X5Y4_UO_OUT_TT_PROJECT3(tt_project_8_uo_out[3]),
+        .Tile_X5Y4_UO_OUT_TT_PROJECT4(tt_project_8_uo_out[4]),
+        .Tile_X5Y4_UO_OUT_TT_PROJECT5(tt_project_8_uo_out[5]),
+        .Tile_X5Y4_UO_OUT_TT_PROJECT6(tt_project_8_uo_out[6]),
+        .Tile_X5Y4_UO_OUT_TT_PROJECT7(tt_project_8_uo_out[7]),
+        .Tile_X5Y4_UIO_IN_TT_PROJECT0(tt_project_8_uio_in[0]),
+        .Tile_X5Y4_UIO_IN_TT_PROJECT1(tt_project_8_uio_in[1]),
+        .Tile_X5Y4_UIO_IN_TT_PROJECT2(tt_project_8_uio_in[2]),
+        .Tile_X5Y4_UIO_IN_TT_PROJECT3(tt_project_8_uio_in[3]),
+        .Tile_X5Y4_UIO_IN_TT_PROJECT4(tt_project_8_uio_in[4]),
+        .Tile_X5Y4_UIO_IN_TT_PROJECT5(tt_project_8_uio_in[5]),
+        .Tile_X5Y4_UIO_IN_TT_PROJECT6(tt_project_8_uio_in[6]),
+        .Tile_X5Y4_UIO_IN_TT_PROJECT7(tt_project_8_uio_in[7]),
+        .Tile_X5Y4_UIO_OUT_TT_PROJECT0(tt_project_8_uio_out[0]),
+        .Tile_X5Y4_UIO_OUT_TT_PROJECT1(tt_project_8_uio_out[1]),
+        .Tile_X5Y4_UIO_OUT_TT_PROJECT2(tt_project_8_uio_out[2]),
+        .Tile_X5Y4_UIO_OUT_TT_PROJECT3(tt_project_8_uio_out[3]),
+        .Tile_X5Y4_UIO_OUT_TT_PROJECT4(tt_project_8_uio_out[4]),
+        .Tile_X5Y4_UIO_OUT_TT_PROJECT5(tt_project_8_uio_out[5]),
+        .Tile_X5Y4_UIO_OUT_TT_PROJECT6(tt_project_8_uio_out[6]),
+        .Tile_X5Y4_UIO_OUT_TT_PROJECT7(tt_project_8_uio_out[7]),
+        .Tile_X5Y4_UIO_OE_TT_PROJECT0(tt_project_8_uio_oe[0]),
+        .Tile_X5Y4_UIO_OE_TT_PROJECT1(tt_project_8_uio_oe[1]),
+        .Tile_X5Y4_UIO_OE_TT_PROJECT2(tt_project_8_uio_oe[2]),
+        .Tile_X5Y4_UIO_OE_TT_PROJECT3(tt_project_8_uio_oe[3]),
+        .Tile_X5Y4_UIO_OE_TT_PROJECT4(tt_project_8_uio_oe[4]),
+        .Tile_X5Y4_UIO_OE_TT_PROJECT5(tt_project_8_uio_oe[5]),
+        .Tile_X5Y4_UIO_OE_TT_PROJECT6(tt_project_8_uio_oe[6]),
+        .Tile_X5Y4_UIO_OE_TT_PROJECT7(tt_project_8_uio_oe[7]),
+        .Tile_X5Y4_ENA_TT_PROJECT(tt_project_8_ena),
+        .Tile_X5Y4_CLK_TT_PROJECT(tt_project_8_clk),
+        .Tile_X5Y4_RST_N_TT_PROJECT(tt_project_8_rst_n),
 
-        // TT_PROJECT 9 (X5Y6)
-        .Tile_X5Y6_UI_IN_TT_PROJECT0(tt_project_9_ui_in[0]),
-        .Tile_X5Y6_UI_IN_TT_PROJECT1(tt_project_9_ui_in[1]),
-        .Tile_X5Y6_UI_IN_TT_PROJECT2(tt_project_9_ui_in[2]),
-        .Tile_X5Y6_UI_IN_TT_PROJECT3(tt_project_9_ui_in[3]),
-        .Tile_X5Y6_UI_IN_TT_PROJECT4(tt_project_9_ui_in[4]),
-        .Tile_X5Y6_UI_IN_TT_PROJECT5(tt_project_9_ui_in[5]),
-        .Tile_X5Y6_UI_IN_TT_PROJECT6(tt_project_9_ui_in[6]),
-        .Tile_X5Y6_UI_IN_TT_PROJECT7(tt_project_9_ui_in[7]),
-        .Tile_X5Y6_UO_OUT_TT_PROJECT0(tt_project_9_uo_out[0]),
-        .Tile_X5Y6_UO_OUT_TT_PROJECT1(tt_project_9_uo_out[1]),
-        .Tile_X5Y6_UO_OUT_TT_PROJECT2(tt_project_9_uo_out[2]),
-        .Tile_X5Y6_UO_OUT_TT_PROJECT3(tt_project_9_uo_out[3]),
-        .Tile_X5Y6_UO_OUT_TT_PROJECT4(tt_project_9_uo_out[4]),
-        .Tile_X5Y6_UO_OUT_TT_PROJECT5(tt_project_9_uo_out[5]),
-        .Tile_X5Y6_UO_OUT_TT_PROJECT6(tt_project_9_uo_out[6]),
-        .Tile_X5Y6_UO_OUT_TT_PROJECT7(tt_project_9_uo_out[7]),
-        .Tile_X5Y6_UIO_IN_TT_PROJECT0(tt_project_9_uio_in[0]),
-        .Tile_X5Y6_UIO_IN_TT_PROJECT1(tt_project_9_uio_in[1]),
-        .Tile_X5Y6_UIO_IN_TT_PROJECT2(tt_project_9_uio_in[2]),
-        .Tile_X5Y6_UIO_IN_TT_PROJECT3(tt_project_9_uio_in[3]),
-        .Tile_X5Y6_UIO_IN_TT_PROJECT4(tt_project_9_uio_in[4]),
-        .Tile_X5Y6_UIO_IN_TT_PROJECT5(tt_project_9_uio_in[5]),
-        .Tile_X5Y6_UIO_IN_TT_PROJECT6(tt_project_9_uio_in[6]),
-        .Tile_X5Y6_UIO_IN_TT_PROJECT7(tt_project_9_uio_in[7]),
-        .Tile_X5Y6_UIO_OUT_TT_PROJECT0(tt_project_9_uio_out[0]),
-        .Tile_X5Y6_UIO_OUT_TT_PROJECT1(tt_project_9_uio_out[1]),
-        .Tile_X5Y6_UIO_OUT_TT_PROJECT2(tt_project_9_uio_out[2]),
-        .Tile_X5Y6_UIO_OUT_TT_PROJECT3(tt_project_9_uio_out[3]),
-        .Tile_X5Y6_UIO_OUT_TT_PROJECT4(tt_project_9_uio_out[4]),
-        .Tile_X5Y6_UIO_OUT_TT_PROJECT5(tt_project_9_uio_out[5]),
-        .Tile_X5Y6_UIO_OUT_TT_PROJECT6(tt_project_9_uio_out[6]),
-        .Tile_X5Y6_UIO_OUT_TT_PROJECT7(tt_project_9_uio_out[7]),
-        .Tile_X5Y6_UIO_OE_TT_PROJECT0(tt_project_9_uio_oe[0]),
-        .Tile_X5Y6_UIO_OE_TT_PROJECT1(tt_project_9_uio_oe[1]),
-        .Tile_X5Y6_UIO_OE_TT_PROJECT2(tt_project_9_uio_oe[2]),
-        .Tile_X5Y6_UIO_OE_TT_PROJECT3(tt_project_9_uio_oe[3]),
-        .Tile_X5Y6_UIO_OE_TT_PROJECT4(tt_project_9_uio_oe[4]),
-        .Tile_X5Y6_UIO_OE_TT_PROJECT5(tt_project_9_uio_oe[5]),
-        .Tile_X5Y6_UIO_OE_TT_PROJECT6(tt_project_9_uio_oe[6]),
-        .Tile_X5Y6_UIO_OE_TT_PROJECT7(tt_project_9_uio_oe[7]),
-        .Tile_X5Y6_ENA_TT_PROJECT(tt_project_9_ena),
-        .Tile_X5Y6_CLK_TT_PROJECT(tt_project_9_clk),
-        .Tile_X5Y6_RST_N_TT_PROJECT(tt_project_9_rst_n),
+        // TT_PROJECT 9 (X5Y5)
+        .Tile_X5Y5_UI_IN_TT_PROJECT0(tt_project_9_ui_in[0]),
+        .Tile_X5Y5_UI_IN_TT_PROJECT1(tt_project_9_ui_in[1]),
+        .Tile_X5Y5_UI_IN_TT_PROJECT2(tt_project_9_ui_in[2]),
+        .Tile_X5Y5_UI_IN_TT_PROJECT3(tt_project_9_ui_in[3]),
+        .Tile_X5Y5_UI_IN_TT_PROJECT4(tt_project_9_ui_in[4]),
+        .Tile_X5Y5_UI_IN_TT_PROJECT5(tt_project_9_ui_in[5]),
+        .Tile_X5Y5_UI_IN_TT_PROJECT6(tt_project_9_ui_in[6]),
+        .Tile_X5Y5_UI_IN_TT_PROJECT7(tt_project_9_ui_in[7]),
+        .Tile_X5Y5_UO_OUT_TT_PROJECT0(tt_project_9_uo_out[0]),
+        .Tile_X5Y5_UO_OUT_TT_PROJECT1(tt_project_9_uo_out[1]),
+        .Tile_X5Y5_UO_OUT_TT_PROJECT2(tt_project_9_uo_out[2]),
+        .Tile_X5Y5_UO_OUT_TT_PROJECT3(tt_project_9_uo_out[3]),
+        .Tile_X5Y5_UO_OUT_TT_PROJECT4(tt_project_9_uo_out[4]),
+        .Tile_X5Y5_UO_OUT_TT_PROJECT5(tt_project_9_uo_out[5]),
+        .Tile_X5Y5_UO_OUT_TT_PROJECT6(tt_project_9_uo_out[6]),
+        .Tile_X5Y5_UO_OUT_TT_PROJECT7(tt_project_9_uo_out[7]),
+        .Tile_X5Y5_UIO_IN_TT_PROJECT0(tt_project_9_uio_in[0]),
+        .Tile_X5Y5_UIO_IN_TT_PROJECT1(tt_project_9_uio_in[1]),
+        .Tile_X5Y5_UIO_IN_TT_PROJECT2(tt_project_9_uio_in[2]),
+        .Tile_X5Y5_UIO_IN_TT_PROJECT3(tt_project_9_uio_in[3]),
+        .Tile_X5Y5_UIO_IN_TT_PROJECT4(tt_project_9_uio_in[4]),
+        .Tile_X5Y5_UIO_IN_TT_PROJECT5(tt_project_9_uio_in[5]),
+        .Tile_X5Y5_UIO_IN_TT_PROJECT6(tt_project_9_uio_in[6]),
+        .Tile_X5Y5_UIO_IN_TT_PROJECT7(tt_project_9_uio_in[7]),
+        .Tile_X5Y5_UIO_OUT_TT_PROJECT0(tt_project_9_uio_out[0]),
+        .Tile_X5Y5_UIO_OUT_TT_PROJECT1(tt_project_9_uio_out[1]),
+        .Tile_X5Y5_UIO_OUT_TT_PROJECT2(tt_project_9_uio_out[2]),
+        .Tile_X5Y5_UIO_OUT_TT_PROJECT3(tt_project_9_uio_out[3]),
+        .Tile_X5Y5_UIO_OUT_TT_PROJECT4(tt_project_9_uio_out[4]),
+        .Tile_X5Y5_UIO_OUT_TT_PROJECT5(tt_project_9_uio_out[5]),
+        .Tile_X5Y5_UIO_OUT_TT_PROJECT6(tt_project_9_uio_out[6]),
+        .Tile_X5Y5_UIO_OUT_TT_PROJECT7(tt_project_9_uio_out[7]),
+        .Tile_X5Y5_UIO_OE_TT_PROJECT0(tt_project_9_uio_oe[0]),
+        .Tile_X5Y5_UIO_OE_TT_PROJECT1(tt_project_9_uio_oe[1]),
+        .Tile_X5Y5_UIO_OE_TT_PROJECT2(tt_project_9_uio_oe[2]),
+        .Tile_X5Y5_UIO_OE_TT_PROJECT3(tt_project_9_uio_oe[3]),
+        .Tile_X5Y5_UIO_OE_TT_PROJECT4(tt_project_9_uio_oe[4]),
+        .Tile_X5Y5_UIO_OE_TT_PROJECT5(tt_project_9_uio_oe[5]),
+        .Tile_X5Y5_UIO_OE_TT_PROJECT6(tt_project_9_uio_oe[6]),
+        .Tile_X5Y5_UIO_OE_TT_PROJECT7(tt_project_9_uio_oe[7]),
+        .Tile_X5Y5_ENA_TT_PROJECT(tt_project_9_ena),
+        .Tile_X5Y5_CLK_TT_PROJECT(tt_project_9_clk),
+        .Tile_X5Y5_RST_N_TT_PROJECT(tt_project_9_rst_n),
 
-        // TT_PROJECT 10 (X5Y7)
-        .Tile_X5Y7_UI_IN_TT_PROJECT0(tt_project_10_ui_in[0]),
-        .Tile_X5Y7_UI_IN_TT_PROJECT1(tt_project_10_ui_in[1]),
-        .Tile_X5Y7_UI_IN_TT_PROJECT2(tt_project_10_ui_in[2]),
-        .Tile_X5Y7_UI_IN_TT_PROJECT3(tt_project_10_ui_in[3]),
-        .Tile_X5Y7_UI_IN_TT_PROJECT4(tt_project_10_ui_in[4]),
-        .Tile_X5Y7_UI_IN_TT_PROJECT5(tt_project_10_ui_in[5]),
-        .Tile_X5Y7_UI_IN_TT_PROJECT6(tt_project_10_ui_in[6]),
-        .Tile_X5Y7_UI_IN_TT_PROJECT7(tt_project_10_ui_in[7]),
-        .Tile_X5Y7_UO_OUT_TT_PROJECT0(tt_project_10_uo_out[0]),
-        .Tile_X5Y7_UO_OUT_TT_PROJECT1(tt_project_10_uo_out[1]),
-        .Tile_X5Y7_UO_OUT_TT_PROJECT2(tt_project_10_uo_out[2]),
-        .Tile_X5Y7_UO_OUT_TT_PROJECT3(tt_project_10_uo_out[3]),
-        .Tile_X5Y7_UO_OUT_TT_PROJECT4(tt_project_10_uo_out[4]),
-        .Tile_X5Y7_UO_OUT_TT_PROJECT5(tt_project_10_uo_out[5]),
-        .Tile_X5Y7_UO_OUT_TT_PROJECT6(tt_project_10_uo_out[6]),
-        .Tile_X5Y7_UO_OUT_TT_PROJECT7(tt_project_10_uo_out[7]),
-        .Tile_X5Y7_UIO_IN_TT_PROJECT0(tt_project_10_uio_in[0]),
-        .Tile_X5Y7_UIO_IN_TT_PROJECT1(tt_project_10_uio_in[1]),
-        .Tile_X5Y7_UIO_IN_TT_PROJECT2(tt_project_10_uio_in[2]),
-        .Tile_X5Y7_UIO_IN_TT_PROJECT3(tt_project_10_uio_in[3]),
-        .Tile_X5Y7_UIO_IN_TT_PROJECT4(tt_project_10_uio_in[4]),
-        .Tile_X5Y7_UIO_IN_TT_PROJECT5(tt_project_10_uio_in[5]),
-        .Tile_X5Y7_UIO_IN_TT_PROJECT6(tt_project_10_uio_in[6]),
-        .Tile_X5Y7_UIO_IN_TT_PROJECT7(tt_project_10_uio_in[7]),
-        .Tile_X5Y7_UIO_OUT_TT_PROJECT0(tt_project_10_uio_out[0]),
-        .Tile_X5Y7_UIO_OUT_TT_PROJECT1(tt_project_10_uio_out[1]),
-        .Tile_X5Y7_UIO_OUT_TT_PROJECT2(tt_project_10_uio_out[2]),
-        .Tile_X5Y7_UIO_OUT_TT_PROJECT3(tt_project_10_uio_out[3]),
-        .Tile_X5Y7_UIO_OUT_TT_PROJECT4(tt_project_10_uio_out[4]),
-        .Tile_X5Y7_UIO_OUT_TT_PROJECT5(tt_project_10_uio_out[5]),
-        .Tile_X5Y7_UIO_OUT_TT_PROJECT6(tt_project_10_uio_out[6]),
-        .Tile_X5Y7_UIO_OUT_TT_PROJECT7(tt_project_10_uio_out[7]),
-        .Tile_X5Y7_UIO_OE_TT_PROJECT0(tt_project_10_uio_oe[0]),
-        .Tile_X5Y7_UIO_OE_TT_PROJECT1(tt_project_10_uio_oe[1]),
-        .Tile_X5Y7_UIO_OE_TT_PROJECT2(tt_project_10_uio_oe[2]),
-        .Tile_X5Y7_UIO_OE_TT_PROJECT3(tt_project_10_uio_oe[3]),
-        .Tile_X5Y7_UIO_OE_TT_PROJECT4(tt_project_10_uio_oe[4]),
-        .Tile_X5Y7_UIO_OE_TT_PROJECT5(tt_project_10_uio_oe[5]),
-        .Tile_X5Y7_UIO_OE_TT_PROJECT6(tt_project_10_uio_oe[6]),
-        .Tile_X5Y7_UIO_OE_TT_PROJECT7(tt_project_10_uio_oe[7]),
-        .Tile_X5Y7_ENA_TT_PROJECT(tt_project_10_ena),
-        .Tile_X5Y7_CLK_TT_PROJECT(tt_project_10_clk),
-        .Tile_X5Y7_RST_N_TT_PROJECT(tt_project_10_rst_n),
+        // TT_PROJECT 10 (X5Y6)
+        .Tile_X5Y6_UI_IN_TT_PROJECT0(tt_project_10_ui_in[0]),
+        .Tile_X5Y6_UI_IN_TT_PROJECT1(tt_project_10_ui_in[1]),
+        .Tile_X5Y6_UI_IN_TT_PROJECT2(tt_project_10_ui_in[2]),
+        .Tile_X5Y6_UI_IN_TT_PROJECT3(tt_project_10_ui_in[3]),
+        .Tile_X5Y6_UI_IN_TT_PROJECT4(tt_project_10_ui_in[4]),
+        .Tile_X5Y6_UI_IN_TT_PROJECT5(tt_project_10_ui_in[5]),
+        .Tile_X5Y6_UI_IN_TT_PROJECT6(tt_project_10_ui_in[6]),
+        .Tile_X5Y6_UI_IN_TT_PROJECT7(tt_project_10_ui_in[7]),
+        .Tile_X5Y6_UO_OUT_TT_PROJECT0(tt_project_10_uo_out[0]),
+        .Tile_X5Y6_UO_OUT_TT_PROJECT1(tt_project_10_uo_out[1]),
+        .Tile_X5Y6_UO_OUT_TT_PROJECT2(tt_project_10_uo_out[2]),
+        .Tile_X5Y6_UO_OUT_TT_PROJECT3(tt_project_10_uo_out[3]),
+        .Tile_X5Y6_UO_OUT_TT_PROJECT4(tt_project_10_uo_out[4]),
+        .Tile_X5Y6_UO_OUT_TT_PROJECT5(tt_project_10_uo_out[5]),
+        .Tile_X5Y6_UO_OUT_TT_PROJECT6(tt_project_10_uo_out[6]),
+        .Tile_X5Y6_UO_OUT_TT_PROJECT7(tt_project_10_uo_out[7]),
+        .Tile_X5Y6_UIO_IN_TT_PROJECT0(tt_project_10_uio_in[0]),
+        .Tile_X5Y6_UIO_IN_TT_PROJECT1(tt_project_10_uio_in[1]),
+        .Tile_X5Y6_UIO_IN_TT_PROJECT2(tt_project_10_uio_in[2]),
+        .Tile_X5Y6_UIO_IN_TT_PROJECT3(tt_project_10_uio_in[3]),
+        .Tile_X5Y6_UIO_IN_TT_PROJECT4(tt_project_10_uio_in[4]),
+        .Tile_X5Y6_UIO_IN_TT_PROJECT5(tt_project_10_uio_in[5]),
+        .Tile_X5Y6_UIO_IN_TT_PROJECT6(tt_project_10_uio_in[6]),
+        .Tile_X5Y6_UIO_IN_TT_PROJECT7(tt_project_10_uio_in[7]),
+        .Tile_X5Y6_UIO_OUT_TT_PROJECT0(tt_project_10_uio_out[0]),
+        .Tile_X5Y6_UIO_OUT_TT_PROJECT1(tt_project_10_uio_out[1]),
+        .Tile_X5Y6_UIO_OUT_TT_PROJECT2(tt_project_10_uio_out[2]),
+        .Tile_X5Y6_UIO_OUT_TT_PROJECT3(tt_project_10_uio_out[3]),
+        .Tile_X5Y6_UIO_OUT_TT_PROJECT4(tt_project_10_uio_out[4]),
+        .Tile_X5Y6_UIO_OUT_TT_PROJECT5(tt_project_10_uio_out[5]),
+        .Tile_X5Y6_UIO_OUT_TT_PROJECT6(tt_project_10_uio_out[6]),
+        .Tile_X5Y6_UIO_OUT_TT_PROJECT7(tt_project_10_uio_out[7]),
+        .Tile_X5Y6_UIO_OE_TT_PROJECT0(tt_project_10_uio_oe[0]),
+        .Tile_X5Y6_UIO_OE_TT_PROJECT1(tt_project_10_uio_oe[1]),
+        .Tile_X5Y6_UIO_OE_TT_PROJECT2(tt_project_10_uio_oe[2]),
+        .Tile_X5Y6_UIO_OE_TT_PROJECT3(tt_project_10_uio_oe[3]),
+        .Tile_X5Y6_UIO_OE_TT_PROJECT4(tt_project_10_uio_oe[4]),
+        .Tile_X5Y6_UIO_OE_TT_PROJECT5(tt_project_10_uio_oe[5]),
+        .Tile_X5Y6_UIO_OE_TT_PROJECT6(tt_project_10_uio_oe[6]),
+        .Tile_X5Y6_UIO_OE_TT_PROJECT7(tt_project_10_uio_oe[7]),
+        .Tile_X5Y6_ENA_TT_PROJECT(tt_project_10_ena),
+        .Tile_X5Y6_CLK_TT_PROJECT(tt_project_10_clk),
+        .Tile_X5Y6_RST_N_TT_PROJECT(tt_project_10_rst_n),
 
-        // TT_PROJECT 11 (X5Y8)
-        .Tile_X5Y8_UI_IN_TT_PROJECT0(tt_project_11_ui_in[0]),
-        .Tile_X5Y8_UI_IN_TT_PROJECT1(tt_project_11_ui_in[1]),
-        .Tile_X5Y8_UI_IN_TT_PROJECT2(tt_project_11_ui_in[2]),
-        .Tile_X5Y8_UI_IN_TT_PROJECT3(tt_project_11_ui_in[3]),
-        .Tile_X5Y8_UI_IN_TT_PROJECT4(tt_project_11_ui_in[4]),
-        .Tile_X5Y8_UI_IN_TT_PROJECT5(tt_project_11_ui_in[5]),
-        .Tile_X5Y8_UI_IN_TT_PROJECT6(tt_project_11_ui_in[6]),
-        .Tile_X5Y8_UI_IN_TT_PROJECT7(tt_project_11_ui_in[7]),
-        .Tile_X5Y8_UO_OUT_TT_PROJECT0(tt_project_11_uo_out[0]),
-        .Tile_X5Y8_UO_OUT_TT_PROJECT1(tt_project_11_uo_out[1]),
-        .Tile_X5Y8_UO_OUT_TT_PROJECT2(tt_project_11_uo_out[2]),
-        .Tile_X5Y8_UO_OUT_TT_PROJECT3(tt_project_11_uo_out[3]),
-        .Tile_X5Y8_UO_OUT_TT_PROJECT4(tt_project_11_uo_out[4]),
-        .Tile_X5Y8_UO_OUT_TT_PROJECT5(tt_project_11_uo_out[5]),
-        .Tile_X5Y8_UO_OUT_TT_PROJECT6(tt_project_11_uo_out[6]),
-        .Tile_X5Y8_UO_OUT_TT_PROJECT7(tt_project_11_uo_out[7]),
-        .Tile_X5Y8_UIO_IN_TT_PROJECT0(tt_project_11_uio_in[0]),
-        .Tile_X5Y8_UIO_IN_TT_PROJECT1(tt_project_11_uio_in[1]),
-        .Tile_X5Y8_UIO_IN_TT_PROJECT2(tt_project_11_uio_in[2]),
-        .Tile_X5Y8_UIO_IN_TT_PROJECT3(tt_project_11_uio_in[3]),
-        .Tile_X5Y8_UIO_IN_TT_PROJECT4(tt_project_11_uio_in[4]),
-        .Tile_X5Y8_UIO_IN_TT_PROJECT5(tt_project_11_uio_in[5]),
-        .Tile_X5Y8_UIO_IN_TT_PROJECT6(tt_project_11_uio_in[6]),
-        .Tile_X5Y8_UIO_IN_TT_PROJECT7(tt_project_11_uio_in[7]),
-        .Tile_X5Y8_UIO_OUT_TT_PROJECT0(tt_project_11_uio_out[0]),
-        .Tile_X5Y8_UIO_OUT_TT_PROJECT1(tt_project_11_uio_out[1]),
-        .Tile_X5Y8_UIO_OUT_TT_PROJECT2(tt_project_11_uio_out[2]),
-        .Tile_X5Y8_UIO_OUT_TT_PROJECT3(tt_project_11_uio_out[3]),
-        .Tile_X5Y8_UIO_OUT_TT_PROJECT4(tt_project_11_uio_out[4]),
-        .Tile_X5Y8_UIO_OUT_TT_PROJECT5(tt_project_11_uio_out[5]),
-        .Tile_X5Y8_UIO_OUT_TT_PROJECT6(tt_project_11_uio_out[6]),
-        .Tile_X5Y8_UIO_OUT_TT_PROJECT7(tt_project_11_uio_out[7]),
-        .Tile_X5Y8_UIO_OE_TT_PROJECT0(tt_project_11_uio_oe[0]),
-        .Tile_X5Y8_UIO_OE_TT_PROJECT1(tt_project_11_uio_oe[1]),
-        .Tile_X5Y8_UIO_OE_TT_PROJECT2(tt_project_11_uio_oe[2]),
-        .Tile_X5Y8_UIO_OE_TT_PROJECT3(tt_project_11_uio_oe[3]),
-        .Tile_X5Y8_UIO_OE_TT_PROJECT4(tt_project_11_uio_oe[4]),
-        .Tile_X5Y8_UIO_OE_TT_PROJECT5(tt_project_11_uio_oe[5]),
-        .Tile_X5Y8_UIO_OE_TT_PROJECT6(tt_project_11_uio_oe[6]),
-        .Tile_X5Y8_UIO_OE_TT_PROJECT7(tt_project_11_uio_oe[7]),
-        .Tile_X5Y8_ENA_TT_PROJECT(tt_project_11_ena),
-        .Tile_X5Y8_CLK_TT_PROJECT(tt_project_11_clk),
-        .Tile_X5Y8_RST_N_TT_PROJECT(tt_project_11_rst_n),
+        // TT_PROJECT 11 (X5Y7)
+        .Tile_X5Y7_UI_IN_TT_PROJECT0(tt_project_11_ui_in[0]),
+        .Tile_X5Y7_UI_IN_TT_PROJECT1(tt_project_11_ui_in[1]),
+        .Tile_X5Y7_UI_IN_TT_PROJECT2(tt_project_11_ui_in[2]),
+        .Tile_X5Y7_UI_IN_TT_PROJECT3(tt_project_11_ui_in[3]),
+        .Tile_X5Y7_UI_IN_TT_PROJECT4(tt_project_11_ui_in[4]),
+        .Tile_X5Y7_UI_IN_TT_PROJECT5(tt_project_11_ui_in[5]),
+        .Tile_X5Y7_UI_IN_TT_PROJECT6(tt_project_11_ui_in[6]),
+        .Tile_X5Y7_UI_IN_TT_PROJECT7(tt_project_11_ui_in[7]),
+        .Tile_X5Y7_UO_OUT_TT_PROJECT0(tt_project_11_uo_out[0]),
+        .Tile_X5Y7_UO_OUT_TT_PROJECT1(tt_project_11_uo_out[1]),
+        .Tile_X5Y7_UO_OUT_TT_PROJECT2(tt_project_11_uo_out[2]),
+        .Tile_X5Y7_UO_OUT_TT_PROJECT3(tt_project_11_uo_out[3]),
+        .Tile_X5Y7_UO_OUT_TT_PROJECT4(tt_project_11_uo_out[4]),
+        .Tile_X5Y7_UO_OUT_TT_PROJECT5(tt_project_11_uo_out[5]),
+        .Tile_X5Y7_UO_OUT_TT_PROJECT6(tt_project_11_uo_out[6]),
+        .Tile_X5Y7_UO_OUT_TT_PROJECT7(tt_project_11_uo_out[7]),
+        .Tile_X5Y7_UIO_IN_TT_PROJECT0(tt_project_11_uio_in[0]),
+        .Tile_X5Y7_UIO_IN_TT_PROJECT1(tt_project_11_uio_in[1]),
+        .Tile_X5Y7_UIO_IN_TT_PROJECT2(tt_project_11_uio_in[2]),
+        .Tile_X5Y7_UIO_IN_TT_PROJECT3(tt_project_11_uio_in[3]),
+        .Tile_X5Y7_UIO_IN_TT_PROJECT4(tt_project_11_uio_in[4]),
+        .Tile_X5Y7_UIO_IN_TT_PROJECT5(tt_project_11_uio_in[5]),
+        .Tile_X5Y7_UIO_IN_TT_PROJECT6(tt_project_11_uio_in[6]),
+        .Tile_X5Y7_UIO_IN_TT_PROJECT7(tt_project_11_uio_in[7]),
+        .Tile_X5Y7_UIO_OUT_TT_PROJECT0(tt_project_11_uio_out[0]),
+        .Tile_X5Y7_UIO_OUT_TT_PROJECT1(tt_project_11_uio_out[1]),
+        .Tile_X5Y7_UIO_OUT_TT_PROJECT2(tt_project_11_uio_out[2]),
+        .Tile_X5Y7_UIO_OUT_TT_PROJECT3(tt_project_11_uio_out[3]),
+        .Tile_X5Y7_UIO_OUT_TT_PROJECT4(tt_project_11_uio_out[4]),
+        .Tile_X5Y7_UIO_OUT_TT_PROJECT5(tt_project_11_uio_out[5]),
+        .Tile_X5Y7_UIO_OUT_TT_PROJECT6(tt_project_11_uio_out[6]),
+        .Tile_X5Y7_UIO_OUT_TT_PROJECT7(tt_project_11_uio_out[7]),
+        .Tile_X5Y7_UIO_OE_TT_PROJECT0(tt_project_11_uio_oe[0]),
+        .Tile_X5Y7_UIO_OE_TT_PROJECT1(tt_project_11_uio_oe[1]),
+        .Tile_X5Y7_UIO_OE_TT_PROJECT2(tt_project_11_uio_oe[2]),
+        .Tile_X5Y7_UIO_OE_TT_PROJECT3(tt_project_11_uio_oe[3]),
+        .Tile_X5Y7_UIO_OE_TT_PROJECT4(tt_project_11_uio_oe[4]),
+        .Tile_X5Y7_UIO_OE_TT_PROJECT5(tt_project_11_uio_oe[5]),
+        .Tile_X5Y7_UIO_OE_TT_PROJECT6(tt_project_11_uio_oe[6]),
+        .Tile_X5Y7_UIO_OE_TT_PROJECT7(tt_project_11_uio_oe[7]),
+        .Tile_X5Y7_ENA_TT_PROJECT(tt_project_11_ena),
+        .Tile_X5Y7_CLK_TT_PROJECT(tt_project_11_clk),
+        .Tile_X5Y7_RST_N_TT_PROJECT(tt_project_11_rst_n),
+
+        // TT_PROJECT 12 (X5Y8)
+        .Tile_X5Y8_UI_IN_TT_PROJECT0(tt_project_12_ui_in[0]),
+        .Tile_X5Y8_UI_IN_TT_PROJECT1(tt_project_12_ui_in[1]),
+        .Tile_X5Y8_UI_IN_TT_PROJECT2(tt_project_12_ui_in[2]),
+        .Tile_X5Y8_UI_IN_TT_PROJECT3(tt_project_12_ui_in[3]),
+        .Tile_X5Y8_UI_IN_TT_PROJECT4(tt_project_12_ui_in[4]),
+        .Tile_X5Y8_UI_IN_TT_PROJECT5(tt_project_12_ui_in[5]),
+        .Tile_X5Y8_UI_IN_TT_PROJECT6(tt_project_12_ui_in[6]),
+        .Tile_X5Y8_UI_IN_TT_PROJECT7(tt_project_12_ui_in[7]),
+        .Tile_X5Y8_UO_OUT_TT_PROJECT0(tt_project_12_uo_out[0]),
+        .Tile_X5Y8_UO_OUT_TT_PROJECT1(tt_project_12_uo_out[1]),
+        .Tile_X5Y8_UO_OUT_TT_PROJECT2(tt_project_12_uo_out[2]),
+        .Tile_X5Y8_UO_OUT_TT_PROJECT3(tt_project_12_uo_out[3]),
+        .Tile_X5Y8_UO_OUT_TT_PROJECT4(tt_project_12_uo_out[4]),
+        .Tile_X5Y8_UO_OUT_TT_PROJECT5(tt_project_12_uo_out[5]),
+        .Tile_X5Y8_UO_OUT_TT_PROJECT6(tt_project_12_uo_out[6]),
+        .Tile_X5Y8_UO_OUT_TT_PROJECT7(tt_project_12_uo_out[7]),
+        .Tile_X5Y8_UIO_IN_TT_PROJECT0(tt_project_12_uio_in[0]),
+        .Tile_X5Y8_UIO_IN_TT_PROJECT1(tt_project_12_uio_in[1]),
+        .Tile_X5Y8_UIO_IN_TT_PROJECT2(tt_project_12_uio_in[2]),
+        .Tile_X5Y8_UIO_IN_TT_PROJECT3(tt_project_12_uio_in[3]),
+        .Tile_X5Y8_UIO_IN_TT_PROJECT4(tt_project_12_uio_in[4]),
+        .Tile_X5Y8_UIO_IN_TT_PROJECT5(tt_project_12_uio_in[5]),
+        .Tile_X5Y8_UIO_IN_TT_PROJECT6(tt_project_12_uio_in[6]),
+        .Tile_X5Y8_UIO_IN_TT_PROJECT7(tt_project_12_uio_in[7]),
+        .Tile_X5Y8_UIO_OUT_TT_PROJECT0(tt_project_12_uio_out[0]),
+        .Tile_X5Y8_UIO_OUT_TT_PROJECT1(tt_project_12_uio_out[1]),
+        .Tile_X5Y8_UIO_OUT_TT_PROJECT2(tt_project_12_uio_out[2]),
+        .Tile_X5Y8_UIO_OUT_TT_PROJECT3(tt_project_12_uio_out[3]),
+        .Tile_X5Y8_UIO_OUT_TT_PROJECT4(tt_project_12_uio_out[4]),
+        .Tile_X5Y8_UIO_OUT_TT_PROJECT5(tt_project_12_uio_out[5]),
+        .Tile_X5Y8_UIO_OUT_TT_PROJECT6(tt_project_12_uio_out[6]),
+        .Tile_X5Y8_UIO_OUT_TT_PROJECT7(tt_project_12_uio_out[7]),
+        .Tile_X5Y8_UIO_OE_TT_PROJECT0(tt_project_12_uio_oe[0]),
+        .Tile_X5Y8_UIO_OE_TT_PROJECT1(tt_project_12_uio_oe[1]),
+        .Tile_X5Y8_UIO_OE_TT_PROJECT2(tt_project_12_uio_oe[2]),
+        .Tile_X5Y8_UIO_OE_TT_PROJECT3(tt_project_12_uio_oe[3]),
+        .Tile_X5Y8_UIO_OE_TT_PROJECT4(tt_project_12_uio_oe[4]),
+        .Tile_X5Y8_UIO_OE_TT_PROJECT5(tt_project_12_uio_oe[5]),
+        .Tile_X5Y8_UIO_OE_TT_PROJECT6(tt_project_12_uio_oe[6]),
+        .Tile_X5Y8_UIO_OE_TT_PROJECT7(tt_project_12_uio_oe[7]),
+        .Tile_X5Y8_ENA_TT_PROJECT(tt_project_12_ena),
+        .Tile_X5Y8_CLK_TT_PROJECT(tt_project_12_clk),
+        .Tile_X5Y8_RST_N_TT_PROJECT(tt_project_12_rst_n),
+
+        // TT_PROJECT 13 (X5Y9)
+        .Tile_X5Y9_UI_IN_TT_PROJECT0(tt_project_13_ui_in[0]),
+        .Tile_X5Y9_UI_IN_TT_PROJECT1(tt_project_13_ui_in[1]),
+        .Tile_X5Y9_UI_IN_TT_PROJECT2(tt_project_13_ui_in[2]),
+        .Tile_X5Y9_UI_IN_TT_PROJECT3(tt_project_13_ui_in[3]),
+        .Tile_X5Y9_UI_IN_TT_PROJECT4(tt_project_13_ui_in[4]),
+        .Tile_X5Y9_UI_IN_TT_PROJECT5(tt_project_13_ui_in[5]),
+        .Tile_X5Y9_UI_IN_TT_PROJECT6(tt_project_13_ui_in[6]),
+        .Tile_X5Y9_UI_IN_TT_PROJECT7(tt_project_13_ui_in[7]),
+        .Tile_X5Y9_UO_OUT_TT_PROJECT0(tt_project_13_uo_out[0]),
+        .Tile_X5Y9_UO_OUT_TT_PROJECT1(tt_project_13_uo_out[1]),
+        .Tile_X5Y9_UO_OUT_TT_PROJECT2(tt_project_13_uo_out[2]),
+        .Tile_X5Y9_UO_OUT_TT_PROJECT3(tt_project_13_uo_out[3]),
+        .Tile_X5Y9_UO_OUT_TT_PROJECT4(tt_project_13_uo_out[4]),
+        .Tile_X5Y9_UO_OUT_TT_PROJECT5(tt_project_13_uo_out[5]),
+        .Tile_X5Y9_UO_OUT_TT_PROJECT6(tt_project_13_uo_out[6]),
+        .Tile_X5Y9_UO_OUT_TT_PROJECT7(tt_project_13_uo_out[7]),
+        .Tile_X5Y9_UIO_IN_TT_PROJECT0(tt_project_13_uio_in[0]),
+        .Tile_X5Y9_UIO_IN_TT_PROJECT1(tt_project_13_uio_in[1]),
+        .Tile_X5Y9_UIO_IN_TT_PROJECT2(tt_project_13_uio_in[2]),
+        .Tile_X5Y9_UIO_IN_TT_PROJECT3(tt_project_13_uio_in[3]),
+        .Tile_X5Y9_UIO_IN_TT_PROJECT4(tt_project_13_uio_in[4]),
+        .Tile_X5Y9_UIO_IN_TT_PROJECT5(tt_project_13_uio_in[5]),
+        .Tile_X5Y9_UIO_IN_TT_PROJECT6(tt_project_13_uio_in[6]),
+        .Tile_X5Y9_UIO_IN_TT_PROJECT7(tt_project_13_uio_in[7]),
+        .Tile_X5Y9_UIO_OUT_TT_PROJECT0(tt_project_13_uio_out[0]),
+        .Tile_X5Y9_UIO_OUT_TT_PROJECT1(tt_project_13_uio_out[1]),
+        .Tile_X5Y9_UIO_OUT_TT_PROJECT2(tt_project_13_uio_out[2]),
+        .Tile_X5Y9_UIO_OUT_TT_PROJECT3(tt_project_13_uio_out[3]),
+        .Tile_X5Y9_UIO_OUT_TT_PROJECT4(tt_project_13_uio_out[4]),
+        .Tile_X5Y9_UIO_OUT_TT_PROJECT5(tt_project_13_uio_out[5]),
+        .Tile_X5Y9_UIO_OUT_TT_PROJECT6(tt_project_13_uio_out[6]),
+        .Tile_X5Y9_UIO_OUT_TT_PROJECT7(tt_project_13_uio_out[7]),
+        .Tile_X5Y9_UIO_OE_TT_PROJECT0(tt_project_13_uio_oe[0]),
+        .Tile_X5Y9_UIO_OE_TT_PROJECT1(tt_project_13_uio_oe[1]),
+        .Tile_X5Y9_UIO_OE_TT_PROJECT2(tt_project_13_uio_oe[2]),
+        .Tile_X5Y9_UIO_OE_TT_PROJECT3(tt_project_13_uio_oe[3]),
+        .Tile_X5Y9_UIO_OE_TT_PROJECT4(tt_project_13_uio_oe[4]),
+        .Tile_X5Y9_UIO_OE_TT_PROJECT5(tt_project_13_uio_oe[5]),
+        .Tile_X5Y9_UIO_OE_TT_PROJECT6(tt_project_13_uio_oe[6]),
+        .Tile_X5Y9_UIO_OE_TT_PROJECT7(tt_project_13_uio_oe[7]),
+        .Tile_X5Y9_ENA_TT_PROJECT(tt_project_13_ena),
+        .Tile_X5Y9_CLK_TT_PROJECT(tt_project_13_clk),
+        .Tile_X5Y9_RST_N_TT_PROJECT(tt_project_13_rst_n),
 
         // SRAM 0
         .Tile_X5Y2_DOUT_SRAM0(fabric_sram0_dout_i[0]),
@@ -1046,7 +1156,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_6_uio_oe)
     );
 
-    heichips25_fazyrv_exotiny heichips25_example_large_1 (
+    heichips25_example_small heichips25_example_small_6 (
         .clk        (tt_project_7_clk),
         .rst_n      (tt_project_7_rst_n),
         .ena        (tt_project_7_ena),
@@ -1057,7 +1167,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_7_uio_oe)
     );
 
-    heichips25_bagel heichips25_example_small_6 (
+    heichips25_fazyrv_exotiny heichips25_example_large_1 (
         .clk        (tt_project_8_clk),
         .rst_n      (tt_project_8_rst_n),
         .ena        (tt_project_8_ena),
@@ -1068,7 +1178,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_8_uio_oe)
     );
 
-    heichips25_usb_cdc heichips25_example_small_7 (
+    heichips25_bagel heichips25_example_small_7 (
         .clk        (tt_project_9_clk),
         .rst_n      (tt_project_9_rst_n),
         .ena        (tt_project_9_ena),
@@ -1076,18 +1186,10 @@ module fabric_wrapper #(
         .uio_in     (tt_project_9_uio_in),
         .uo_out     (tt_project_9_uo_out),
         .uio_out    (tt_project_9_uio_out),
-        .uio_oe     (tt_project_9_uio_oe),
-        
-        .usb_dn_en_o    (usb_dn_en_o),
-        .usb_dn_rx_i    (usb_dn_rx_i),
-        .usb_dn_tx_o    (usb_dn_tx_o),
-        .usb_dp_en_o    (usb_dp_en_o),
-        .usb_dp_rx_i    (usb_dp_rx_i),
-        .usb_dp_tx_o    (usb_dp_tx_o),
-        .usb_dp_up_o    (usb_dp_up_o)
+        .uio_oe     (tt_project_9_uio_oe)
     );
 
-    heichips25_example_small heichips25_example_small_8 (
+    heichips25_usb_cdc heichips25_example_small_8 (
         .clk        (tt_project_10_clk),
         .rst_n      (tt_project_10_rst_n),
         .ena        (tt_project_10_ena),
@@ -1095,7 +1197,15 @@ module fabric_wrapper #(
         .uio_in     (tt_project_10_uio_in),
         .uo_out     (tt_project_10_uo_out),
         .uio_out    (tt_project_10_uio_out),
-        .uio_oe     (tt_project_10_uio_oe)
+        .uio_oe     (tt_project_10_uio_oe),
+
+        .usb_dn_en_o    (usb_dn_en_o),
+        .usb_dn_rx_i    (usb_dn_rx_i),
+        .usb_dn_tx_o    (usb_dn_tx_o),
+        .usb_dp_en_o    (usb_dp_en_o),
+        .usb_dp_rx_i    (usb_dp_rx_i),
+        .usb_dp_tx_o    (usb_dp_tx_o),
+        .usb_dp_up_o    (usb_dp_up_o)
     );
 
     heichips25_example_small heichips25_example_small_9 (
@@ -1107,6 +1217,28 @@ module fabric_wrapper #(
         .uo_out     (tt_project_11_uo_out),
         .uio_out    (tt_project_11_uio_out),
         .uio_oe     (tt_project_11_uio_oe)
+    );
+
+    heichips25_example_small heichips25_example_small_10 (
+        .clk        (tt_project_12_clk),
+        .rst_n      (tt_project_12_rst_n),
+        .ena        (tt_project_12_ena),
+        .ui_in      (tt_project_12_ui_in),
+        .uio_in     (tt_project_12_uio_in),
+        .uo_out     (tt_project_12_uo_out),
+        .uio_out    (tt_project_12_uio_out),
+        .uio_oe     (tt_project_12_uio_oe)
+    );
+
+    heichips25_example_small heichips25_example_small_11 (
+        .clk        (tt_project_13_clk),
+        .rst_n      (tt_project_13_rst_n),
+        .ena        (tt_project_13_ena),
+        .ui_in      (tt_project_13_ui_in),
+        .uio_in     (tt_project_13_uio_in),
+        .uo_out     (tt_project_13_uo_out),
+        .uio_out    (tt_project_13_uio_out),
+        .uio_oe     (tt_project_13_uio_oe)
     );
 
     // SRAM 0 instances

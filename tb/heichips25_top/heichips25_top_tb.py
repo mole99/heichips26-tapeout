@@ -15,33 +15,6 @@ from cocotb_tools.runner import get_runner
 
 from cocotbext.spi import SpiBus, SpiConfig, SpiMaster
 
-parser = argparse.ArgumentParser()
-parser.add_argument('testcase', nargs="?", default="fpga_all_zeros")
-args = parser.parse_args()
-
-testcases = {
-    'fpga_all_zeros': {
-        'flash1_slot0': '../../../ip/fabric/user_designs/all_zeros/all_zeros.hex',
-        'flash1_slot1': '',
-        'connect_flash1': True,
-        'dump_waveforms': True,
-    },
-    'fpga_all_ones': {
-        'flash1_slot0': '',
-        'flash1_slot1': '',
-        'connect_flash1': False,
-        'dump_waveforms': False,
-    },
-    'fpga_counter_top': {
-        'flash1_slot0': '../../../ip/fabric/user_designs/counter_top/counter_top.hex',
-        'flash1_slot1': '',
-        'connect_flash1': True,
-        'dump_waveforms': True,
-    },
-}
-
-enabled = args.testcase
-
 if __name__ == "__main__":
 
     sim         = os.getenv("SIM", "icarus")
@@ -55,6 +28,34 @@ if __name__ == "__main__":
     includes = []
     verilog_sources = []
     defines = {}
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('testcase', nargs="?", default="test_fpga_all_zeros")
+    args = parser.parse_args()
+
+    testcases = {
+        'test_fpga_all_zeros': {
+            'flash1_slot0': '../../../ip/fabric/user_designs/all_zeros/all_zeros.hex',
+            'flash1_slot1': '',
+            'connect_flash1': True,
+            'dump_waveforms': True,
+        },
+        'test_fpga_all_ones': {
+            'flash1_slot0': '',
+            'flash1_slot1': '',
+            'connect_flash1': False,
+            'dump_waveforms': False,
+        },
+        'test_fpga_counter_top': {
+            'flash1_slot0': '../../../ip/fabric/user_designs/counter_top/counter_top.hex',
+            'flash1_slot1': '',
+            'connect_flash1': True,
+            'dump_waveforms': True,
+        },
+    }
+
+    enabled = args.testcase
+    testcase = testcases[enabled]
 
     if gl:
         # SCL models
@@ -190,8 +191,6 @@ if __name__ == "__main__":
 
     defines['USE_POWER_PINS'] = True
     
-    testcase = testcases[enabled]
-    
     if testcase["connect_flash1"]:
         defines['BITSTREAM_FLASH'] = True
     
@@ -230,6 +229,7 @@ if __name__ == "__main__":
         test_module="heichips25_top_tb,",
         plusargs=plusargs,
         waves=True,
+        test_filter=enabled
     )
 
 async def start_clock(clock, freq=50):
@@ -268,7 +268,7 @@ async def write_bitstream_spi(filename, spi_master):
 
             data = f.read(4)
 
-@cocotb.test(skip=enabled!="fpga_all_zeros")
+@cocotb.test()
 async def test_fpga_all_zeros(dut):
     """Run the all_zeros FPGA bitstream"""
 
@@ -289,7 +289,7 @@ async def test_fpga_all_zeros(dut):
     
     assert(dut.fpga_io_PAD.value == 0x00000000)
 
-@cocotb.test(skip=enabled!="fpga_all_ones")
+@cocotb.test()
 async def test_fpga_all_ones(dut):
     """Run the all_ones FPGA bitstream"""
 
@@ -330,7 +330,7 @@ async def test_fpga_all_ones(dut):
     assert(dut.fpga_config_busy_PAD.value == 0)
     assert(dut.fpga_io_PAD.value == 0xFFFFFFFF)
 
-@cocotb.test(skip=enabled!="fpga_counter_top")
+@cocotb.test()
 async def test_fpga_counter_top(dut):
     """Run the counter_top FPGA bitstream"""
 
