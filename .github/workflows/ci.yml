@@ -32,14 +32,6 @@ jobs:
     runs-on: ubuntu-24.04
     name: Build the Chip
     steps:
-      - name: Maximize build space
-        uses: AdityaGarg8/remove-unwanted-software@v5
-        with:
-          remove-dotnet: "true"
-          remove-android: "true"
-          remove-haskell: "true"
-          remove-codeql: "true"
-          remove-docker-images: "true"
       - uses: actions/checkout@v4
         with:
           submodules: 'true'
@@ -61,6 +53,10 @@ jobs:
         run: |
           export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           nix develop --command make clone-pdk
+      - name: Build the bitstreams
+        run: |
+          pip3 install fasm
+          cd ip/fabric/user_designs/; nix shell nixpkgs#{yosys,nextpnr} --command make build_all
       - name: Run RTL simulation
         run: |
           nix develop --command make sim
