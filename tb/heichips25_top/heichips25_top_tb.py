@@ -4,8 +4,10 @@
 import os
 import random
 import cocotb
+import argparse
 from pathlib import Path
 from cocotb.clock import Clock
+from cocotb.types import LogicArray
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer, Edge, RisingEdge, FallingEdge
 from cocotb.regression import TestFactory
@@ -13,154 +15,32 @@ from cocotb_tools.runner import get_runner
 
 from cocotbext.spi import SpiBus, SpiConfig, SpiMaster
 
-fpga_all_ones = {
-    'flash1_slot0': '',
-    'flash1_slot1': '',
-    'connect_flash1': False,
-    'dump_waveforms': False,
+parser = argparse.ArgumentParser()
+parser.add_argument('testcase', nargs="?", default="fpga_all_zeros")
+args = parser.parse_args()
+
+testcases = {
+    'fpga_all_zeros': {
+        'flash1_slot0': '../../../ip/fabric/user_designs/all_zeros/all_zeros.hex',
+        'flash1_slot1': '',
+        'connect_flash1': True,
+        'dump_waveforms': True,
+    },
+    'fpga_all_ones': {
+        'flash1_slot0': '',
+        'flash1_slot1': '',
+        'connect_flash1': False,
+        'dump_waveforms': False,
+    },
+    'fpga_counter_top': {
+        'flash1_slot0': '../../../ip/fabric/user_designs/counter_top/counter_top.hex',
+        'flash1_slot1': '',
+        'connect_flash1': True,
+        'dump_waveforms': True,
+    },
 }
 
-fpga_all_zeros = {
-    'flash1_slot0': '../../../ip/fabric/user_designs/all_zeros/all_zeros.hex',
-    'flash1_slot1': '',
-    'connect_flash1': True,
-    'dump_waveforms': True,
-}
-
-fpga_counter_top = {
-    'flash1_slot0': '../../../ip/fabric/user_designs/counter_top/counter_top.hex',
-    'flash1_slot1': '',
-    'connect_flash1': True,
-    'dump_waveforms': True,
-}
-
-enabled = fpga_all_ones
-
-async def start_clock(clock, freq=50):
-    """ Start the clock @ freq MHz """
-    c = Clock(clock, 1/freq*1000, 'ns')
-    await cocotb.start(c.start())
-
-async def reset(reset, active_low=True, time_ns=1000):
-    """ Reset dut """
-    cocotb.log.info("Reset asserted...")
-    
-    reset.value = not active_low
-    await Timer(time_ns, "ns")
-    reset.value = active_low
-    
-    cocotb.log.info("Reset deasserted.")
-
-async def start_up(dut):
-    """ Startup sequence """
-    await start_clock(dut.fpga_clk_PAD)
-    await reset(dut.fpga_rst_n_PAD)
-
-async def write_bitstream_spi(filename, spi_master):
-    with open(filename, 'br') as f:
-        data = f.read(4)
-        while data:
-            number = int.from_bytes(data, "big")
-            
-            number_bytes = []            
-            for _ in range(4):
-                number_bytes.append((number & 0xFF000000) >> 24)
-                number = number << 8
-            
-            print(f'Bitstream data: {number_bytes}')
-            await spi_master.write(number_bytes)
-
-            data = f.read(4)
-
-@cocotb.test(skip=enabled!=fpga_all_zeros)
-async def test_fpga_all_zeros(dut):
-    """Run the all_zeros FPGA bitstream"""
-
-    # Static setup
-    dut.fpga_mode_PAD.value = 0 # Configure FPGA as controller
-    dut.fpga_config_slot_PAD.value = 0
-    dut.fpga_config_trigger_PAD.value = 0
-
-    # Start up
-    await start_up(dut)
-    
-    print("Waiting for configuration to start.")
-    await RisingEdge(dut.fpga_config_busy_PAD)
-    print("Waiting for configuration to end.")
-    await FallingEdge(dut.fpga_config_busy_PAD)
-    
-    print("FPGA configured!")
-    
-    assert(dut.fpga_io_PAD.value == 0x00000000)
-
-@cocotb.test(skip=enabled!=fpga_all_ones)
-async def test_fpga_all_ones(dut):
-    """Run the all_ones FPGA bitstream"""
-
-    # Setup SPI
-    spi_bus = SpiBus.from_prefix(dut, "fpga", bus_separator="_", sclk_name="sclk_PAD", cs_name="cs_n_PAD", mosi_name='mosi_PAD', miso_name='miso_PAD')
-
-    spi_config = SpiConfig(
-        word_width = 8,
-        sclk_freq  = 10e6,
-        cpol       = False,
-        cpha       = True,
-        msb_first  = True,
-        frame_spacing_ns = 500
-    )
-
-    spi_master = SpiMaster(spi_bus, spi_config)
-
-    # Static setup
-    dut.fpga_mode_PAD.value = 1 # Configure FPGA as receiver
-    dut.fpga_config_slot_PAD.value = 0
-    dut.fpga_config_trigger_PAD.value = 0
-
-    # Start up
-    await start_up(dut)
-
-    print("Writing bitstream via SPI!")
-
-    # Configure FPGA via SPI
-    spi_coroutine = await cocotb.start(write_bitstream_spi('../../../ip/fabric/user_designs/all_ones/all_ones.bit', spi_master))
-
-    # Wait until FPGA is configured
-    await spi_coroutine
-    
-    print("FPGA configured!")
-    
-    await ClockCycles(dut.fpga_clk_PAD, 10)
-    
-    assert(dut.fpga_config_busy_PAD.value == 0)
-    assert(dut.fpga_io_PAD.value == 0xFFFFFFFF)
-
-@cocotb.test(skip=enabled!=fpga_counter_top)
-async def test_fpga_counter_top(dut):
-    """Run the counter_top FPGA bitstream"""
-
-    # Static setup
-    dut.fpga_mode_PAD.value = 0 # Configure FPGA as controller
-    dut.fpga_config_slot_PAD.value = 0
-    dut.fpga_config_trigger_PAD.value = 0
-
-    # Start up
-    await start_up(dut)
-    
-    print("Waiting for configuration to start.")
-    await RisingEdge(dut.fpga_config_busy_PAD)
-    print("Waiting for configuration to end.")
-    await FallingEdge(dut.fpga_config_busy_PAD)
-    
-    print("FPGA configured!")
-    
-    dut.fpga_io_PAD.value = 0x80000000 #1 # Assert design reset
-    await ClockCycles(dut.fpga_clk_PAD, 5)
-    dut.fpga_io_PAD.value = 0 # Deassert design reset
-    
-    MAX_CNT = 30
-    
-    await ClockCycles(dut.fpga_clk_PAD, MAX_CNT)
-    assert(dut.fpga_io_PAD.value == MAX_CNT-1)
+enabled = args.testcase
 
 if __name__ == "__main__":
 
@@ -310,10 +190,12 @@ if __name__ == "__main__":
 
     defines['USE_POWER_PINS'] = True
     
-    if enabled["connect_flash1"]:
+    testcase = testcases[enabled]
+    
+    if testcase["connect_flash1"]:
         defines['BITSTREAM_FLASH'] = True
     
-    if enabled["dump_waveforms"]:
+    if testcase["dump_waveforms"]:
         defines['DUMP_WAVEFORMS'] = True
     
     hdl_toplevel = "heichips25_top_tb"
@@ -337,8 +219,8 @@ if __name__ == "__main__":
     )
 
     plusargs = []
-    plusargs += [f'+flash1_slot0={enabled["flash1_slot0"]}']
-    plusargs += [f'+flash1_slot1={enabled["flash1_slot1"]}']
+    plusargs += [f'+flash1_slot0={testcase["flash1_slot0"]}']
+    plusargs += [f'+flash1_slot1={testcase["flash1_slot1"]}']
 
     if sim == 'icarus':
         plusargs += ['-fst']
@@ -349,3 +231,129 @@ if __name__ == "__main__":
         plusargs=plusargs,
         waves=True,
     )
+
+async def start_clock(clock, freq=50):
+    """ Start the clock @ freq MHz """
+    c = Clock(clock, 1/freq*1000, 'ns')
+    cocotb.start_soon(c.start())
+
+async def reset(reset, active_low=True, time_ns=1000):
+    """ Reset dut """
+    cocotb.log.info("Reset asserted...")
+    
+    reset.value = not active_low
+    await Timer(time_ns, "ns")
+    reset.value = active_low
+    
+    cocotb.log.info("Reset deasserted.")
+
+async def start_up(dut):
+    """ Startup sequence """
+    await start_clock(dut.fpga_clk_PAD)
+    await reset(dut.fpga_rst_n_PAD)
+
+async def write_bitstream_spi(filename, spi_master):
+    with open(filename, 'br') as f:
+        data = f.read(4)
+        while data:
+            number = int.from_bytes(data, "big")
+            
+            number_bytes = []            
+            for _ in range(4):
+                number_bytes.append((number & 0xFF000000) >> 24)
+                number = number << 8
+            
+            print(f'Bitstream data: {number_bytes}')
+            await spi_master.write(number_bytes)
+
+            data = f.read(4)
+
+@cocotb.test(skip=enabled!="fpga_all_zeros")
+async def test_fpga_all_zeros(dut):
+    """Run the all_zeros FPGA bitstream"""
+
+    # Static setup
+    dut.fpga_mode_PAD.value = 0 # Configure FPGA as controller
+    dut.fpga_config_slot_PAD.value = 0
+    dut.fpga_config_trigger_PAD.value = 0
+
+    # Start up
+    await start_up(dut)
+    
+    print("Waiting for configuration to start.")
+    await RisingEdge(dut.fpga_config_busy_PAD)
+    print("Waiting for configuration to end.")
+    await FallingEdge(dut.fpga_config_busy_PAD)
+    
+    print("FPGA configured!")
+    
+    assert(dut.fpga_io_PAD.value == 0x00000000)
+
+@cocotb.test(skip=enabled!="fpga_all_ones")
+async def test_fpga_all_ones(dut):
+    """Run the all_ones FPGA bitstream"""
+
+    # Setup SPI
+    spi_bus = SpiBus.from_prefix(dut, "fpga", bus_separator="_", sclk_name="sclk_PAD", cs_name="cs_n_PAD", mosi_name='mosi_PAD', miso_name='miso_PAD')
+
+    spi_config = SpiConfig(
+        word_width = 8,
+        sclk_freq  = 10e6,
+        cpol       = False,
+        cpha       = True,
+        msb_first  = True,
+        frame_spacing_ns = 500
+    )
+
+    spi_master = SpiMaster(spi_bus, spi_config)
+
+    # Static setup
+    dut.fpga_mode_PAD.value = 1 # Configure FPGA as receiver
+    dut.fpga_config_slot_PAD.value = 0
+    dut.fpga_config_trigger_PAD.value = 0
+
+    # Start up
+    await start_up(dut)
+
+    print("Writing bitstream via SPI!")
+
+    # Configure FPGA via SPI
+    spi_coroutine = cocotb.start_soon(write_bitstream_spi('../../../ip/fabric/user_designs/all_ones/all_ones.bit', spi_master))
+
+    # Wait until FPGA is configured
+    await spi_coroutine
+    
+    print("FPGA configured!")
+    
+    await ClockCycles(dut.fpga_clk_PAD, 10)
+    
+    assert(dut.fpga_config_busy_PAD.value == 0)
+    assert(dut.fpga_io_PAD.value == 0xFFFFFFFF)
+
+@cocotb.test(skip=enabled!="fpga_counter_top")
+async def test_fpga_counter_top(dut):
+    """Run the counter_top FPGA bitstream"""
+
+    # Static setup
+    dut.fpga_mode_PAD.value = 0 # Configure FPGA as controller
+    dut.fpga_config_slot_PAD.value = 0
+    dut.fpga_config_trigger_PAD.value = 0
+
+    # Start up
+    await start_up(dut)
+    
+    print("Waiting for configuration to start.")
+    await RisingEdge(dut.fpga_config_busy_PAD)
+    print("Waiting for configuration to end.")
+    await FallingEdge(dut.fpga_config_busy_PAD)
+    
+    print("FPGA configured!")
+    
+    dut.fpga_io_PAD.value = LogicArray("1" + "Z"*31) # Assert design reset
+    await ClockCycles(dut.fpga_clk_PAD, 5)
+    dut.fpga_io_PAD.value = LogicArray("0" + "Z"*31) # Deassert design reset
+    
+    MAX_CNT = 30
+    
+    await ClockCycles(dut.fpga_clk_PAD, MAX_CNT)
+    assert(dut.fpga_io_PAD.value == MAX_CNT-1)
