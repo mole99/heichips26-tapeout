@@ -22,7 +22,7 @@ The chip includes several user submitted designs from the HeiChips 2025 Hackatho
 
 - [FABulous](https://github.com/FPGA-Research/FABulous) eFPGA
   - 32x I/Os
-  - 256x LUT4 + FF
+  - 288x LUT4 + FF
     - w. carry chain
   - 1x SRAM
     - 4 KiB memory: 32 bit wide, 10 bit deep (1024 entries)
@@ -31,20 +31,22 @@ The chip includes several user submitted designs from the HeiChips 2025 Hackatho
 
 The following user projects are included:
 
-| Project | Size | Location | Description |
-|---------------|---------------|---------------|---------------|
-| heichips25_snitch_wrapper | Large | X0Y2          |               |
-| heichips25_CORDIC | Small | X0Y3          |               |
-| heichips25_sap3 | Small | X0Y4          |               |
-| heichips25_top_sorter | Small | X0Y5          |               |
-| heichips25_systolicArrayTop | Small | X0Y6          |               |
-|               |               | X0Y7          |               |
-|               |               | X0Y8          |               |
-| heichips25_fazyrv_exotiny | Large | X5Y4          |               |
-| heichips25_bagel | Small | X5Y5          |               |
-| heichips25_usb_cdc | Small | X5Y6          |               |
-|               |               | X5Y7          |               |
-|               |               | X5Y8          |               |
+| Project | Size | Location | Description | Link |
+|---------------|---------------|---------------|---------------|------|
+| heichips25_snitch_wrapper | Large | X0Y2          | Snitch RISC‑V (RV32) integer core implemented with LibreLane on IHP SG13G2 (130 nm). | [Link](https://github.com/HeiChips/heichips_25_snitch_core) |
+| heichips25_CORDIC | Small | X0Y3          | Waveform + Tone Generation using CORDIC Algorithm. | [Link](https://github.com/HeiChips/heichips25_CORDIC) |
+| heichips25_sap3 | Small | X0Y4          | SAP-3 (Simple-As-Possible Computer). | [Link](https://github.com/HeiChips/heiChips2025_sap3_and_sorter) |
+| heichips25_top_sorter | Small | X0Y5          | A top N sorter (either sorting or finding top N elements) of 28 8-bit numbers at 143 MHz. | [Link](https://github.com/HeiChips/heiChips2025_sap3_and_sorter) |
+| heichips25_systolicArrayTop | Small | X0Y6          | Computes the product of two 4x4 matrices. Each input matrix element is a 4-bit unsigned integer. | [Link](https://github.com/HeiChips/heichips25_systolicArray4x4) |
+|               |               | X0Y7          |               | [Link]() |
+|               |               | X0Y8          |               | [Link]() |
+|               |               | X0Y9          |               | [Link]() |
+| heichips25_fazyrv_exotiny | Large | X5Y4          | FazyRV ExoTiny CCX implements an minimal-area SoC with custom instruction interface based on the FazyRV RISC-V core. | [Link](https://github.com/HeiChips/heichips25-fazyrv-exotiny) |
+| heichips25_bagel | Small | X5Y5          |  bAG O' Life (bAsic Game Of Life) with HDMI output (125 MHz clock, DDR). | [Link](https://github.com/HeiChips/heichips25_bagel) |
+| heichips25_usb_cdc | Small | X5Y6          | A USB CDC core taken from https://github.com/ulixxe/usb_cdc. USB_CDC is a Verilog implementation of the Full Speed (12Mbit/s) USB communications device class (or USB CDC class). It implements the Abstract Control Model (ACM) subclass. | [Link](https://github.com/HeiChips/heichips25-usb_cdc) |
+|               |               | X5Y7          |               | [Link]() |
+|               |               | X5Y8          |               | [Link]() |
+|               |               | X5Y9          |               | [Link]() |
 
 ## Configuration of the FPGA Fabric
 
