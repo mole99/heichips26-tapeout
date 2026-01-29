@@ -26,19 +26,19 @@ all: librelane ## Build the project (runs LibreLane)
 .PHONY: all
 
 librelane: $(PDK_ROOT)/$(PDK) ## Run LibreLane flow (synthesis, PnR, verification)
-	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/
 .PHONY: librelane
 
 librelane-nodrc: $(PDK_ROOT)/$(PDK) ## Run LibreLane flow without DRC checks
-	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --skip KLayout.DRC --skip Magic.DRC --skip KLayout.Density --skip KLayout.Filler 
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --skip KLayout.DRC --skip Magic.DRC --skip KLayout.Density --skip KLayout.Filler 
 .PHONY: librelane-nodrc
 
 librelane-openroad: $(PDK_ROOT)/$(PDK) ## Open the last run in OpenROAD
-	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --last-run --flow OpenInOpenROAD
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --last-run --flow OpenInOpenROAD
 .PHONY: librelane-openroad
 
 librelane-klayout: $(PDK_ROOT)/$(PDK) ## Open the last run in KLayout
-	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --last-run --flow OpenInKLayout
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --last-run --flow OpenInKLayout
 .PHONY: librelane-klayout
 
 sim: ## Run RTL simulation with cocotb
@@ -63,12 +63,8 @@ sim-view: ## View simulation waveforms in GTKWave
 	gtkwave tb/heichips25_top/sim_build/heichips25_top_tb.fst
 .PHONY: sim-view
 
-copy-final: ## Copy final output files from the last run
-	rm -rf final/
-	cp -r librelane/runs/${RUN_TAG}/final/ final/
-.PHONY: copy-final
-
-create-image:
-	PDK_ROOT=$(PDK_ROOT) PDK=$(PDK) klayout -z -r scripts/klayout_image.py -rd input_gds=final/gds/${TOP}.gds.gz -rd output_image=img/${TOP}.png
-	convert img/${TOP}.png -resize 25% img/${TOP}_small.png
-.PHONY: create-image
+render-image:
+	PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 scripts/lay2img.py final/gds/${TOP}.gds img/${TOP}.png --width 2048 --oversampling 4
+	magick img/${TOP}_white.png -resize 25% img/${TOP}_white_small.png
+	magick img/${TOP}_black.png -resize 25% img/${TOP}_black_small.png
+.PHONY: render-image

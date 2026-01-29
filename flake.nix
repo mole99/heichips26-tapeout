@@ -76,6 +76,9 @@
               # Waveform viewing
               gtkwave
               surfer
+  
+              # Image scaling
+              imagemagick
             ];
 
             extra-python-packages = with pkgs.python3.pkgs; [

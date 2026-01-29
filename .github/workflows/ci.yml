@@ -64,7 +64,7 @@ jobs:
         if: success() || failure()
         run: |
           nix develop --command make librelane-nodrc
-          make copy-final
+          nix develop --command make render-image
       - name: Create summary
         if: success() || failure()
         run: |
@@ -76,6 +76,15 @@ jobs:
         with:
           name: final_gds
           path: final/gds/*
+      - name: Upload image
+        uses: actions/upload-artifact@v4
+        with:
+          name: greyhound_image
+          path: |
+            img/heichips25_top_white.png
+            img/heichips25_top_white_small.png
+            img/heichips25_top_black.png
+            img/heichips25_top_black_small.png
       - name: Run GL simulation
         if: success() || failure()
         run: |
