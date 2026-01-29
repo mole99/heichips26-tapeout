@@ -36,13 +36,19 @@ module heichips25_core (
     output wire [32-1:0] fabric_io_out_o,
     output wire [32-1:0] fabric_io_oe_o,
     
+    // User I/O
     output usb_dn_en_o,
     input  usb_dn_rx_i,
     output usb_dn_tx_o,
     output usb_dp_en_o,
     input  usb_dp_rx_i,
     output usb_dp_tx_o,
-    output usb_dp_up_o
+    output usb_dp_up_o,
+
+    output tmds_b,
+    output tmds_g,
+    output tmds_r,
+    output tmds_clk
 );
     
     // Fabric parameters
@@ -329,7 +335,12 @@ module heichips25_core (
         .usb_dp_en_o    (usb_dp_en_o),
         .usb_dp_rx_i    (usb_dp_rx_i),
         .usb_dp_tx_o    (usb_dp_tx_o),
-        .usb_dp_up_o    (usb_dp_up_o)
+        .usb_dp_up_o    (usb_dp_up_o),
+        
+        .tmds_b         (tmds_b),
+        .tmds_g         (tmds_g),
+        .tmds_r         (tmds_r),
+        .tmds_clk       (tmds_clk)
     );
     
     //$assert(fabric_wrapper.FrameBitsPerRow ...)

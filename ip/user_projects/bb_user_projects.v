@@ -21,7 +21,12 @@ module heichips25_bagel (
     output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
     input  wire       ena,      // always 1 when the design is powered, so you can ignore it
     input  wire       clk,      // clock
-    input  wire       rst_n     // reset_n - low to reset
+    input  wire       rst_n,    // reset_n - low to reset
+    // Dedicated pins for DVI
+    output wire tmds_b,
+    output wire tmds_g,
+    output wire tmds_r,
+    output wire tmds_clk
 );
     assign uo_out = '0;
     assign uio_out = '0;

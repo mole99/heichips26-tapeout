@@ -29,13 +29,19 @@ module fabric_wrapper #(
     output [FABRIC_NUM_IO_SOUTH-1:0]      io_south_out_o,
     output [FABRIC_NUM_IO_SOUTH-1:0]      io_south_oe_o,
     
+    // User I/O
     output usb_dn_en_o,
     input  usb_dn_rx_i,
     output usb_dn_tx_o,
     output usb_dp_en_o,
     input  usb_dp_rx_i,
     output usb_dp_tx_o,
-    output usb_dp_up_o
+    output usb_dp_up_o,
+    
+    output tmds_b,
+    output tmds_g,
+    output tmds_r,
+    output tmds_clk
 );
     
     // TT_PROJECT 0 (X0Y2)
@@ -1186,7 +1192,12 @@ module fabric_wrapper #(
         .uio_in     (tt_project_9_uio_in),
         .uo_out     (tt_project_9_uo_out),
         .uio_out    (tt_project_9_uio_out),
-        .uio_oe     (tt_project_9_uio_oe)
+        .uio_oe     (tt_project_9_uio_oe),
+        
+        .tmds_b     (tmds_b),
+        .tmds_g     (tmds_g),
+        .tmds_r     (tmds_r),
+        .tmds_clk   (tmds_clk)
     );
 
     heichips25_usb_cdc heichips25_example_small_8 (

@@ -47,6 +47,9 @@ SYNTH_HIERARCHY_MODE: keep
 PRIMARY_GDSII_STREAMOUT_TOOL: klayout
 
 PAD_SOUTH: [
+    "iovdd_pads\\[0\\].iovdd_pad",
+    "iovss_pads\\[0\\].iovss_pad",
+
     "fpga_ios\\[16\\].fpga_io",
     "fpga_ios\\[17\\].fpga_io",
     "fpga_ios\\[18\\].fpga_io",
@@ -62,15 +65,18 @@ PAD_SOUTH: [
     "fpga_ios\\[28\\].fpga_io",
     "fpga_ios\\[29\\].fpga_io",
     "fpga_ios\\[30\\].fpga_io",
-    "fpga_ios\\[31\\].fpga_io"
+    "fpga_ios\\[31\\].fpga_io",
+    
+    "vdd_pads\\[0\\].vdd_pad",
+    "vss_pads\\[0\\].vss_pad"
 ]
 
 PAD_EAST: [
-    "iovdd_pads\\[0\\].iovdd_pad",
-    "iovss_pads\\[0\\].iovss_pad",
+    "iovdd_pads\\[1\\].iovdd_pad",
+    "iovss_pads\\[1\\].iovss_pad",
         
-    sg13g2_IOPadOut30mA_fpga_config_busy,
-    sg13g2_IOPadOut30mA_fpga_config_configured,
+    fpga_config_busy,
+    fpga_config_configured,
     
     "analogs\\[0\\].analog",
     "analogs\\[1\\].analog",
@@ -83,11 +89,23 @@ PAD_EAST: [
     "analogs\\[8\\].analog",
     "analogs\\[9\\].analog",
 
-    "vdd_pads\\[0\\].vdd_pad",
-    "vss_pads\\[0\\].vss_pad"
+    user_usb_dn,
+    user_usb_dp,
+    user_usb_dp_up,
+    
+    user_tmds_b,
+    user_tmds_g,
+    user_tmds_r,
+    user_tmds_clk,
+
+    "vdd_pads\\[1\\].vdd_pad",
+    "vss_pads\\[1\\].vss_pad"
 ]
 
 PAD_NORTH: [
+    "iovdd_pads\\[2\\].iovdd_pad",
+    "iovss_pads\\[2\\].iovss_pad",
+
     "fpga_ios\\[0\\].fpga_io",
     "fpga_ios\\[1\\].fpga_io",
     "fpga_ios\\[2\\].fpga_io",
@@ -103,12 +121,15 @@ PAD_NORTH: [
     "fpga_ios\\[12\\].fpga_io",
     "fpga_ios\\[13\\].fpga_io",
     "fpga_ios\\[14\\].fpga_io",
-    "fpga_ios\\[15\\].fpga_io"
+    "fpga_ios\\[15\\].fpga_io",
+
+    "vdd_pads\\[2\\].vdd_pad",
+    "vss_pads\\[2\\].vss_pad"
 ]
 
 PAD_WEST: [
-    "vdd_pads\\[1\\].vdd_pad",
-    "vss_pads\\[1\\].vss_pad",
+    "vdd_pads\\[3\\].vdd_pad",
+    "vss_pads\\[3\\].vss_pad",
 
     fpga_clk,
     fpga_rst_n,
@@ -126,8 +147,8 @@ PAD_WEST: [
     "fpga_config_slot\\[3\\].fpga_config_slot",
     fpga_config_trigger,
     
-    "iovdd_pads\\[1\\].iovdd_pad",
-    "iovss_pads\\[1\\].iovss_pad"
+    "iovdd_pads\\[3\\].iovdd_pad",
+    "iovss_pads\\[3\\].iovss_pad"
 ]
 
 PNR_SDC_FILE: dir::chip_top.sdc
@@ -220,7 +241,7 @@ MACROS:
       heichips25_core/fabric_wrapper/eFPGA:
         # X should be multiple of 0.48 (Metal2 pitch)
         # Y should be multiple of 0.42 (Metal3 pitch)
-        location: [974.88, 381.36]
+        location: [974.88, expr::(381.36 + 95.00)]
         orientation: N
   RM_IHPSG13_1P_512x32_c2_bm_bist:
     gds:
@@ -239,10 +260,10 @@ MACROS:
         - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_slow_1p08V_125C.lib
     instances:
       heichips25_core/fabric_wrapper/sram0_0:
-        location: [2150, 1965]
+        location: [2150, expr::(1965 + 95.00)]
         orientation: S
       heichips25_core/fabric_wrapper/sram0_1:
-        location: [2150, 2235]
+        location: [2150, expr::(2235 + 95.00)]
         orientation: N
   heichips25_example_small:
     gds:
@@ -268,13 +289,13 @@ MACROS:
       #  location: [390, 1110]
       #  orientation: FN
       heichips25_core/fabric_wrapper/heichips25_example_small_4:
-        location: [390, 895]
+        location: [390, expr::(895 + 95.00)]
         orientation: FN
       heichips25_core/fabric_wrapper/heichips25_example_small_5:
-        location: [390, 680]
+        location: [390, expr::(680 + 95.00)]
         orientation: FN
       heichips25_core/fabric_wrapper/heichips25_example_small_6:
-        location: [390, 465]
+        location: [390, expr::(465 + 95.00)]
         orientation: FN
 
       #heichips25_core/fabric_wrapper/heichips25_example_small_7:
@@ -284,13 +305,13 @@ MACROS:
       #  location: [2109, 1110]
       #  orientation: N
       heichips25_core/fabric_wrapper/heichips25_example_small_9:
-        location: [2109, 895]
+        location: [2109, expr::(895 + 95.00)]
         orientation: N
       heichips25_core/fabric_wrapper/heichips25_example_small_10:
-        location: [2109, 680]
+        location: [2109, expr::(680 + 95.00)]
         orientation: N
       heichips25_core/fabric_wrapper/heichips25_example_small_11:
-        location: [2109, 465]
+        location: [2109, expr::(465 + 95.00)]
         orientation: N
 
 
@@ -324,7 +345,7 @@ MACROS:
         - dir::../ip/user_projects/heichips_25_snitch_core/macro/spef/nom/heichips25_snitch_wrapper.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_large_0:
-        location: [390, 1970]
+        location: [390, expr::(1970 + 95.00)]
         orientation: FN
       #heichips25_core/fabric_wrapper/heichips25_example_large_1:
       #  location: [2109, 1325]
@@ -342,7 +363,7 @@ MACROS:
         - dir::../ip/user_projects/heichips25-fazyrv-exotiny/macro/spef/nom/heichips25_fazyrv_exotiny.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_large_1:
-        location: [2109, 1540]
+        location: [2109, expr::(1540 + 95.00)]
         orientation: N
 
   heichips25_CORDIC:
@@ -357,7 +378,7 @@ MACROS:
         - dir::../ip/user_projects/heichips25_CORDIC/macro/spef/nom/heichips25_CORDIC.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_0:
-        location: [390, 1755]
+        location: [390, expr::(1755 + 95.00)]
         orientation: FN
 
   heichips25_sap3:
@@ -372,7 +393,7 @@ MACROS:
         - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/spef/nom/heichips25_sap3.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_1:
-        location: [390, 1540]
+        location: [390, expr::(1540 + 95.00)]
         orientation: FN
 
   heichips25_top_sorter:
@@ -387,7 +408,7 @@ MACROS:
         - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_top_sorter/macro/spef/nom/heichips25_top_sorter.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_2:
-        location: [390, 1325]
+        location: [390, expr::(1325 + 95.00)]
         orientation: FN
 
   heichips25_systolicArrayTop:
@@ -402,7 +423,7 @@ MACROS:
         - dir::../ip/user_projects/heichips25_systolicArray4x4/macro/spef/nom/heichips25_systolicArrayTop.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_3:
-        location: [390, 1110]
+        location: [390, expr::(1110 + 95.00)]
         orientation: FN
 
   heichips25_bagel:
@@ -417,7 +438,7 @@ MACROS:
         - dir::../ip/user_projects/heichips25_bagel/macro/spef/nom/heichips25_bagel.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_7:
-        location: [2109, 1325]
+        location: [2109, expr::(1325 + 95.00)]
         orientation: N
 
   heichips25_usb_cdc:
@@ -432,35 +453,49 @@ MACROS:
         - dir::../ip/user_projects/heichips25-usb_cdc/macro/spef/nom/heichips25_usb_cdc.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_8:
-        location: [2109, 1110]
+        location: [2109, expr::(1110 + 95.00)]
         orientation: N
 
 PDN_OBSTRUCTIONS:
  # Left
- - [TopMetal1,  390, 1755,  888, 2170] # heichips25_example_large_0
- - [TopMetal1,  390, 1540,  888, 1740] # heichips25_example_small_0
- - [TopMetal1,  390, 1325,  888, 1525] # heichips25_example_small_1
- - [TopMetal1,  390, 1110,  888, 1310] # heichips25_example_small_2
- - [TopMetal1,  390, 895,   888, 1095] # heichips25_example_small_3
+ - [TopMetal1,  390, expr::(1970 + 95.00),  888, expr::(2385 + 95.00)] # heichips25_example_large_0
+ - [TopMetal1,  390, expr::(1755 + 95.00),  888, expr::(1955 + 95.00)] # heichips25_example_small_0
+ - [TopMetal1,  390, expr::(1540 + 95.00),  888, expr::(1740 + 95.00)] # heichips25_example_small_1
+ - [TopMetal1,  390, expr::(1325 + 95.00),  888, expr::(1525 + 95.00)] # heichips25_example_small_2
+ - [TopMetal1,  390, expr::(1110 + 95.00),  888, expr::(1310 + 95.00)] # heichips25_example_small_3
+ - [TopMetal1,  390, expr::( 895 + 95.00),  888, expr::(1095 + 95.00)] # heichips25_example_small_3
+ - [TopMetal1,  390, expr::( 680 + 95.00),  888, expr::( 880 + 95.00)] # heichips25_example_small_3
+ - [TopMetal1,  390, expr::( 465 + 95.00),  888, expr::( 665 + 95.00)] # heichips25_example_small_3
   
  # Right
- - [TopMetal1, 2109, 1325, 2609, 1740] # heichips25_example_large_1
- - [TopMetal2, 2517, 1333, 2572, 1385] # heichips25_example_large_1 logo window
- - [TopMetal1, 2109, 1110, 2609, 1310] # heichips25_example_small_6
- - [TopMetal1, 2109,  895, 2609, 1095] # heichips25_example_small_7
+ - [TopMetal1, 2109, expr::(1540 + 95.00), 2609, expr::(1955 + 95.00)] # heichips25_example_large_1
+ - [TopMetal2, 2517, expr::(1548 + 95.00), 2572, expr::(1600 + 95.00)] # heichips25_example_large_1 logo window
+ - [TopMetal1, 2109, expr::(1325 + 95.00), 2609, expr::(1525 + 95.00)] # heichips25_example_small_7
+ - [TopMetal1, 2109, expr::(1110 + 95.00), 2609, expr::(1310 + 95.00)] # heichips25_example_small_8
+ - [TopMetal1, 2109, expr::( 895 + 95.00), 2609, expr::(1095 + 95.00)] # heichips25_example_small_9
+ - [TopMetal1, 2109, expr::( 680 + 95.00), 2609, expr::( 880 + 95.00)] # heichips25_example_small_10
+ - [TopMetal1, 2109, expr::( 465 + 95.00), 2609, expr::( 665 + 95.00)] # heichips25_example_small_11
+ 
  
 ROUTING_OBSTRUCTIONS:
  # Left
- - [TopMetal1,  390, 1755,  888, 2170] # heichips25_example_large_0
- - [TopMetal1,  390, 1540,  888, 1740] # heichips25_example_small_0
- - [TopMetal1,  390, 1325,  888, 1525] # heichips25_example_small_1
- - [TopMetal1,  390, 1110,  888, 1310] # heichips25_example_small_2
- 
+ - [TopMetal1,  390, 1970,  888, 2385] # heichips25_example_large_0
+ - [TopMetal1,  390, 1755,  888, 1955] # heichips25_example_small_0
+ - [TopMetal1,  390, 1540,  888, 1740] # heichips25_example_small_1
+ - [TopMetal1,  390, 1325,  888, 1525] # heichips25_example_small_2
+ - [TopMetal1,  390, 1110,  888, 1310] # heichips25_example_small_3
+ - [TopMetal1,  390, 895,   888, 1095] # heichips25_example_small_3
+ - [TopMetal1,  390, 680,   888,  880] # heichips25_example_small_3
+ - [TopMetal1,  390, 465,   888,  665] # heichips25_example_small_3
+  
  # Right
- - [TopMetal1, 2109, 1325, 2609, 1740] # heichips25_example_large_1
- - [TopMetal2, 2517, 1333, 2572, 1385] # heichips25_example_large_1 logo window
- - [TopMetal1, 2109, 1110, 2609, 1310] # heichips25_example_small_6
- - [TopMetal1, 2109,  895, 2609, 1095] # heichips25_example_small_7
+ - [TopMetal1, 2109, 1540, 2609, 1955] # heichips25_example_large_1
+ - [TopMetal2, 2517, 1548, 2572, 1600] # heichips25_example_large_1 logo window
+ - [TopMetal1, 2109, 1325, 2609, 1525] # heichips25_example_small_7
+ - [TopMetal1, 2109, 1110, 2609, 1310] # heichips25_example_small_8
+ - [TopMetal1, 2109, 895,  2609, 1095] # heichips25_example_small_9
+ - [TopMetal1, 2109, 680,  2609,  880] # heichips25_example_small_10
+ - [TopMetal1, 2109, 465,  2609,  665] # heichips25_example_small_11
  
 # TODO update pdn config
 PDN_MACRO_CONNECTIONS:

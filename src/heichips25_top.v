@@ -3,12 +3,12 @@
 
 module heichips25_top #(
     // Power/ground pads for core
-    parameter NUM_VDD_PADS = 2,
-    parameter NUM_VSS_PADS = 2,
+    parameter NUM_VDD_PADS = 4,
+    parameter NUM_VSS_PADS = 4,
     
     // Power/ground pads for I/O
-    parameter NUM_IOVDD_PADS = 2,
-    parameter NUM_IOVSS_PADS = 2
+    parameter NUM_IOVDD_PADS = 4,
+    parameter NUM_IOVSS_PADS = 4
     )(
     `ifdef USE_POWER_PINS
     inout wire VDD,
@@ -33,7 +33,17 @@ module heichips25_top #(
 
     inout  wire [31:0]  fpga_io_PAD,
     
-    inout  wire [9:0]   analog_PAD
+    inout  wire [9:0]   analog_PAD,
+    
+    // User I/Os
+    inout  wire         user_usb_dn_PAD,
+    inout  wire         user_usb_dp_PAD,
+    inout  wire         user_usb_dp_up_PAD,
+    
+    inout  wire         user_tmds_b_PAD,
+    inout  wire         user_tmds_g_PAD,
+    inout  wire         user_tmds_r_PAD,
+    inout  wire         user_tmds_clk_PAD
 );
     // FPGA
     wire fpga_clk_PAD2CORE;
@@ -201,7 +211,7 @@ module heichips25_top #(
         .pad (fpga_mode_PAD)
     );
     
-    sg13g2_IOPadOut30mA sg13g2_IOPadOut30mA_fpga_config_busy (
+    sg13g2_IOPadOut30mA fpga_config_busy (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
@@ -229,7 +239,7 @@ module heichips25_top #(
     end
     endgenerate
 
-    sg13g2_IOPadOut30mA sg13g2_IOPadOut30mA_fpga_config_configured (
+    sg13g2_IOPadOut30mA fpga_config_configured (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
@@ -280,6 +290,104 @@ module heichips25_top #(
         );
     end
     endgenerate
+    
+    // I/Os for the user projects
+    
+    wire user_usb_dn_CORE2PAD;
+    wire user_usb_dn_CORE2PAD_EN;
+    wire user_usb_dn_PAD2CORE;
+    
+    sg13g2_IOPadInOut30mA user_usb_dn (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p    (user_usb_dn_CORE2PAD),
+        .c2p_en (user_usb_dn_CORE2PAD_EN),
+        .p2c    (user_usb_dn_PAD2CORE),
+        .pad    (user_usb_dn_PAD )
+    );
+
+    wire user_usb_dp_CORE2PAD;
+    wire user_usb_dp_CORE2PAD_EN;
+    wire user_usb_dp_PAD2CORE;
+    
+    sg13g2_IOPadInOut30mA user_usb_dp (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p    (user_usb_dp_CORE2PAD),
+        .c2p_en (user_usb_dp_CORE2PAD_EN),
+        .p2c    (user_usb_dp_PAD2CORE),
+        .pad    (user_usb_dp_PAD )
+    );
+
+    wire user_usb_dp_up_CORE2PAD;
+
+    sg13g2_IOPadOut30mA user_usb_dp_up (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_usb_dp_up_CORE2PAD),
+        .pad (user_usb_dp_up_PAD)
+    );
+
+    wire user_tmds_b_CORE2PAD;
+    wire user_tmds_g_CORE2PAD;
+    wire user_tmds_r_CORE2PAD;
+    wire user_tmds_clk_CORE2PAD;
+
+    sg13g2_IOPadOut30mA user_tmds_b (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_tmds_b_CORE2PAD),
+        .pad (user_tmds_b_PAD)
+    );
+
+    sg13g2_IOPadOut30mA user_tmds_g (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_tmds_g_CORE2PAD),
+        .pad (user_tmds_g_PAD)
+    );
+
+    sg13g2_IOPadOut30mA user_tmds_r (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_tmds_r_CORE2PAD),
+        .pad (user_tmds_r_PAD)
+    );
+
+    sg13g2_IOPadOut30mA user_tmds_clk (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_tmds_clk_CORE2PAD),
+        .pad (user_tmds_clk_PAD)
+    );
 
     // Core
     heichips25_core heichips25_core (
@@ -313,14 +421,20 @@ module heichips25_top #(
         .fabric_io_in_i     (fpga_io_PAD2CORE),
         .fabric_io_out_o    (fpga_io_CORE2PAD),
         .fabric_io_oe_o     (fpga_io_CORE2PAD_EN),
+
+        // User I/Os
+        .usb_dn_en_o    (user_usb_dn_CORE2PAD_EN),
+        .usb_dn_rx_i    (user_usb_dn_PAD2CORE),
+        .usb_dn_tx_o    (user_usb_dn_CORE2PAD),
+        .usb_dp_en_o    (user_usb_dp_CORE2PAD_EN),
+        .usb_dp_rx_i    (user_usb_dp_PAD2CORE),
+        .usb_dp_tx_o    (user_usb_dp_CORE2PAD),
+        .usb_dp_up_o    (user_usb_dp_up_CORE2PAD),
         
-        .usb_dn_en_o    (),
-        .usb_dn_rx_i    (1'b0),
-        .usb_dn_tx_o    (),
-        .usb_dp_en_o    (),
-        .usb_dp_rx_i    (1'b0),
-        .usb_dp_tx_o    (),
-        .usb_dp_up_o    ()
+        .tmds_b         (user_tmds_b_CORE2PAD),
+        .tmds_g         (user_tmds_g_CORE2PAD),
+        .tmds_r         (user_tmds_r_CORE2PAD),
+        .tmds_clk       (user_tmds_clk_CORE2PAD)
     );
 
     // Alignment marks for bonding
