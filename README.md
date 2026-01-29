@@ -66,6 +66,18 @@ In the next step, install LibreLane by following the Nix-based installation inst
 
 Afterwards you can enable a Nix shell by running `nix-shell`.
 
+## Implementing the Tiles
+
+```
+cd ip/tile_library/; nix develop --command make all
+```
+
+## Implementing the Fabric
+
+```
+cd ip/fabric/; nix develop --command make fabric
+```
+
 ### Running LibreLane
 
 To build the chip with LibreLane:
@@ -93,6 +105,20 @@ make render-image
 ```
 
 And with this the chip is ready for tapeout. 
+
+### Building the Bitstreams
+
+To build the bitstream, install the fasm Python package:
+
+```
+pip3 install fasm
+```
+
+And run the following:
+
+```
+cd ip/fabric/user_designs/; nix shell nixpkgs#{yosys,nextpnr} --command make build_all
+```
 
 ### Running Chip-Top Level Simulation
 

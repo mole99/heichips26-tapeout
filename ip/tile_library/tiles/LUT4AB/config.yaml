@@ -32,18 +32,9 @@ FP_SIZING: absolute
 pdk::sky130A:
     DIE_AREA: [0, 0, 205, 225]
     PL_TARGET_DENSITY_PCT: 58
-pdk::ihp-sg13g2:
+pdk::ihp-sg13*:
     # Width should be multiple of 0.48 (Metal2 pitch)
     # Height should be multiple of 0.42 (Metal3 pitch)
-    
-    #DIE_AREA: [0, 0, 231.84, 241.92]
-    #PL_TARGET_DENSITY_PCT: 80
-    
-    #DIE_AREA: [0, 0, 227.04, 237.72]
-    #PL_TARGET_DENSITY_PCT: 82
-    
-    #DIE_AREA: [0, 0, 207.84, 220.92]
-    #PL_TARGET_DENSITY_PCT: 96
-    
-    DIE_AREA: [0, 0, 215.04, 215.04]
+    # Standard cell row height: 3.78 (9 Metal3 tracks)
+    DIE_AREA: [0, 0, 215.04, 219.24]
     PL_TARGET_DENSITY_PCT: 96

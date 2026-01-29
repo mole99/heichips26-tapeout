@@ -53,7 +53,19 @@ jobs:
         run: |
           export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           nix develop --command make clone-pdk
-      - name: Build the bitstreams
+      - name: Implement the Tiles
+        run: |
+          cd ip/tile_library/; nix develop --command make all
+      - name: Implement the Fabric
+        run: |
+          cd ip/fabric/; nix develop --command make fabric
+      - name: Upload Fabric Data
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fabric_data
+          path: ip/fabric/macro/ihp-sg13g2/fabulous/*
+      - name: Build the Bitstreams
         run: |
           pip3 install fasm
           cd ip/fabric/user_designs/; nix shell nixpkgs#{yosys,nextpnr} --command make build_all
