@@ -1140,7 +1140,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_4_uio_oe)
     );
 
-    heichips25_example_small heichips25_example_small_4 (
+    heichips25_SDR heichips25_example_small_4 (
         .clk        (tt_project_5_clk),
         .rst_n      (tt_project_5_rst_n),
         .ena        (tt_project_5_ena),
@@ -1219,7 +1219,7 @@ module fabric_wrapper #(
         .usb_dp_up_o    (usb_dp_up_o)
     );
 
-    heichips25_example_small heichips25_example_small_9 (
+    heichips25_tiny_wrapper heichips25_example_small_9 (
         .clk        (tt_project_11_clk),
         .rst_n      (tt_project_11_rst_n),
         .ena        (tt_project_11_ena),

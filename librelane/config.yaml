@@ -288,9 +288,9 @@ MACROS:
       #heichips25_core/fabric_wrapper/heichips25_example_small_3:
       #  location: [390, 1110]
       #  orientation: FN
-      heichips25_core/fabric_wrapper/heichips25_example_small_4:
-        location: [390, expr::(895 + 95.00)]
-        orientation: FN
+      #heichips25_core/fabric_wrapper/heichips25_example_small_4:
+      #  location: [390, expr::(895 + 95.00)]
+      #  orientation: FN
       heichips25_core/fabric_wrapper/heichips25_example_small_5:
         location: [390, expr::(680 + 95.00)]
         orientation: FN
@@ -304,9 +304,9 @@ MACROS:
       #heichips25_core/fabric_wrapper/heichips25_example_small_8:
       #  location: [2109, 1110]
       #  orientation: N
-      heichips25_core/fabric_wrapper/heichips25_example_small_9:
-        location: [2109, expr::(895 + 95.00)]
-        orientation: N
+      #heichips25_core/fabric_wrapper/heichips25_example_small_9:
+      #  location: [2109, expr::(895 + 95.00)]
+      #  orientation: N
       heichips25_core/fabric_wrapper/heichips25_example_small_10:
         location: [2109, expr::(680 + 95.00)]
         orientation: N
@@ -456,6 +456,36 @@ MACROS:
         location: [2109, expr::(1110 + 95.00)]
         orientation: N
 
+  heichips25_SDR:
+    gds:
+      - dir::../ip/user_projects/heichips25_SDR/macro/gds/heichips25_SDR.gds
+    lef:
+      - dir::../ip/user_projects/heichips25_SDR/macro/lef/heichips25_SDR.lef
+    nl:
+      - dir::../ip/user_projects/heichips25_SDR/macro/nl/heichips25_SDR.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25_SDR/macro/spef/nom/heichips25_SDR.nom.spef
+    instances:
+      heichips25_core/fabric_wrapper/heichips25_example_small_4:
+        location: [390, expr::(895 + 95.00)]
+        orientation: FN
+
+  heichips25_tiny_wrapper:
+    gds:
+      - dir::../ip/user_projects/heichips25-tiny-wrapper/macro/gds/heichips25_tiny_wrapper.gds
+    lef:
+      - dir::../ip/user_projects/heichips25-tiny-wrapper/macro/lef/heichips25_tiny_wrapper.lef
+    nl:
+      - dir::../ip/user_projects/heichips25-tiny-wrapper/macro/nl/heichips25_tiny_wrapper.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25-tiny-wrapper/macro/spef/nom/heichips25_tiny_wrapper.nom.spef
+    instances:
+      heichips25_core/fabric_wrapper/heichips25_example_small_9:
+        location: [2109, expr::(895 + 95.00)]
+        orientation: N
+
 PDN_OBSTRUCTIONS:
  # Left
  - [TopMetal1,  390, expr::(1970 + 95.00),  888, expr::(2385 + 95.00)] # heichips25_example_large_0
@@ -479,23 +509,23 @@ PDN_OBSTRUCTIONS:
  
 ROUTING_OBSTRUCTIONS:
  # Left
- - [TopMetal1,  390, 1970,  888, 2385] # heichips25_example_large_0
- - [TopMetal1,  390, 1755,  888, 1955] # heichips25_example_small_0
- - [TopMetal1,  390, 1540,  888, 1740] # heichips25_example_small_1
- - [TopMetal1,  390, 1325,  888, 1525] # heichips25_example_small_2
- - [TopMetal1,  390, 1110,  888, 1310] # heichips25_example_small_3
- - [TopMetal1,  390, 895,   888, 1095] # heichips25_example_small_3
- - [TopMetal1,  390, 680,   888,  880] # heichips25_example_small_3
- - [TopMetal1,  390, 465,   888,  665] # heichips25_example_small_3
+ - [TopMetal1,  390, expr::(1970 + 95.00),  888, expr::(2385 + 95.00)] # heichips25_example_large_0
+ - [TopMetal1,  390, expr::(1755 + 95.00),  888, expr::(1955 + 95.00)] # heichips25_example_small_0
+ - [TopMetal1,  390, expr::(1540 + 95.00),  888, expr::(1740 + 95.00)] # heichips25_example_small_1
+ - [TopMetal1,  390, expr::(1325 + 95.00),  888, expr::(1525 + 95.00)] # heichips25_example_small_2
+ - [TopMetal1,  390, expr::(1110 + 95.00),  888, expr::(1310 + 95.00)] # heichips25_example_small_3
+ - [TopMetal1,  390, expr::( 895 + 95.00),  888, expr::(1095 + 95.00)] # heichips25_example_small_3
+ - [TopMetal1,  390, expr::( 680 + 95.00),  888, expr::( 880 + 95.00)] # heichips25_example_small_3
+ - [TopMetal1,  390, expr::( 465 + 95.00),  888, expr::( 665 + 95.00)] # heichips25_example_small_3
   
  # Right
- - [TopMetal1, 2109, 1540, 2609, 1955] # heichips25_example_large_1
- - [TopMetal2, 2517, 1548, 2572, 1600] # heichips25_example_large_1 logo window
- - [TopMetal1, 2109, 1325, 2609, 1525] # heichips25_example_small_7
- - [TopMetal1, 2109, 1110, 2609, 1310] # heichips25_example_small_8
- - [TopMetal1, 2109, 895,  2609, 1095] # heichips25_example_small_9
- - [TopMetal1, 2109, 680,  2609,  880] # heichips25_example_small_10
- - [TopMetal1, 2109, 465,  2609,  665] # heichips25_example_small_11
+ - [TopMetal1, 2109, expr::(1540 + 95.00), 2609, expr::(1955 + 95.00)] # heichips25_example_large_1
+ - [TopMetal2, 2517, expr::(1548 + 95.00), 2572, expr::(1600 + 95.00)] # heichips25_example_large_1 logo window
+ - [TopMetal1, 2109, expr::(1325 + 95.00), 2609, expr::(1525 + 95.00)] # heichips25_example_small_7
+ - [TopMetal1, 2109, expr::(1110 + 95.00), 2609, expr::(1310 + 95.00)] # heichips25_example_small_8
+ - [TopMetal1, 2109, expr::( 895 + 95.00), 2609, expr::(1095 + 95.00)] # heichips25_example_small_9
+ - [TopMetal1, 2109, expr::( 680 + 95.00), 2609, expr::( 880 + 95.00)] # heichips25_example_small_10
+ - [TopMetal1, 2109, expr::( 465 + 95.00), 2609, expr::( 665 + 95.00)] # heichips25_example_small_11
  
 # TODO update pdn config
 PDN_MACRO_CONNECTIONS:

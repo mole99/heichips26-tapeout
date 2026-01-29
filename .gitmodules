@@ -19,3 +19,9 @@
 [submodule "ip/user_projects/heichips25-usb_cdc"]
 	path = ip/user_projects/heichips25-usb_cdc
 	url = ../../HeiChips/heichips25-usb_cdc.git
+[submodule "ip/user_projects/heichips25-tiny-wrapper"]
+	path = ip/user_projects/heichips25-tiny-wrapper
+	url = ../../HeiChips/heichips25-tiny-wrapper.git
+[submodule "ip/user_projects/heichips25_SDR"]
+	path = ip/user_projects/heichips25_SDR
+	url = ../../HeiChips/heichips25_SDR.git

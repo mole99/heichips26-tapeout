@@ -13,7 +13,7 @@ tt_projects = {
     'X0Y4': ('heichips25_sap3', 'heichips25_example_small_1'),
     'X0Y5': ('heichips25_top_sorter', 'heichips25_example_small_2'),
     'X0Y6': ('heichips25_systolicArrayTop', 'heichips25_example_small_3'),
-    'X0Y7': ('heichips25_example_small', 'heichips25_example_small_4'),
+    'X0Y7': ('heichips25_SDR', 'heichips25_example_small_4'),
     'X0Y8': ('heichips25_example_small', 'heichips25_example_small_5'),
     'X0Y9': ('heichips25_example_small', 'heichips25_example_small_6'),
 
@@ -23,7 +23,7 @@ tt_projects = {
     'X5Y4': ('heichips25_fazyrv_exotiny', 'heichips25_example_large_1'),
     'X5Y5': ('heichips25_bagel', 'heichips25_example_small_7'),
     'X5Y6': ('heichips25_usb_cdc', 'heichips25_example_small_8'),
-    'X5Y7': ('heichips25_example_small', 'heichips25_example_small_9'),
+    'X5Y7': ('heichips25_tiny_wrapper', 'heichips25_example_small_9'),
     'X5Y8': ('heichips25_example_small', 'heichips25_example_small_10'),
     'X5Y9': ('heichips25_example_small', 'heichips25_example_small_11'),
 }
