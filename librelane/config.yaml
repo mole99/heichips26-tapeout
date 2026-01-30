@@ -201,6 +201,9 @@ IGNORE_DISCONNECTED_MODULES:
 - bondpad_70x70
 - bondpad_70x70_novias
 - alignment_mark
+- logo_heichips
+- logo_fabulous
+- logo_credits
 
 # Because we have mutiple power
 # pads for one power domain
@@ -590,8 +593,14 @@ PDN_MACRO_CONNECTIONS:
 # Not needed since netgen 1.5.303
 LVS_FLATTEN_CELLS:
 - alignment_mark
+- logo_heichips
+- logo_fabulous
+- logo_credits
 
 # IP has no ports and components
 # therefore make it an abstract cell in the layout
 MAGIC_EXT_ABSTRACT_CELLS:
 - alignment_mark
+- logo_heichips
+- logo_fabulous
+- logo_credits
