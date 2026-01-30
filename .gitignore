@@ -23,6 +23,7 @@ out.def
 
 # PDK
 IHP-Open-PDK/
+*.lyrdb
 
 # LibreLane builds
 runs/

@@ -227,6 +227,39 @@ MACROS:
       alignment_mark_3:
         location: ["expr::$DIE_AREA[2] - 70 - 55", "expr::$DIE_AREA[3] - 70 - 55"]
         orientation: N
+  logo_heichips:
+    gds:
+      - dir::../ip/logo_heichips/gds/logo_heichips.gds
+    lef:
+      - dir::../ip/logo_heichips/lef/logo_heichips.lef
+    vh:
+      - dir::../ip/logo_heichips/vh/logo_heichips.v
+    instances:
+      logo_heichips:
+        location: [160, 55]
+        orientation: N
+  logo_fabulous:
+    gds:
+      - dir::../ip/logo_fabulous/gds/logo_fabulous.gds
+    lef:
+      - dir::../ip/logo_fabulous/lef/logo_fabulous.lef
+    vh:
+      - dir::../ip/logo_fabulous/vh/logo_fabulous.v
+    instances:
+      logo_fabulous:
+        location: [60, 223]
+        orientation: N
+  logo_credits:
+    gds:
+      - dir::../ip/logo_credits/gds/logo_credits.gds
+    lef:
+      - dir::../ip/logo_credits/lef/logo_credits.lef
+    vh:
+      - dir::../ip/logo_credits/vh/logo_credits.v
+    instances:
+      logo_credits:
+        location: [2658, 55]
+        orientation: N
   eFPGA:
     gds:
       - dir::../ip/fabric/macro/ihp-sg13g2/gds/eFPGA.gds

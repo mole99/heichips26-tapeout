@@ -443,4 +443,9 @@ module heichips25_top #(
     (* keep *) alignment_mark alignment_mark_2 ();
     (* keep *) alignment_mark alignment_mark_3 ();
 
+    // Logos
+    (* keep *) logo_heichips logo_heichips ();
+    (* keep *) logo_fabulous logo_fabulous ();
+    (* keep *) logo_credits logo_credits ();
+
 endmodule
