@@ -32,7 +32,7 @@ FP_SIZING: absolute
 pdk::ihp-sg13g2:
     # Width should be multiple of 0.48 (Metal2 pitch)
     # Height should be multiple of 0.42 (Metal3 pitch)
-    DIE_AREA: [0, 0, 107.52, 430.08]
+    DIE_AREA: [0, 0, 107.52, 438.48]
     
     PL_TARGET_DENSITY_PCT: 84
     SYNTH_STRATEGY: "AREA 0" # "AREA 0" "AREA 1" "AREA 2" "AREA 3"

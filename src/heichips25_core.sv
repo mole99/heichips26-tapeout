@@ -36,21 +36,27 @@ module heichips25_core (
     output wire [32-1:0] fabric_io_out_o,
     output wire [32-1:0] fabric_io_oe_o,
     
+    // User I/O
     output usb_dn_en_o,
     input  usb_dn_rx_i,
     output usb_dn_tx_o,
     output usb_dp_en_o,
     input  usb_dp_rx_i,
     output usb_dp_tx_o,
-    output usb_dp_up_o
+    output usb_dp_up_o,
+
+    output tmds_b,
+    output tmds_g,
+    output tmds_r,
+    output tmds_clk
 );
     
     // Fabric parameters
-    	localparam FrameBitsPerRow = 32;
+        localparam FrameBitsPerRow = 32;
     localparam MaxFramesPerCol = 20;
     
     localparam NumColumns = 6;
-    localparam NumRows = 10;
+    localparam NumRows = 11;
     
     localparam FABRIC_NUM_IO_NORTH = 16;
     localparam FABRIC_NUM_IO_SOUTH = 16;
@@ -250,8 +256,10 @@ module heichips25_core (
     );
 
     // TODO update length
+    // bitstream size: 0x1698
+    // bitstream word size: 0x5A6
     fabric_spi_controller #(
-        .BITSTREAM_LENGTH_WORDS (32'h52E),
+        .BITSTREAM_LENGTH_WORDS (32'h5A6),
         .SLOT_OFFSET_WORDS      (32'h800),
         .NUM_SLOTS              (16)
     ) fabric_spi_controller (
@@ -277,11 +285,11 @@ module heichips25_core (
     );
     
     fabric_config #(
-        	.FrameBitsPerRow    (FrameBitsPerRow),
-	    .MaxFramesPerCol    (MaxFramesPerCol),
-	    
-	    .NumColumns         (NumColumns),
-	    .NumRows            (NumRows)
+        .FrameBitsPerRow    (FrameBitsPerRow),
+        .MaxFramesPerCol    (MaxFramesPerCol),
+        
+        .NumColumns         (NumColumns),
+        .NumRows            (NumRows)
     ) fabric_config (
         .clk_i              (fpga_clk_i),
         .rst_ni             (fpga_rst_n_sync),
@@ -327,7 +335,12 @@ module heichips25_core (
         .usb_dp_en_o    (usb_dp_en_o),
         .usb_dp_rx_i    (usb_dp_rx_i),
         .usb_dp_tx_o    (usb_dp_tx_o),
-        .usb_dp_up_o    (usb_dp_up_o)
+        .usb_dp_up_o    (usb_dp_up_o),
+        
+        .tmds_b         (tmds_b),
+        .tmds_g         (tmds_g),
+        .tmds_r         (tmds_r),
+        .tmds_clk       (tmds_clk)
     );
     
     //$assert(fabric_wrapper.FrameBitsPerRow ...)

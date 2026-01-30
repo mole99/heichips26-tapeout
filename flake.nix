@@ -9,36 +9,88 @@
   };
 
   inputs = {
-    librelane.url = github:librelane/librelane/leo/padring;
+    #nix-eda.url = "github:fossi-foundation/nix-eda/5.13.0";
+    librelane = {
+      url = "github:librelane/librelane/dev";
+      #inputs.nix-eda.follows = "nix-eda";
+    };
   };
 
-  outputs = {
-    self,
-    librelane,
-    ...
-  }: let
-    nix-eda = librelane.inputs.nix-eda;
-    devshell = librelane.inputs.devshell;
-    nixpkgs = nix-eda.inputs.nixpkgs;
-    lib = nixpkgs.lib;
-  in {
-    # Outputs
-    legacyPackages = nix-eda.forAllSystems (
-      system:
+  outputs =
+    {
+      self,
+      librelane,
+      ...
+    }:
+    let
+      nix-eda = librelane.inputs.nix-eda;
+      devshell = librelane.inputs.devshell;
+      nixpkgs = nix-eda.inputs.nixpkgs;
+      lib = nixpkgs.lib;
+    in
+    {
+      # Outputs
+      legacyPackages = nix-eda.forAllSystems (
+        system:
         import nixpkgs {
           inherit system;
-          overlays = [nix-eda.overlays.default devshell.overlays.default librelane.overlays.default];
+          overlays = [
+            nix-eda.overlays.default
+            devshell.overlays.default
+            librelane.overlays.default
+            (nix-eda.composePythonOverlay (
+            pkgs': pkgs: pypkgs': pypkgs:
+            let
+              callPythonPackage = lib.callPackageWith (pkgs' // pypkgs');
+            in
+            {
+              cocotbext-spi = callPythonPackage ./nix/cocotbext-spi.nix { };
+            }
+          ))
+          ];
         }
-    );
-    
-    packages = nix-eda.forAllSystems (system: {
-      inherit (self.legacyPackages.${system}.python3.pkgs);
-    });
-    
-    devShells = nix-eda.forAllSystems (system: let
-      pkgs = (self.legacyPackages.${system});
-    in {
-      default = lib.callPackageWith pkgs (librelane.createOpenLaneShell {}) {};
-    });
-  };
+      );
+
+      packages = nix-eda.forAllSystems (system: {
+        inherit (self.legacyPackages.${system}.python3.pkgs) ;
+      });
+
+      devShells = nix-eda.forAllSystems (
+        system:
+        let
+          pkgs = (self.legacyPackages.${system});
+          callPackage = lib.callPackageWith pkgs;
+        in
+        {
+          default = callPackage (pkgs.createLibreLaneShell {
+            extra-packages = with pkgs; [
+              # Utilities
+              gnumake
+              gnugrep
+              gawk
+
+              # Simulation
+              iverilog
+              verilator
+
+              # Waveform viewing
+              gtkwave
+              surfer
+  
+              # Image scaling
+              imagemagick
+            ];
+
+            extra-python-packages = with pkgs.python3.pkgs; [
+              # Verification
+              cocotb
+              cocotbext-spi
+
+              # For logo generation
+              pillow
+            ];
+          }) { };
+        }
+      );
+    };
 }

@@ -1,29 +1,26 @@
+MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+
 PDK ?= ihp-sg13g2
-PDK_ROOT ?= ~/.ciel
 
-TILES = S_term_single N_term_single LUT4AB N_IO4 S_IO4 IHP_SRAM E_TT_IF E_TT_IF2 W_TT_IF W_TT_IF2 NE_term SE_term NW_term SW_term
-TILE_DIR = tiles
+# Get the tile names
+TILES :=  $(patsubst tiles/%,%,$(wildcard tiles/*)) 
+TILES := $(filter-out common,$(TILES))
+TILES := $(filter-out include,$(TILES))
 
-TILE_PATHS := $(addprefix $(TILE_DIR)/,$(TILES))
-TILE_PATHS_VIEWS := $(addsuffix -view,$(TILE_PATHS))
+TILES_OPENROAD := $(addsuffix -openroad,$(TILES))
+TILES_KLAYOUT := $(addsuffix -klayout,$(TILES))
 
-$(info $(TILE_PATHS))
-$(info $(TILE_PATHS_VIEWS))
+all: $(TILES)
+.PHONY: all
 
-# A rule for all tiles
-$(TILE_PATHS):
-	librelane --pdk ${PDK} common.yaml $@/config.yaml
-.PHONY: $(TILE_PATHS)
+$(TILES):
+	librelane --pdk ${PDK} common.yaml tiles/$@/config.yaml
+.PHONY: $(TILES)
 
-$(TILE_PATHS_VIEWS):
-	librelane --pdk ${PDK} common.yaml $(subst -view,,$@)/config.yaml --last-run --flow OpenInOpenROAD
-.PHONY: $(TILE_PATHS_VIEWS)
+$(TILES_OPENROAD):
+	librelane --pdk ${PDK} common.yaml tiles/$(subst -openroad,,$@)/config.yaml --last-run --flow OpenInOpenROAD
+.PHONY: $(TILE_PATHS_OPENROAD)
 
-boundary-tiles: $(TILE_DIR)/W_IO $(TILE_DIR)/N_IO $(TILE_DIR)/S_CPU_IF $(TILE_DIR)/S_CPU_IRQ $(TILE_DIR)/S_WARMBOOT
-.PHONY: termination-tiles
-
-termination-tiles: $(TILE_DIR)/S_term_single $(TILE_DIR)/N_term_single $(TILE_DIR)/S_term_single2 $(TILE_DIR)/N_term_single2 $(TILE_DIR)/S_term_DSP $(TILE_DIR)/N_term_DSP
-.PHONY: termination-tiles
-
-all-tiles: $(TILE_PATHS)
-.PHONY: all-tiles
+$(TILES_KLAYOUT):
+	librelane --pdk ${PDK} common.yaml tiles/$(subst -klayout,,$@)/config.yaml --last-run --flow OpenInKLayout
+.PHONY: $(TILE_PATHS_KLAYOUT)

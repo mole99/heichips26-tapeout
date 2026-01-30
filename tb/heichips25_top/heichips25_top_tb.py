@@ -4,42 +4,238 @@
 import os
 import random
 import cocotb
+import argparse
 from pathlib import Path
 from cocotb.clock import Clock
+from cocotb.types import LogicArray
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer, Edge, RisingEdge, FallingEdge
 from cocotb.regression import TestFactory
-from cocotb.runner import get_runner
+from cocotb_tools.runner import get_runner
 
 from cocotbext.spi import SpiBus, SpiConfig, SpiMaster
 
-fpga_all_ones = {
-    'flash1_slot0': '',
-    'flash1_slot1': '',
-    'connect_flash1': False,
-    'dump_waveforms': False,
-}
+if __name__ == "__main__":
 
-fpga_all_zeros = {
-    'flash1_slot0': '../../../ip/fabric/user_designs/all_zeros/all_zeros.hex',
-    'flash1_slot1': '',
-    'connect_flash1': True,
-    'dump_waveforms': True,
-}
+    sim         = os.getenv("SIM", "icarus")
+    pdk_root    = os.getenv("PDK_ROOT", "~/.ciel")
+    pdk         = os.getenv("PDK", "ihp-sg13g2")
+    scl         = os.getenv("SCL", "sg13g2_stdcell")
+    gl          = os.getenv("GL", False)
 
-fpga_counter_top = {
-    'flash1_slot0': '../../../ip/fabric/user_designs/counter_top/counter_top.hex',
-    'flash1_slot1': '',
-    'connect_flash1': True,
-    'dump_waveforms': True,
-}
+    testbench_path = Path(__file__).resolve().parent
+    
+    includes = []
+    verilog_sources = []
+    defines = {}
 
-enabled = fpga_counter_top
+    parser = argparse.ArgumentParser()
+    parser.add_argument('testcase', nargs="?", default="test_fpga_all_zeros")
+    args = parser.parse_args()
+
+    testcases = {
+        'test_fpga_all_zeros': {
+            'flash1_slot0': '../../../ip/fabric/user_designs/all_zeros/all_zeros.hex',
+            'flash1_slot1': '',
+            'connect_flash1': True,
+            'dump_waveforms': True,
+        },
+        'test_fpga_all_ones': {
+            'flash1_slot0': '',
+            'flash1_slot1': '',
+            'connect_flash1': False,
+            'dump_waveforms': False,
+        },
+        'test_fpga_counter_top': {
+            'flash1_slot0': '../../../ip/fabric/user_designs/counter_top/counter_top.hex',
+            'flash1_slot1': '',
+            'connect_flash1': True,
+            'dump_waveforms': True,
+        },
+    }
+
+    enabled = args.testcase
+    testcase = testcases[enabled]
+
+    if gl:
+        # SCL models
+        verilog_sources.append(Path(pdk_root).expanduser() / pdk / "libs.ref" / scl / "verilog" / f"{scl}.v" )
+        
+        # The NL netlist currently needs "`default_nettype wire"
+        # So make sure no file sets it to "wire" before
+        verilog_sources.append(testbench_path / '../../final/nl/heichips25_top.nl.v')
+        
+        defines = {'FUNCTIONAL': True, 'UNIT_DELAY': '#0'}
+    else:
+        verilog_sources.extend([
+            testbench_path / '../../src/heichips25_top.v',
+            testbench_path / '../../src/heichips25_core.sv',
+            
+            testbench_path / '../../ip/fabric/rtl/fabric_wrapper.sv',
+            testbench_path / '../../ip/fabric_config/fabric_config.sv',
+            testbench_path / '../../ip/fabric_config/fabric_spi_receiver.sv',
+            testbench_path / '../../ip/fabric_config/fabric_spi_controller.sv',
+        ])
+        
+        defines = {'RTL': True, 'FUNCTIONAL': True, 'UNIT_DELAY': '#0'}
+
+    verilog_sources += [
+        testbench_path / 'heichips25_top_tb.v',
+        testbench_path / 'spiflash_powered.v',
+        
+        # User projects
+        testbench_path / '../../ip/user_projects/heichips25_example_large/src/heichips25_example_large.sv',
+        testbench_path / '../../ip/user_projects/heichips25_example_small/src/heichips25_example_small.sv',
+        
+        # SRAM models
+        Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_sram" / "verilog" / "RM_IHPSG13_1P_512x32_c2_bm_bist.v",
+        Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_sram" / "verilog" / "RM_IHPSG13_1P_core_behavioral_bm_bist.v",
+        
+        # IO Pad models
+        Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_io" / "verilog" / "sg13g2_io.v",
+        
+        # Alignment mark
+        testbench_path / '../../ip/alignment_mark/vh/alignment_mark.v',
+
+        # Blackbox user projects
+        testbench_path / '../../ip/user_projects/bb_user_projects.v',
+        
+        # Bondpads
+        testbench_path / '../../ip/bondpad_70x70_novias/vh/bondpad_70x70_novias.v',
+    ]
+
+    # Add FPGA fabric
+    verilog_sources.append(testbench_path / f'../../ip/fabric/macro/{pdk}/fabulous/eFPGA.v')
+
+    # Add primitives
+    PRIMITIVES_ROOT = testbench_path / '../../ip/tile_library/primitives'
+    
+    verilog_sources.append(f'{PRIMITIVES_ROOT}/TT_PROJECT/TT_PROJECT.v')
+    verilog_sources.append(f'{PRIMITIVES_ROOT}/LUT4c_frame_config_dffesr/LUT4c_frame_config_dffesr.v')
+    verilog_sources.append(f'{PRIMITIVES_ROOT}/MUX8LUT_frame_config_mux/MUX8LUT_frame_config_mux.v')
+    verilog_sources.append(f'{PRIMITIVES_ROOT}/IO_1_bidirectional_frame_config_pass/IO_1_bidirectional_frame_config_pass.v')
+    verilog_sources.append(f'{PRIMITIVES_ROOT}/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v')
+
+    # Add tiles
+    TILES_ROOT = testbench_path / '../../ip/tile_library/tiles'
+    
+    # LUT4AB
+    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4AB.v')
+    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4AB_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4AB_switch_matrix.v')
+    
+    # E_TT_IF
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF/E_TT_IF.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF/E_TT_IF_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF/E_TT_IF_switch_matrix.v')
+    
+    # W_TT_IF
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF/W_TT_IF.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF/W_TT_IF_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF/W_TT_IF_switch_matrix.v')
+
+    # E_TT_IF2
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_bot/E_TT_IF2_bot.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_bot/E_TT_IF2_bot_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_bot/E_TT_IF2_bot_switch_matrix.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_top/E_TT_IF2_top.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_top/E_TT_IF2_top_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF2/E_TT_IF2_top/E_TT_IF2_top_switch_matrix.v')
+    
+    # W_TT_IF2
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_bot/W_TT_IF2_bot.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_bot/W_TT_IF2_bot_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_bot/W_TT_IF2_bot_switch_matrix.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_top/W_TT_IF2_top.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_top/W_TT_IF2_top_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF2/W_TT_IF2_top/W_TT_IF2_top_switch_matrix.v')
+
+    # N_IO4
+    verilog_sources.append(f'{TILES_ROOT}/N_IO4/N_IO4.v')
+    verilog_sources.append(f'{TILES_ROOT}/N_IO4/N_IO4_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/N_IO4/N_IO4_switch_matrix.v')
+
+    # S_IO4
+    verilog_sources.append(f'{TILES_ROOT}/S_IO4/S_IO4.v')
+    verilog_sources.append(f'{TILES_ROOT}/S_IO4/S_IO4_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/S_IO4/S_IO4_switch_matrix.v')
+    
+    # IHP_SRAM
+    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM.v')
+    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_bot.v')
+    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_bot_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_bot_switch_matrix.v')
+    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_top/IHP_SRAM_top.v')
+    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_top/IHP_SRAM_top_ConfigMem.v')
+    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_top/IHP_SRAM_top_switch_matrix.v')
+    
+    # NE_term
+    verilog_sources.append(f'{TILES_ROOT}/NE_term/NE_term.v')
+    verilog_sources.append(f'{TILES_ROOT}/NE_term/NE_term_switch_matrix.v')
+    
+    # SE_term
+    verilog_sources.append(f'{TILES_ROOT}/SE_term/SE_term.v')
+    verilog_sources.append(f'{TILES_ROOT}/SE_term/SE_term_switch_matrix.v')
+    
+    # NW_term
+    verilog_sources.append(f'{TILES_ROOT}/NW_term/NW_term.v')
+    verilog_sources.append(f'{TILES_ROOT}/NW_term/NW_term_switch_matrix.v')
+    
+    # SW_term
+    verilog_sources.append(f'{TILES_ROOT}/SW_term/SW_term.v')
+    verilog_sources.append(f'{TILES_ROOT}/SW_term/SW_term_switch_matrix.v')
+
+    verilog_sources.append(testbench_path / '../../ip/tile_library/models_pack.v')
+
+    defines['USE_POWER_PINS'] = True
+    
+    if testcase["connect_flash1"]:
+        defines['BITSTREAM_FLASH'] = True
+    
+    if testcase["dump_waveforms"]:
+        defines['DUMP_WAVEFORMS'] = True
+    
+    hdl_toplevel = "heichips25_top_tb"
+
+    build_args = []
+
+    if sim == 'icarus':
+        build_args = ['-Winfloop']
+
+    if sim == 'verilator':
+        build_args = ['--timing', '--trace', '--trace-fst', '--trace-structs']
+
+    runner = get_runner(sim)
+    runner.build(
+        sources=verilog_sources,
+        hdl_toplevel=hdl_toplevel,
+        defines=defines,
+        always=True,
+        includes=includes,
+        build_args=build_args,
+    )
+
+    plusargs = []
+    plusargs += [f'+flash1_slot0={testcase["flash1_slot0"]}']
+    plusargs += [f'+flash1_slot1={testcase["flash1_slot1"]}']
+
+    if sim == 'icarus':
+        plusargs += ['-fst']
+
+    runner.test(
+        hdl_toplevel=hdl_toplevel,
+        test_module="heichips25_top_tb,",
+        plusargs=plusargs,
+        waves=True,
+        test_filter=enabled
+    )
 
 async def start_clock(clock, freq=50):
     """ Start the clock @ freq MHz """
     c = Clock(clock, 1/freq*1000, 'ns')
-    await cocotb.start(c.start())
+    cocotb.start_soon(c.start())
 
 async def reset(reset, active_low=True, time_ns=1000):
     """ Reset dut """
@@ -72,7 +268,7 @@ async def write_bitstream_spi(filename, spi_master):
 
             data = f.read(4)
 
-@cocotb.test(skip=enabled!=fpga_all_zeros)
+@cocotb.test()
 async def test_fpga_all_zeros(dut):
     """Run the all_zeros FPGA bitstream"""
 
@@ -93,7 +289,7 @@ async def test_fpga_all_zeros(dut):
     
     assert(dut.fpga_io_PAD.value == 0x00000000)
 
-@cocotb.test(skip=enabled!=fpga_all_ones)
+@cocotb.test()
 async def test_fpga_all_ones(dut):
     """Run the all_ones FPGA bitstream"""
 
@@ -122,7 +318,7 @@ async def test_fpga_all_ones(dut):
     print("Writing bitstream via SPI!")
 
     # Configure FPGA via SPI
-    spi_coroutine = await cocotb.start(write_bitstream_spi('../../../ip/fabric/user_designs/all_ones/all_ones.bit', spi_master))
+    spi_coroutine = cocotb.start_soon(write_bitstream_spi('../../../ip/fabric/user_designs/all_ones/all_ones.bit', spi_master))
 
     # Wait until FPGA is configured
     await spi_coroutine
@@ -134,7 +330,7 @@ async def test_fpga_all_ones(dut):
     assert(dut.fpga_config_busy_PAD.value == 0)
     assert(dut.fpga_io_PAD.value == 0xFFFFFFFF)
 
-@cocotb.test(skip=enabled!=fpga_counter_top)
+@cocotb.test()
 async def test_fpga_counter_top(dut):
     """Run the counter_top FPGA bitstream"""
 
@@ -153,175 +349,11 @@ async def test_fpga_counter_top(dut):
     
     print("FPGA configured!")
     
-    dut.fpga_io_PAD[31].value = 1 # Assert design reset
+    dut.fpga_io_PAD.value = LogicArray("1" + "Z"*31) # Assert design reset
     await ClockCycles(dut.fpga_clk_PAD, 5)
-    dut.fpga_io_PAD[31].value = 0 # Deassert design reset
+    dut.fpga_io_PAD.value = LogicArray("0" + "Z"*31) # Deassert design reset
     
     MAX_CNT = 30
     
     await ClockCycles(dut.fpga_clk_PAD, MAX_CNT)
     assert(dut.fpga_io_PAD.value == MAX_CNT-1)
-
-if __name__ == "__main__":
-
-    sim         = os.getenv("SIM", "icarus")
-    pdk_root    = os.getenv("PDK_ROOT", "~/.ciel")
-    pdk         = os.getenv("PDK", "ihp-sg13g2")
-    scl         = os.getenv("SCL", "sg13g2_stdcell")
-    gl          = os.getenv("GL", False)
-
-    testbench_path = Path(__file__).resolve().parent
-    
-    includes = [testbench_path / '../../rtl/include']
-    
-    verilog_sources = [
-        testbench_path / 'heichips25_top_tb.v',
-        testbench_path / 'spiflash_powered.v',
-        
-        # User projects
-        testbench_path / '../../ip/user_projects/heichips25_example_large/src/heichips25_example_large.sv',
-        testbench_path / '../../ip/user_projects/heichips25_example_small/src/heichips25_example_small.sv',
-        
-        # SRAM models
-        Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_sram" / "verilog" / "RM_IHPSG13_1P_512x32_c2_bm_bist.v",
-        Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_sram" / "verilog" / "RM_IHPSG13_1P_core_behavioral_bm_bist.v",
-        
-        # IO Pad models
-        Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_io" / "verilog" / "sg13g2_io.v",
-        
-    ]
-    defines = {}
-
-    if gl:
-        # SCL models
-        verilog_sources.append(Path(pdk_root).expanduser() / pdk / "libs.ref" / scl / "verilog" / f"{scl}.v" )
-        
-        verilog_sources.append(testbench_path / '../../final/nl_edit/heichips25_top.nl.v')
-        
-        defines = {'FUNCTIONAL': True, 'UNIT_DELAY': '#0'}
-    else:
-        verilog_sources.extend([
-            testbench_path / '../../src/heichips25_top.v',
-            testbench_path / '../../src/heichips25_core.sv',
-            
-            testbench_path / '../../ip/fabric/rtl/fabric_wrapper.sv',
-            testbench_path / '../../ip/fabric_config/fabric_config.sv',
-            testbench_path / '../../ip/fabric_config/fabric_spi_receiver.sv',
-            testbench_path / '../../ip/fabric_config/fabric_spi_controller.sv',
-        ])
-        
-        defines = {'RTL': True, 'FUNCTIONAL': True, 'UNIT_DELAY': '#0'}
-        
-    # Add FPGA fabric
-    verilog_sources.append(testbench_path / f'../../ip/fabric/macro/{pdk}/fabulous/eFPGA.v')
-
-    # Add primitives
-    PRIMITIVES_ROOT = testbench_path / '../../ip/tile_library/primitives'
-    
-    # TT_PROJECT
-    verilog_sources.append(f'{PRIMITIVES_ROOT}/TT_PROJECT/TT_PROJECT.v')
-
-    # Add tiles
-    TILES_ROOT = testbench_path / '../../ip/tile_library/tiles'
-    
-    # LUT4AB
-    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4AB.v')
-    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4AB_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4AB_switch_matrix.v')
-    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/LUT4c_frame_config_dffesr.v')
-    verilog_sources.append(f'{TILES_ROOT}/LUT4AB/MUX8LUT_frame_config_mux.v')
-    
-    # E_TT_IF
-    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF/E_TT_IF.v')
-    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF/E_TT_IF_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/E_TT_IF/E_TT_IF_switch_matrix.v')
-    
-    # W_TT_IF
-    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF/W_TT_IF.v')
-    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF/W_TT_IF_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/W_TT_IF/W_TT_IF_switch_matrix.v')
-    
-    # N_IO4
-    verilog_sources.append(f'{TILES_ROOT}/N_IO4/N_IO4.v')
-    verilog_sources.append(f'{TILES_ROOT}/N_IO4/N_IO4_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/N_IO4/N_IO4_switch_matrix.v')
-    verilog_sources.append(f'{TILES_ROOT}/N_IO4/IO_1_bidirectional_frame_config_pass.v')
-    
-    # S_IO4
-    verilog_sources.append(f'{TILES_ROOT}/S_IO4/S_IO4.v')
-    verilog_sources.append(f'{TILES_ROOT}/S_IO4/S_IO4_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/S_IO4/S_IO4_switch_matrix.v')
-    
-    # IHP_SRAM
-    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM.v')
-    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_bot.v')
-    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_bot_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_bot_switch_matrix.v')
-    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_bot/IHP_SRAM_1024x32.v')
-    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_top/IHP_SRAM_top.v')
-    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_top/IHP_SRAM_top_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/IHP_SRAM/IHP_SRAM_top/IHP_SRAM_top_switch_matrix.v')
-    
-    # NE_term
-    verilog_sources.append(f'{TILES_ROOT}/NE_term/NE_term.v')
-    verilog_sources.append(f'{TILES_ROOT}/NE_term/NE_term_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/NE_term/NE_term_switch_matrix.v')
-    
-    # SE_term
-    verilog_sources.append(f'{TILES_ROOT}/SE_term/SE_term.v')
-    verilog_sources.append(f'{TILES_ROOT}/SE_term/SE_term_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/SE_term/SE_term_switch_matrix.v')
-    
-    # NW_term
-    verilog_sources.append(f'{TILES_ROOT}/NW_term/NW_term.v')
-    verilog_sources.append(f'{TILES_ROOT}/NW_term/NW_term_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/NW_term/NW_term_switch_matrix.v')
-    
-    # SW_term
-    verilog_sources.append(f'{TILES_ROOT}/SW_term/SW_term.v')
-    verilog_sources.append(f'{TILES_ROOT}/SW_term/SW_term_ConfigMem.v')
-    verilog_sources.append(f'{TILES_ROOT}/SW_term/SW_term_switch_matrix.v')
-
-    verilog_sources.append(testbench_path / '../../ip/tile_library/models_pack.v')
-
-    defines['USE_POWER_PINS'] = True
-    
-    if enabled["connect_flash1"]:
-        defines['BITSTREAM_FLASH'] = True
-    
-    if enabled["dump_waveforms"]:
-        defines['DUMP_WAVEFORMS'] = True
-    
-    hdl_toplevel = "heichips25_top_tb"
-
-    build_args = []
-
-    if sim == 'icarus':
-        build_args = ['-Winfloop']
-
-    if sim == 'verilator':
-        build_args = ['--timing', '--trace', '--trace-fst', '--trace-structs']
-
-    runner = get_runner(sim)
-    runner.build(
-        verilog_sources=verilog_sources,
-        hdl_toplevel=hdl_toplevel,
-        defines=defines,
-        always=True,
-        includes=includes,
-        build_args=build_args,
-    )
-
-    plusargs = []
-    plusargs += [f'+flash1_slot0={enabled["flash1_slot0"]}']
-    plusargs += [f'+flash1_slot1={enabled["flash1_slot1"]}']
-
-    if sim == 'icarus':
-        plusargs += ['-fst']
-
-    runner.test(
-        hdl_toplevel=hdl_toplevel,
-        test_module="heichips25_top_tb,",
-        plusargs=plusargs,
-        waves=True,
-    )

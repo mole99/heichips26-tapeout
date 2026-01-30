@@ -6,6 +6,10 @@ fabric:
 	librelane --pdk ${PDK} config.yaml
 .PHONY: fabric
 
-fabric-view:
+fabric-openroad:
 	librelane --pdk ${PDK} config.yaml --last-run --flow OpenInOpenROAD
-.PHONY: fabric-view
+.PHONY: fabric-openroad
+
+fabric-klayout:
+	librelane --pdk ${PDK} config.yaml --last-run --flow OpenInKLayout
+.PHONY: fabric-klayout

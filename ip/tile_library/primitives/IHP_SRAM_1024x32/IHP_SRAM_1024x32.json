@@ -1,14 +1,10 @@
 {
-  "creator": "Yosys 0.54 (git sha1 db72ec3bde296a9512b2d1e6fabf81cfb07c2c1b, clang++ 19.1.7 -fPIC -O3)",
+  "creator": "Yosys 0.60 (git sha1 5bafeb77dc71e054fa331ab9efa613e6fb0a1c49, clang++ 21.1.2 -fPIC -O3)",
   "modules": {
     "IHP_SRAM_1024x32": {
       "attributes": {
-        "dynports": 1,
-        "cells_not_processed": 1,
-        "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:15.1-63.10"
-      },
-      "parameter_default_values": {
-        "NoConfigBits": 0
+        "top": 1,
+        "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:15.1-61.10"
       },
       "ports": {
         "ADDR": {
@@ -86,16 +82,10 @@
         "UserCLK": {
           "direction": "input",
           "bits": [ 112 ]
-        },
-        "ConfigBits": {
-          "direction": "input",
-          "offset": -1,
-          "upto": 1,
-          "bits": [ 114, 115 ]
         }
       },
       "cells": {
-        "$logic_and$/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:54$1": {
+        "$logic_and$/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:52$1": {
           "hide_name": 1,
           "type": "$logic_and",
           "parameters": {
@@ -106,7 +96,7 @@
             "Y_WIDTH": 1
           },
           "attributes": {
-            "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:54.24-54.45"
+            "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:52.24-52.45"
           },
           "port_directions": {
             "A": "input",
@@ -121,11 +111,11 @@
         }
       },
       "netnames": {
-        "$logic_and$/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:54$1_Y": {
+        "$logic_and$/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:52$1_Y": {
           "hide_name": 1,
           "bits": [ 111 ],
           "attributes": {
-            "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:54.24-54.45"
+            "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:52.24-52.45"
           }
         },
         "ADDR": {
@@ -176,17 +166,6 @@
             "EXTERNAL": 1,
             "FABulous": 1,
             "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:41.52-41.66"
-          }
-        },
-        "ConfigBits": {
-          "hide_name": 0,
-          "bits": [ 114, 115 ],
-          "offset": -1,
-          "upto": 1,
-          "attributes": {
-            "FABulous": 1,
-            "GLOBAL": 1,
-            "src": "/home/leo/Repositories/heichips25-tapeout/ip/fabric/../tile_library/tiles/IHP_SRAM/IHP_SRAM_bot/../../../primitives/IHP_SRAM_1024x32/IHP_SRAM_1024x32.v:46.54-46.64"
           }
         },
         "DIN": {

@@ -8,18 +8,18 @@ module N_IO4
         parameter NoConfigBits=132
     )
     (
- //Side.SOUTH
-        output  [3:0] S1BEG,        //Port(Name=S1BEG, IO=OUTPUT, XOffset=0, YOffset=1, WireCount=4, Side=SOUTH)
-        output  [7:0] S2BEG,        //Port(Name=S2BEG, IO=OUTPUT, XOffset=0, YOffset=1, WireCount=8, Side=SOUTH)
-        output  [7:0] S2BEGb,        //Port(Name=S2BEGb, IO=OUTPUT, XOffset=0, YOffset=1, WireCount=8, Side=SOUTH)
-        output  [15:0] S4BEG,        //Port(Name=S4BEG, IO=OUTPUT, XOffset=0, YOffset=4, WireCount=4, Side=SOUTH)
-        output  [15:0] SS4BEG,        //Port(Name=SS4BEG, IO=OUTPUT, XOffset=0, YOffset=4, WireCount=4, Side=SOUTH)
-        input  [3:0] N1END,        //Port(Name=N1END, IO=INPUT, XOffset=0, YOffset=-1, WireCount=4, Side=SOUTH)
-        input  [7:0] N2MID,        //Port(Name=N2MID, IO=INPUT, XOffset=0, YOffset=-1, WireCount=8, Side=SOUTH)
-        input  [7:0] N2END,        //Port(Name=N2END, IO=INPUT, XOffset=0, YOffset=-1, WireCount=8, Side=SOUTH)
-        input  [15:0] N4END,        //Port(Name=N4END, IO=INPUT, XOffset=0, YOffset=-4, WireCount=4, Side=SOUTH)
-        input  [15:0] NN4END,        //Port(Name=NN4END, IO=INPUT, XOffset=0, YOffset=-4, WireCount=4, Side=SOUTH)
-        input  [0:0] Ci,        //Port(Name=Ci, IO=INPUT, XOffset=0, YOffset=-1, WireCount=1, Side=SOUTH)
+ //S
+        output  [3:0] S1BEG,        //Port(Name=S1BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=4,Side=S)
+        output  [7:0] S2BEG,        //Port(Name=S2BEG,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=S)
+        output  [7:0] S2BEGb,        //Port(Name=S2BEGb,IO=OUTPUT,XOffset=0,YOffset=1,WireCount=8,Side=S)
+        output  [15:0] S4BEG,        //Port(Name=S4BEG,IO=OUTPUT,XOffset=0,YOffset=4,WireCount=4,Side=S)
+        output  [15:0] SS4BEG,        //Port(Name=SS4BEG,IO=OUTPUT,XOffset=0,YOffset=4,WireCount=4,Side=S)
+        input  [3:0] N1END,        //Port(Name=N1END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=4,Side=S)
+        input  [7:0] N2MID,        //Port(Name=N2MID,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=S)
+        input  [7:0] N2END,        //Port(Name=N2END,IO=INPUT,XOffset=0,YOffset=-1,WireCount=8,Side=S)
+        input  [15:0] N4END,        //Port(Name=N4END,IO=INPUT,XOffset=0,YOffset=-4,WireCount=4,Side=S)
+        input  [15:0] NN4END,        //Port(Name=NN4END,IO=INPUT,XOffset=0,YOffset=-4,WireCount=4,Side=S)
+        input  [0:0] Ci,        //Port(Name=Ci,IO=INPUT,XOffset=0,YOffset=-1,WireCount=1,Side=S)
         input  A_O_top,
         output  A_I_top,
         output  A_T_top,
@@ -622,9 +622,9 @@ IO_1_bidirectional_frame_config_pass Inst_A_IO_1_bidirectional_frame_config_pass
     .T(A_T),
     .O(A_O),
     .Q(A_Q),
-    .O_top(A_O_top),
     .I_top(A_I_top),
     .T_top(A_T_top),
+    .O_top(A_O_top),
     .UserCLK(UserCLK)
 );
 
@@ -633,9 +633,9 @@ IO_1_bidirectional_frame_config_pass Inst_B_IO_1_bidirectional_frame_config_pass
     .T(B_T),
     .O(B_O),
     .Q(B_Q),
-    .O_top(B_O_top),
     .I_top(B_I_top),
     .T_top(B_T_top),
+    .O_top(B_O_top),
     .UserCLK(UserCLK)
 );
 
@@ -644,9 +644,9 @@ IO_1_bidirectional_frame_config_pass Inst_C_IO_1_bidirectional_frame_config_pass
     .T(C_T),
     .O(C_O),
     .Q(C_Q),
-    .O_top(C_O_top),
     .I_top(C_I_top),
     .T_top(C_T_top),
+    .O_top(C_O_top),
     .UserCLK(UserCLK)
 );
 
@@ -655,9 +655,9 @@ IO_1_bidirectional_frame_config_pass Inst_D_IO_1_bidirectional_frame_config_pass
     .T(D_T),
     .O(D_O),
     .Q(D_Q),
-    .O_top(D_O_top),
     .I_top(D_I_top),
     .T_top(D_T_top),
+    .O_top(D_O_top),
     .UserCLK(UserCLK)
 );
 

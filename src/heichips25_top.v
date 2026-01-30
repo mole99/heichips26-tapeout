@@ -1,7 +1,15 @@
 // SPDX-FileCopyrightText: © 2025 Leo Moser <leo.moser@pm.me>
 // SPDX-License-Identifier: Apache-2.0
 
-module heichips25_top (
+module heichips25_top #(
+    // Power/ground pads for core
+    parameter NUM_VDD_PADS = 4,
+    parameter NUM_VSS_PADS = 4,
+    
+    // Power/ground pads for I/O
+    parameter NUM_IOVDD_PADS = 4,
+    parameter NUM_IOVSS_PADS = 4
+    )(
     `ifdef USE_POWER_PINS
     inout wire VDD,
     inout wire VSS,
@@ -25,7 +33,17 @@ module heichips25_top (
 
     inout  wire [31:0]  fpga_io_PAD,
     
-    inout  wire [9:0]   analog_PAD
+    inout  wire [9:0]   analog_PAD,
+    
+    // User I/Os
+    inout  wire         user_usb_dn_PAD,
+    inout  wire         user_usb_dp_PAD,
+    inout  wire         user_usb_dp_up_PAD,
+    
+    inout  wire         user_tmds_b_PAD,
+    inout  wire         user_tmds_g_PAD,
+    inout  wire         user_tmds_r_PAD,
+    inout  wire         user_tmds_clk_PAD
 );
     // FPGA
     wire fpga_clk_PAD2CORE;
@@ -57,141 +75,162 @@ module heichips25_top (
     wire [31:0] fpga_io_CORE2PAD;
     wire [31:0] fpga_io_CORE2PAD_EN;
 
-    // Power/Ground IO pad instances
-    
-    (* keep *)
-    sg13g2_IOPadVdd sg13g2_IOPadVdd_east (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
+    // Power/ground pad instances
 
-    (* keep *)
-    sg13g2_IOPadVss sg13g2_IOPadVss_east (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadIOVss sg13g2_IOPadIOVss_east (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadIOVdd sg13g2_IOPadIOVdd_east (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadVdd sg13g2_IOPadVdd_west (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadVss sg13g2_IOPadVss_west (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadIOVss sg13g2_IOPadIOVss_west (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
-
-    (* keep *)
-    sg13g2_IOPadIOVdd sg13g2_IOPadIOVdd_west (
-        `ifdef USE_POWER_PINS
-        .vss    (VSS),
-        .vdd    (VDD),
-        .iovss  (IOVSS),
-        .iovdd  (IOVDD)
-        `endif
-    );
+    generate
+    for (genvar i=0; i<NUM_IOVDD_PADS; i++) begin : iovdd_pads
+        (* keep *)
+        sg13g2_IOPadIOVdd iovdd_pad  (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS)
+            `endif
+        );
+    end
+    for (genvar i=0; i<NUM_IOVSS_PADS; i++) begin : iovss_pads
+        (* keep *)
+        sg13g2_IOPadIOVss iovss_pad  (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS)
+            `endif
+        );
+    end
+    for (genvar i=0; i<NUM_VDD_PADS; i++) begin : vdd_pads
+        (* keep *)
+        sg13g2_IOPadVdd vdd_pad  (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS)
+            `endif
+        );
+    end
+    for (genvar i=0; i<NUM_VSS_PADS; i++) begin : vss_pads
+        (* keep *)
+        sg13g2_IOPadVss vss_pad  (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS)
+            `endif
+        );
+    end
+    endgenerate
 
     // FPGA IO pad instances
 
-    sg13g2_IOPadIn sg13g2_IOPadIn_fpga_clk (
+    sg13g2_IOPadIn fpga_clk (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .p2c (fpga_clk_PAD2CORE),
         .pad (fpga_clk_PAD)
     );
     
-    sg13g2_IOPadIn sg13g2_IOPadIn_fpga_rst_n (
+    sg13g2_IOPadIn fpga_rst_n (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .p2c (fpga_rst_n_PAD2CORE),
         .pad (fpga_rst_n_PAD)
     );
 
-    sg13g2_IOPadInOut30mA sg13g2_IOPadInOut30mA_fpga_sclk (
+    sg13g2_IOPadInOut30mA fpga_sclk (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p    (fpga_sclk_CORE2PAD),
         .c2p_en (fpga_sclk_CORE2PAD_EN),
         .p2c    (fpga_sclk_PAD2CORE),
         .pad    (fpga_sclk_PAD )
     );
     
-    sg13g2_IOPadInOut30mA sg13g2_IOPadInOut30mA_fpga_cs_n (
+    sg13g2_IOPadInOut30mA fpga_cs_n (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p    (fpga_cs_n_CORE2PAD),
         .c2p_en (fpga_cs_n_CORE2PAD_EN),
         .p2c    (fpga_cs_n_PAD2CORE),
         .pad    (fpga_cs_n_PAD )
     );
     
-    sg13g2_IOPadInOut30mA sg13g2_IOPadInOut30mA_fpga_mosi (
+    sg13g2_IOPadInOut30mA fpga_mosi (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p    (fpga_mosi_CORE2PAD),
         .c2p_en (fpga_mosi_CORE2PAD_EN),
         .p2c    (fpga_mosi_PAD2CORE),
         .pad    (fpga_mosi_PAD )
     );
     
-    sg13g2_IOPadInOut30mA sg13g2_IOPadInOut30mA_fpga_miso (
+    sg13g2_IOPadInOut30mA fpga_miso (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p    (fpga_miso_CORE2PAD),
         .c2p_en (fpga_miso_CORE2PAD_EN),
         .p2c    (fpga_miso_PAD2CORE),
         .pad    (fpga_miso_PAD )
     );
 
-    sg13g2_IOPadIn sg13g2_IOPadIn_fpga_mode (
+    sg13g2_IOPadIn fpga_mode (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .p2c (fpga_mode_PAD2CORE),
         .pad (fpga_mode_PAD)
     );
     
-    sg13g2_IOPadOut30mA sg13g2_IOPadOut30mA_fpga_config_busy (
+    sg13g2_IOPadOut30mA fpga_config_busy (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p (fpga_config_busy_CORE2PAD),
         .pad (fpga_config_busy_PAD)
     );
     
     generate
-    for (genvar i=0; i<32; i++) begin : sg13g2_IOPadInOut30mA_fpga_io
+    for (genvar i=0; i<32; i++) begin : fpga_ios
         sg13g2_IOPadInOut30mA fpga_io (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS),
+            `endif
             .c2p    (fpga_io_CORE2PAD[i]),
             .c2p_en (fpga_io_CORE2PAD_EN[i]),
             .p2c    (fpga_io_PAD2CORE[i]),
@@ -200,33 +239,155 @@ module heichips25_top (
     end
     endgenerate
 
-    sg13g2_IOPadOut30mA sg13g2_IOPadOut30mA_fpga_config_configured (
+    sg13g2_IOPadOut30mA fpga_config_configured (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .c2p (fpga_config_configured_CORE2PAD),
         .pad (fpga_config_configured_PAD)
     );
 
     generate
-    for (genvar i=0; i<4; i++) begin : sg13g2_IOPadIn_fpga_config_slot
+    for (genvar i=0; i<4; i++) begin : fpga_config_slot
         sg13g2_IOPadIn fpga_config_slot (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS),
+            `endif
             .p2c (fpga_config_slot_PAD2CORE[i]),
             .pad (fpga_config_slot_PAD[i])
         );
     end
     endgenerate
 
-    sg13g2_IOPadIn sg13g2_IOPadIn_fpga_config_trigger (
+    sg13g2_IOPadIn fpga_config_trigger (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
         .p2c (fpga_config_trigger_PAD2CORE),
         .pad (fpga_config_trigger_PAD)
     );
     
     generate
-    for (genvar i=0; i<10; i++) begin : sg13g2_IOPadAnalog_analog
+    for (genvar i=0; i<10; i++) begin : analogs
         (* keep *) sg13g2_IOPadAnalog analog (
+            `ifdef USE_POWER_PINS
+            .iovdd  (IOVDD),
+            .iovss  (IOVSS),
+            .vdd    (VDD),
+            .vss    (VSS),
+            `endif
             .padres (),
             .pad (analog_PAD[i])
         );
     end
     endgenerate
+    
+    // I/Os for the user projects
+    
+    wire user_usb_dn_CORE2PAD;
+    wire user_usb_dn_CORE2PAD_EN;
+    wire user_usb_dn_PAD2CORE;
+    
+    sg13g2_IOPadInOut30mA user_usb_dn (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p    (user_usb_dn_CORE2PAD),
+        .c2p_en (user_usb_dn_CORE2PAD_EN),
+        .p2c    (user_usb_dn_PAD2CORE),
+        .pad    (user_usb_dn_PAD )
+    );
+
+    wire user_usb_dp_CORE2PAD;
+    wire user_usb_dp_CORE2PAD_EN;
+    wire user_usb_dp_PAD2CORE;
+    
+    sg13g2_IOPadInOut30mA user_usb_dp (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p    (user_usb_dp_CORE2PAD),
+        .c2p_en (user_usb_dp_CORE2PAD_EN),
+        .p2c    (user_usb_dp_PAD2CORE),
+        .pad    (user_usb_dp_PAD )
+    );
+
+    wire user_usb_dp_up_CORE2PAD;
+
+    sg13g2_IOPadOut30mA user_usb_dp_up (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_usb_dp_up_CORE2PAD),
+        .pad (user_usb_dp_up_PAD)
+    );
+
+    wire user_tmds_b_CORE2PAD;
+    wire user_tmds_g_CORE2PAD;
+    wire user_tmds_r_CORE2PAD;
+    wire user_tmds_clk_CORE2PAD;
+
+    sg13g2_IOPadOut30mA user_tmds_b (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_tmds_b_CORE2PAD),
+        .pad (user_tmds_b_PAD)
+    );
+
+    sg13g2_IOPadOut30mA user_tmds_g (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_tmds_g_CORE2PAD),
+        .pad (user_tmds_g_PAD)
+    );
+
+    sg13g2_IOPadOut30mA user_tmds_r (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_tmds_r_CORE2PAD),
+        .pad (user_tmds_r_PAD)
+    );
+
+    sg13g2_IOPadOut30mA user_tmds_clk (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .c2p (user_tmds_clk_CORE2PAD),
+        .pad (user_tmds_clk_PAD)
+    );
 
     // Core
     heichips25_core heichips25_core (
@@ -260,14 +421,31 @@ module heichips25_top (
         .fabric_io_in_i     (fpga_io_PAD2CORE),
         .fabric_io_out_o    (fpga_io_CORE2PAD),
         .fabric_io_oe_o     (fpga_io_CORE2PAD_EN),
+
+        // User I/Os
+        .usb_dn_en_o    (user_usb_dn_CORE2PAD_EN),
+        .usb_dn_rx_i    (user_usb_dn_PAD2CORE),
+        .usb_dn_tx_o    (user_usb_dn_CORE2PAD),
+        .usb_dp_en_o    (user_usb_dp_CORE2PAD_EN),
+        .usb_dp_rx_i    (user_usb_dp_PAD2CORE),
+        .usb_dp_tx_o    (user_usb_dp_CORE2PAD),
+        .usb_dp_up_o    (user_usb_dp_up_CORE2PAD),
         
-        .usb_dn_en_o    (),
-        .usb_dn_rx_i    (1'b0),
-        .usb_dn_tx_o    (),
-        .usb_dp_en_o    (),
-        .usb_dp_rx_i    (1'b0),
-        .usb_dp_tx_o    (),
-        .usb_dp_up_o    ()
+        .tmds_b         (user_tmds_b_CORE2PAD),
+        .tmds_g         (user_tmds_g_CORE2PAD),
+        .tmds_r         (user_tmds_r_CORE2PAD),
+        .tmds_clk       (user_tmds_clk_CORE2PAD)
     );
+
+    // Alignment marks for bonding
+    (* keep *) alignment_mark alignment_mark_0 ();
+    (* keep *) alignment_mark alignment_mark_1 ();
+    (* keep *) alignment_mark alignment_mark_2 ();
+    (* keep *) alignment_mark alignment_mark_3 ();
+
+    // Logos
+    (* keep *) logo_heichips logo_heichips ();
+    (* keep *) logo_fabulous logo_fabulous ();
+    (* keep *) logo_credits logo_credits ();
 
 endmodule

@@ -23,22 +23,22 @@ wire [`NUM_IO-1:0] io_in, io_out, io_oeb;
 (* keep, BEL="X4Y0.D" *) IO_1_bidirectional_frame_config_pass io15_i (.O(io_in[15]), .I(io_out[15]), .T(io_oeb[15]));
 
 // South
-(* keep, BEL="X1Y9.A" *) IO_1_bidirectional_frame_config_pass io16_i (.O(io_in[16]), .I(io_out[16]), .T(io_oeb[16]));
-(* keep, BEL="X1Y9.B" *) IO_1_bidirectional_frame_config_pass io17_i (.O(io_in[17]), .I(io_out[17]), .T(io_oeb[17]));
-(* keep, BEL="X1Y9.C" *) IO_1_bidirectional_frame_config_pass io18_i (.O(io_in[18]), .I(io_out[18]), .T(io_oeb[18]));
-(* keep, BEL="X1Y9.D" *) IO_1_bidirectional_frame_config_pass io19_i (.O(io_in[19]), .I(io_out[19]), .T(io_oeb[19]));
-(* keep, BEL="X2Y9.A" *) IO_1_bidirectional_frame_config_pass io20_i (.O(io_in[20]), .I(io_out[20]), .T(io_oeb[20]));
-(* keep, BEL="X2Y9.B" *) IO_1_bidirectional_frame_config_pass io21_i (.O(io_in[21]), .I(io_out[21]), .T(io_oeb[21]));
-(* keep, BEL="X2Y9.C" *) IO_1_bidirectional_frame_config_pass io22_i (.O(io_in[22]), .I(io_out[22]), .T(io_oeb[22]));
-(* keep, BEL="X2Y9.D" *) IO_1_bidirectional_frame_config_pass io23_i (.O(io_in[23]), .I(io_out[23]), .T(io_oeb[23]));
-(* keep, BEL="X3Y9.A" *) IO_1_bidirectional_frame_config_pass io24_i (.O(io_in[24]), .I(io_out[24]), .T(io_oeb[24]));
-(* keep, BEL="X3Y9.B" *) IO_1_bidirectional_frame_config_pass io25_i (.O(io_in[25]), .I(io_out[25]), .T(io_oeb[25]));
-(* keep, BEL="X3Y9.C" *) IO_1_bidirectional_frame_config_pass io26_i (.O(io_in[26]), .I(io_out[26]), .T(io_oeb[26]));
-(* keep, BEL="X3Y9.D" *) IO_1_bidirectional_frame_config_pass io27_i (.O(io_in[27]), .I(io_out[27]), .T(io_oeb[27]));
-(* keep, BEL="X4Y9.A" *) IO_1_bidirectional_frame_config_pass io28_i (.O(io_in[28]), .I(io_out[28]), .T(io_oeb[28]));
-(* keep, BEL="X4Y9.B" *) IO_1_bidirectional_frame_config_pass io29_i (.O(io_in[29]), .I(io_out[29]), .T(io_oeb[29]));
-(* keep, BEL="X4Y9.C" *) IO_1_bidirectional_frame_config_pass io30_i (.O(io_in[30]), .I(io_out[30]), .T(io_oeb[30]));
-(* keep, BEL="X4Y9.D" *) IO_1_bidirectional_frame_config_pass io31_i (.O(io_in[31]), .I(io_out[31]), .T(io_oeb[31]));
+(* keep, BEL="X1Y10.A" *) IO_1_bidirectional_frame_config_pass io16_i (.O(io_in[16]), .I(io_out[16]), .T(io_oeb[16]));
+(* keep, BEL="X1Y10.B" *) IO_1_bidirectional_frame_config_pass io17_i (.O(io_in[17]), .I(io_out[17]), .T(io_oeb[17]));
+(* keep, BEL="X1Y10.C" *) IO_1_bidirectional_frame_config_pass io18_i (.O(io_in[18]), .I(io_out[18]), .T(io_oeb[18]));
+(* keep, BEL="X1Y10.D" *) IO_1_bidirectional_frame_config_pass io19_i (.O(io_in[19]), .I(io_out[19]), .T(io_oeb[19]));
+(* keep, BEL="X2Y10.A" *) IO_1_bidirectional_frame_config_pass io20_i (.O(io_in[20]), .I(io_out[20]), .T(io_oeb[20]));
+(* keep, BEL="X2Y10.B" *) IO_1_bidirectional_frame_config_pass io21_i (.O(io_in[21]), .I(io_out[21]), .T(io_oeb[21]));
+(* keep, BEL="X2Y10.C" *) IO_1_bidirectional_frame_config_pass io22_i (.O(io_in[22]), .I(io_out[22]), .T(io_oeb[22]));
+(* keep, BEL="X2Y10.D" *) IO_1_bidirectional_frame_config_pass io23_i (.O(io_in[23]), .I(io_out[23]), .T(io_oeb[23]));
+(* keep, BEL="X3Y10.A" *) IO_1_bidirectional_frame_config_pass io24_i (.O(io_in[24]), .I(io_out[24]), .T(io_oeb[24]));
+(* keep, BEL="X3Y10.B" *) IO_1_bidirectional_frame_config_pass io25_i (.O(io_in[25]), .I(io_out[25]), .T(io_oeb[25]));
+(* keep, BEL="X3Y10.C" *) IO_1_bidirectional_frame_config_pass io26_i (.O(io_in[26]), .I(io_out[26]), .T(io_oeb[26]));
+(* keep, BEL="X3Y10.D" *) IO_1_bidirectional_frame_config_pass io27_i (.O(io_in[27]), .I(io_out[27]), .T(io_oeb[27]));
+(* keep, BEL="X4Y10.A" *) IO_1_bidirectional_frame_config_pass io28_i (.O(io_in[28]), .I(io_out[28]), .T(io_oeb[28]));
+(* keep, BEL="X4Y10.B" *) IO_1_bidirectional_frame_config_pass io29_i (.O(io_in[29]), .I(io_out[29]), .T(io_oeb[29]));
+(* keep, BEL="X4Y10.C" *) IO_1_bidirectional_frame_config_pass io30_i (.O(io_in[30]), .I(io_out[30]), .T(io_oeb[30]));
+(* keep, BEL="X4Y10.D" *) IO_1_bidirectional_frame_config_pass io31_i (.O(io_in[31]), .I(io_out[31]), .T(io_oeb[31]));
 
 wire clk;
 (* keep *) Global_Clock clk_i (.CLK(clk));
