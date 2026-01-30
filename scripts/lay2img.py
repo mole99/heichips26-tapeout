@@ -33,7 +33,8 @@ def main(input_layout, output_image, width, height, oversampling, pdk_root, pdk)
         height = int(width / aspect_ratio)
 
     # Load the layer properties
-    lv.load_layer_props(os.path.join(pdk_root, pdk, "libs.tech", "klayout", "tech", "sg13g2.lyp"))
+    #lv.load_layer_props(os.path.join(pdk_root, pdk, "libs.tech", "klayout", "tech", "sg13g2.lyp"))
+    lv.load_layer_props(os.path.join(os.path.dirname(os.path.realpath(__file__)), "render.lyp"))
 
     disable_layers = [
         (189, 4),
