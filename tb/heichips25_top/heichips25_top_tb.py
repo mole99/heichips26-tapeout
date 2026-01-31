@@ -97,6 +97,11 @@ if __name__ == "__main__":
         # Alignment mark
         testbench_path / '../../ip/alignment_mark/vh/alignment_mark.v',
 
+        # Logos
+        testbench_path / '../../ip/logo_fabulous/vh/logo_fabulous.v',
+        testbench_path / '../../ip/logo_heichips/vh/logo_heichips.v',
+        testbench_path / '../../ip/logo_credits/vh/logo_credits.v',
+
         # Blackbox user projects
         testbench_path / '../../ip/user_projects/bb_user_projects.v',
         
