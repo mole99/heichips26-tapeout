@@ -17,8 +17,10 @@ module heichips25_template (
     input  wire       rst_n,    // reset_n - low to reset
     
     // Dedicated pins
-    inout  wire       i_in,
-    inout  wire       i_out
+    inout  wire       analog_pin0,
+    inout  wire       analog_pin1,
+    inout  wire       analog_pin2,
+    inout  wire       analog_pin3
 );
 
 endmodule
