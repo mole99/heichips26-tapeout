@@ -25,3 +25,6 @@
 [submodule "ip/user_projects/heichips25_SDR"]
 	path = ip/user_projects/heichips25_SDR
 	url = ../../HeiChips/heichips25_SDR.git
+[submodule "ip/user_projects/heichips25-tiny-wrapper2"]
+	path = ip/user_projects/heichips25-tiny-wrapper2
+	url = ../../HeiChips/heichips25-tiny-wrapper2.git
