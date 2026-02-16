@@ -417,16 +417,16 @@ MACROS:
         location: [390, expr::(1755 + 95.00)]
         orientation: FN
 
-  heichips25_sap3:
+  heichips25_tiny_wrapper2:
     gds:
-      - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/gds/heichips25_sap3.gds
+      - dir::../ip/user_projects/heichips25-tiny-wrapper2/macro/gds/heichips25_tiny_wrapper2.gds
     lef:
-      - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/lef/heichips25_sap3.lef
+      - dir::../ip/user_projects/heichips25-tiny-wrapper2/macro/lef/heichips25_tiny_wrapper2.lef
     nl:
-      - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/nl/heichips25_sap3.nl.v
+      - dir::../ip/user_projects/heichips25-tiny-wrapper2/macro/nl/heichips25_tiny_wrapper2.nl.v
     spef:
       "nom_*":
-        - dir::../ip/user_projects/heiChips2025_sap3_and_sorter/heichips25_sap-3/macro/spef/nom/heichips25_sap3.nom.spef
+        - dir::../ip/user_projects/heichips25-tiny-wrapper2/macro/spef/nom/heichips25_tiny_wrapper2.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_1:
         location: [390, expr::(1540 + 95.00)]
