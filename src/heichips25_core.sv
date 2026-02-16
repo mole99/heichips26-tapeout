@@ -52,7 +52,10 @@ module heichips25_core (
     
     inout internal_analog_pin0,
     inout internal_analog_pin1,
-    inout internal_analog_adc
+    inout internal_analog_adc,
+    
+    inout pudding_i_in,
+    inout pudding_i_out
 );
     
     // Fabric parameters
@@ -350,6 +353,8 @@ module heichips25_core (
         
         // heichips25-pudding
         // 2 analog pins
+        .pudding_i_in  (pudding_i_in),
+        .pudding_i_out (pudding_i_out),
         
         // heichips25-fg
         // 4 analog pins
