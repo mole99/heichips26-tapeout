@@ -35,7 +35,7 @@ The following user projects are included:
 |---------------|---------------|---------------|---------------|------|
 | heichips25_snitch_wrapper | Large | X0Y2          | Snitch RISC‑V (RV32) integer core implemented with LibreLane on IHP SG13G2 (130 nm). | [Link](https://github.com/HeiChips/heichips_25_snitch_core) |
 | heichips25_CORDIC | Small | X0Y3          | Waveform + Tone Generation using CORDIC Algorithm. | [Link](https://github.com/HeiChips/heichips25_CORDIC) |
-| heichips25_sap3 | Small | X0Y4          | SAP-3 (Simple-As-Possible Computer). | [Link](https://github.com/HeiChips/heiChips2025_sap3_and_sorter) |
+| heichips25_tiny_wrapper2 | Small | X0Y4          | SAP-3 (Simple-As-Possible Computer). <br> FSM: A programmable state machine controller for the Heichips25 tapeout. It can be programmed to implement a wide variety of state machine based designs, such as: Serializer/Deserializer, Pulse Width Modulation (PWM), UART, ... | [Link](https://github.com/HeiChips/heichips25-tiny-wrapper2) |
 | heichips25_top_sorter | Small | X0Y5          | A top N sorter (either sorting or finding top N elements) of 28 8-bit numbers at 143 MHz. | [Link](https://github.com/HeiChips/heiChips2025_sap3_and_sorter) |
 | heichips25_systolicArrayTop | Small | X0Y6          | Computes the product of two 4x4 matrices. Each input matrix element is a 4-bit unsigned integer. | [Link](https://github.com/HeiChips/heichips25_systolicArray4x4) |
 | heichips25_SDR | Small | X0Y7          | Software-Defined Radio System Hardware Acceleration | [Link](https://github.com/HeiChips/heichips25_SDR) |
