@@ -91,3 +91,4 @@ if __name__ == '__main__':
 	generate_template(width=500, height=200, name="heichips25_template_small_cryo.def", pins="pins_cryo.cfg", src="src/heichips25_template_cryo.v")
 	generate_template(width=500, height=200, name="heichips25_template_small_fg.def", pins="pins_fg.cfg", src="src/heichips25_template_fg.v")
 	generate_template(width=500, height=200, name="heichips25_template_small_ethernet.def", pins="pins_ethernet.cfg", src="src/heichips25_template_ethernet.v")
+	generate_template(width=500, height=200, name="heichips25_template_small_internal.def", pins="pins_internal.cfg", src="src/heichips25_template_internal.v")
