@@ -60,6 +60,19 @@ To build a bitstream of a user design for the eFPGA, see [README.md](ip/fabric/u
 
 ### Prerequisites
 
+> [!NOTE]
+> Either clone the repo using the following command: 
+>```console
+>git clone --recurse-submodules git@github.com:FPGA-Research/heichips25-tapeout.git
+>```
+> or initialize the submodules if you cloned the repo without them:
+>
+>```console
+> git submodule update --init --recursive .
+>```
+
+
+
 To clone the compatible PDK version, simply run `make clone-pdk`.
 
 In the next step, install LibreLane by following the Nix-based installation instructions: https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html
