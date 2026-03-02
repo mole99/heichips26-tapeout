@@ -9,11 +9,7 @@
   };
 
   inputs = {
-    #nix-eda.url = "github:fossi-foundation/nix-eda/5.13.0";
-    librelane = {
-      url = "github:librelane/librelane/dev";
-      #inputs.nix-eda.follows = "nix-eda";
-    };
+    librelane.url = "github:librelane/librelane/dev";
   };
 
   outputs =
@@ -39,14 +35,19 @@
             devshell.overlays.default
             librelane.overlays.default
             (nix-eda.composePythonOverlay (
-            pkgs': pkgs: pypkgs': pypkgs:
-            let
-              callPythonPackage = lib.callPackageWith (pkgs' // pypkgs');
-            in
-            {
-              cocotbext-spi = callPythonPackage ./nix/cocotbext-spi.nix { };
-            }
-          ))
+              pkgs': pkgs: pypkgs': pypkgs:
+              let
+                callPythonPackage = lib.callPackageWith (pkgs' // pypkgs');
+              in
+              {
+                cocotbext-spi = callPythonPackage ./nix/cocotbext-spi.nix { };
+              }
+            ))
+            (final: prev: {
+              openroad = prev.openroad.overrideAttrs {
+                patches = prev.openroad.patches ++ [./disable_auto_taper.patch];
+              };
+            })
           ];
         }
       );

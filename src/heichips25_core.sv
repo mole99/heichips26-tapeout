@@ -48,7 +48,11 @@ module heichips25_core (
     output tmds_b,
     output tmds_g,
     output tmds_r,
-    output tmds_clk
+    output tmds_clk,
+    
+    inout internal_analog_pin0,
+    inout internal_analog_pin1,
+    inout internal_analog_adc
 );
     
     // Fabric parameters
@@ -329,6 +333,7 @@ module heichips25_core (
         .io_south_out_o (fabric_io_south_out_o),
         .io_south_oe_o  (fabric_io_south_oe_o),
         
+        // heichips25-usb_cdc
         .usb_dn_en_o    (usb_dn_en_o),
         .usb_dn_rx_i    (usb_dn_rx_i),
         .usb_dn_tx_o    (usb_dn_tx_o),
@@ -337,10 +342,27 @@ module heichips25_core (
         .usb_dp_tx_o    (usb_dp_tx_o),
         .usb_dp_up_o    (usb_dp_up_o),
         
+        // heichips25_bagel
         .tmds_b         (tmds_b),
         .tmds_g         (tmds_g),
         .tmds_r         (tmds_r),
-        .tmds_clk       (tmds_clk)
+        .tmds_clk       (tmds_clk),
+        
+        // heichips25-pudding
+        // 2 analog pins
+        
+        // heichips25-fg
+        // 4 analog pins
+        
+        // heichips25-lvds
+        // 2 analog pins
+        
+        // heichips25-internal
+        // 2 (DLL) + 1 (ADC)
+        .internal_analog_pin0 (internal_analog_pin0),
+        .internal_analog_pin1 (internal_analog_pin1),
+        .internal_analog_adc  (internal_analog_adc)
+        
     );
     
     //$assert(fabric_wrapper.FrameBitsPerRow ...)
