@@ -635,17 +635,8 @@ PDN_MACRO_CONNECTIONS:
   - "heichips25_core/fabric_wrapper/sram0_1 VDD VSS VDD! VSS!"
   - "heichips25_core/fabric_wrapper/sram0_1 VDD VSS VDDARRAY! VSS!"
 
-# Make sure netgen doesn't create 'no_connect' nets
-# Not needed since netgen 1.5.303
-LVS_FLATTEN_CELLS:
-- alignment_mark
-- logo_heichips
-- logo_fabulous
-- logo_credits
-
-# IP has no ports and components
-# therefore make it an abstract cell in the layout
-MAGIC_EXT_ABSTRACT_CELLS:
+# Ignore logos for LVS
+LVS_IGNORE_CELLS:
 - alignment_mark
 - logo_heichips
 - logo_fabulous
