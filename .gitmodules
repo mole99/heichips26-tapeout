@@ -28,3 +28,6 @@
 [submodule "ip/user_projects/heichips25-tiny-wrapper2"]
 	path = ip/user_projects/heichips25-tiny-wrapper2
 	url = ../../HeiChips/heichips25-tiny-wrapper2.git
+[submodule "ip/user_projects/heichips25-internal"]
+	path = ip/user_projects/heichips25-internal
+	url = ../../HeiChips/heichips25-internal.git

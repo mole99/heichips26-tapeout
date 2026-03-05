@@ -41,7 +41,11 @@ module fabric_wrapper #(
     output tmds_b,
     output tmds_g,
     output tmds_r,
-    output tmds_clk
+    output tmds_clk,
+    
+    inout internal_analog_pin0,
+    inout internal_analog_pin1,
+    inout internal_analog_adc
 );
     
     // TT_PROJECT 0 (X0Y2)
@@ -1162,7 +1166,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_6_uio_oe)
     );
 
-    heichips25_example_small heichips25_example_small_6 (
+    heichips25_internal heichips25_example_small_6 (
         .clk        (tt_project_7_clk),
         .rst_n      (tt_project_7_rst_n),
         .ena        (tt_project_7_ena),
@@ -1170,7 +1174,14 @@ module fabric_wrapper #(
         .uio_in     (tt_project_7_uio_in),
         .uo_out     (tt_project_7_uo_out),
         .uio_out    (tt_project_7_uio_out),
-        .uio_oe     (tt_project_7_uio_oe)
+        .uio_oe     (tt_project_7_uio_oe),
+
+        // DLL
+        .analog_pin0  (internal_analog_pin0),
+        .analog_pin1  (internal_analog_pin1),
+
+        // ADC
+        .analog_adc   (internal_analog_adc)
     );
 
     heichips25_fazyrv_exotiny heichips25_example_large_1 (

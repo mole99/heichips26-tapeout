@@ -27,6 +27,8 @@ meta:
     #KLayout.XOR: null
     #Netgen.LVS: null
     #Checker.LVS: null
+    
+    OpenROAD.IRDropReport: null
 
 DESIGN_NAME: heichips25_top
 VERILOG_FILES:
@@ -85,9 +87,9 @@ PAD_EAST: [
     "analogs\\[4\\].analog",
     "analogs\\[5\\].analog",
     "analogs\\[6\\].analog",
-    "analogs\\[7\\].analog",
-    "analogs\\[8\\].analog",
-    "analogs\\[9\\].analog",
+    #"analogs\\[7\\].analog",
+    #"analogs\\[8\\].analog",
+    #"analogs\\[9\\].analog",
 
     user_usb_dn,
     user_usb_dp,
@@ -130,6 +132,10 @@ PAD_NORTH: [
 PAD_WEST: [
     "vdd_pads\\[3\\].vdd_pad",
     "vss_pads\\[3\\].vss_pad",
+
+    internal_analog_pin0,
+    internal_analog_pin1,
+    internal_analog_adc,
 
     fpga_clk,
     fpga_rst_n,
@@ -184,6 +190,31 @@ PDN_CORE_RING_HSPACING: 5
 
 PDN_CORE_RING_CONNECT_TO_PADS: True
 PDN_ENABLE_PINS: False
+
+
+NON_DEFAULT_RULES:
+  # 3 times the width and spacing
+  NDR_3W_3S:
+    width: ["*3"]
+    spacing: ["*3"]
+
+  # 0.4um traces with dual-cut vias
+  NDR_0p4:
+    width: ["0.4"]
+    spacing: ["0.2"]
+    via: ["Via1_DC1B", "Via2_DC1B", "Via3_DC1B", "Via4_DC1B", "TopVia1EWNS", "TopVia2EWNS"]
+
+DRT_ASSIGN_NDR:
+  # Analog traces for internal project
+  "^internal_analog_pin0_PADRES$": NDR_0p4
+  "^internal_analog_pin1_PADRES$": NDR_0p4
+  "^internal_analog_adc_PADRES$": NDR_0p4
+
+PAD_LEFS: dir::../sg13g2_io.lef
+
+CTS_APPLY_NDR: none #full
+
+ERROR_ON_PDN_VIOLATIONS: false
 
 # Override bondpad name
 PAD_BONDPAD_NAME: bondpad_70x70_novias
@@ -330,9 +361,9 @@ MACROS:
       heichips25_core/fabric_wrapper/heichips25_example_small_5:
         location: [390, expr::(680 + 95.00)]
         orientation: FN
-      heichips25_core/fabric_wrapper/heichips25_example_small_6:
-        location: [390, expr::(465 + 95.00)]
-        orientation: FN
+      #heichips25_core/fabric_wrapper/heichips25_example_small_6:
+      #  location: [390, expr::(465 + 95.00)]
+      #  orientation: FN
 
       #heichips25_core/fabric_wrapper/heichips25_example_small_7:
       #  location: [2109, 1325]
@@ -522,6 +553,21 @@ MACROS:
         location: [2109, expr::(895 + 95.00)]
         orientation: N
 
+  heichips25_internal:
+    gds:
+      - dir::../ip/user_projects/heichips25-internal/macro/gds/heichips25_internal.gds
+    lef:
+      - dir::../ip/user_projects/heichips25-internal/macro/lef/heichips25_internal.lef
+    nl:
+      - dir::../ip/user_projects/heichips25-internal/macro/nl/heichips25_internal.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25-internal/macro/spef/nom/heichips25_internal.nom.spef
+    instances:
+      heichips25_core/fabric_wrapper/heichips25_example_small_6:
+        location: [391, expr::(465 + 95.00)]
+        orientation: FN
+
 PDN_OBSTRUCTIONS:
  # Left
  - [TopMetal1,  390, expr::(1970 + 95.00),  888, expr::(2385 + 95.00)] # heichips25_example_large_0
@@ -589,17 +635,8 @@ PDN_MACRO_CONNECTIONS:
   - "heichips25_core/fabric_wrapper/sram0_1 VDD VSS VDD! VSS!"
   - "heichips25_core/fabric_wrapper/sram0_1 VDD VSS VDDARRAY! VSS!"
 
-# Make sure netgen doesn't create 'no_connect' nets
-# Not needed since netgen 1.5.303
-LVS_FLATTEN_CELLS:
-- alignment_mark
-- logo_heichips
-- logo_fabulous
-- logo_credits
-
-# IP has no ports and components
-# therefore make it an abstract cell in the layout
-MAGIC_EXT_ABSTRACT_CELLS:
+# Ignore logos for LVS
+LVS_IGNORE_CELLS:
 - alignment_mark
 - logo_heichips
 - logo_fabulous

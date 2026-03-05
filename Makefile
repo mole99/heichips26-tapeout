@@ -5,7 +5,7 @@ TOP = heichips25_top
 
 PDK_ROOT ?= $(MAKEFILE_DIR)/IHP-Open-PDK
 PDK ?= ihp-sg13g2
-PDK_COMMIT ?= c4b8b4e5e7a05f375cca3815d51b3a37721fbf5c
+PDK_COMMIT ?= 0170d270482796cca22d12d682684b49e10664d3
 
 .DEFAULT_GOAL := help
 
@@ -30,7 +30,7 @@ librelane: $(PDK_ROOT)/$(PDK) ## Run LibreLane flow (synthesis, PnR, verificatio
 .PHONY: librelane
 
 librelane-nodrc: $(PDK_ROOT)/$(PDK) ## Run LibreLane flow without DRC checks
-	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --skip KLayout.DRC --skip Magic.DRC --skip KLayout.Density --skip KLayout.Filler 
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --skip KLayout.DRC --skip Magic.DRC --skip KLayout.Antenna --skip KLayout.Density --skip KLayout.Filler
 .PHONY: librelane-nodrc
 
 librelane-openroad: $(PDK_ROOT)/$(PDK) ## Open the last run in OpenROAD

@@ -8,7 +8,9 @@ module heichips25_top #(
     
     // Power/ground pads for I/O
     parameter NUM_IOVDD_PADS = 4,
-    parameter NUM_IOVSS_PADS = 4
+    parameter NUM_IOVSS_PADS = 4,
+    
+    parameter NUM_ANALOG_PADS = 7
     )(
     `ifdef USE_POWER_PINS
     inout wire VDD,
@@ -33,7 +35,7 @@ module heichips25_top #(
 
     inout  wire [31:0]  fpga_io_PAD,
     
-    inout  wire [9:0]   analog_PAD,
+    inout  wire [NUM_ANALOG_PADS-1:0]   analog_PAD,
     
     // User I/Os
     inout  wire         user_usb_dn_PAD,
@@ -43,7 +45,11 @@ module heichips25_top #(
     inout  wire         user_tmds_b_PAD,
     inout  wire         user_tmds_g_PAD,
     inout  wire         user_tmds_r_PAD,
-    inout  wire         user_tmds_clk_PAD
+    inout  wire         user_tmds_clk_PAD,
+    
+    inout  wire         internal_analog_pin0_PAD,
+    inout  wire         internal_analog_pin1_PAD,
+    inout  wire         internal_analog_adc_PAD
 );
     // FPGA
     wire fpga_clk_PAD2CORE;
@@ -74,6 +80,10 @@ module heichips25_top #(
     wire [31:0] fpga_io_PAD2CORE;
     wire [31:0] fpga_io_CORE2PAD;
     wire [31:0] fpga_io_CORE2PAD_EN;
+
+    wire internal_analog_pin0_PADRES;
+    wire internal_analog_pin1_PADRES;
+    wire internal_analog_adc_PADRES;
 
     // Power/ground pad instances
 
@@ -277,7 +287,7 @@ module heichips25_top #(
     );
     
     generate
-    for (genvar i=0; i<10; i++) begin : analogs
+    for (genvar i=0; i<NUM_ANALOG_PADS; i++) begin : analogs
         (* keep *) sg13g2_IOPadAnalog analog (
             `ifdef USE_POWER_PINS
             .iovdd  (IOVDD),
@@ -389,6 +399,39 @@ module heichips25_top #(
         .pad (user_tmds_clk_PAD)
     );
 
+    (* keep *) sg13g2_IOPadAnalog internal_analog_pin0 (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .padres (internal_analog_pin0_PADRES),
+        .pad (internal_analog_pin0_PAD)
+    );
+
+    (* keep *) sg13g2_IOPadAnalog internal_analog_pin1 (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .padres (internal_analog_pin1_PADRES),
+        .pad (internal_analog_pin1_PAD)
+    );
+
+    (* keep *) sg13g2_IOPadAnalog internal_analog_adc (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .padres (internal_analog_adc_PADRES),
+        .pad (internal_analog_adc_PAD)
+    );
+
     // Core
     heichips25_core heichips25_core (
         // FPGA
@@ -434,7 +477,11 @@ module heichips25_top #(
         .tmds_b         (user_tmds_b_CORE2PAD),
         .tmds_g         (user_tmds_g_CORE2PAD),
         .tmds_r         (user_tmds_r_CORE2PAD),
-        .tmds_clk       (user_tmds_clk_CORE2PAD)
+        .tmds_clk       (user_tmds_clk_CORE2PAD),
+        
+        .internal_analog_pin0 (internal_analog_pin0_PADRES),
+        .internal_analog_pin1 (internal_analog_pin1_PADRES),
+        .internal_analog_adc  (internal_analog_adc_PADRES)
     );
 
     // Alignment marks for bonding
