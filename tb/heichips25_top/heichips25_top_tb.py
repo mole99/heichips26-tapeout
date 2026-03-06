@@ -60,6 +60,7 @@ if __name__ == "__main__":
     if gl:
         # SCL models
         verilog_sources.append(Path(pdk_root).expanduser() / pdk / "libs.ref" / scl / "verilog" / f"{scl}.v" )
+        verilog_sources.append(Path(pdk_root).expanduser() / pdk / "libs.ref" / scl / "verilog" / f"sg13g2_udp.v" )
         
         # The NL netlist currently needs "`default_nettype wire"
         # So make sure no file sets it to "wire" before
