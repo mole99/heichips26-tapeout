@@ -45,7 +45,10 @@ module fabric_wrapper #(
     
     inout internal_analog_pin0,
     inout internal_analog_pin1,
-    inout internal_analog_adc
+    inout internal_analog_adc,
+    
+    inout pudding_i_in,
+    inout pudding_i_out
 );
     
     // TT_PROJECT 0 (X0Y2)
@@ -1155,7 +1158,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_5_uio_oe)
     );
 
-    heichips25_example_small heichips25_example_small_5 (
+    heichips25_pudding heichips25_example_small_5 (
         .clk        (tt_project_6_clk),
         .rst_n      (tt_project_6_rst_n),
         .ena        (tt_project_6_ena),
@@ -1163,7 +1166,10 @@ module fabric_wrapper #(
         .uio_in     (tt_project_6_uio_in),
         .uo_out     (tt_project_6_uo_out),
         .uio_out    (tt_project_6_uio_out),
-        .uio_oe     (tt_project_6_uio_oe)
+        .uio_oe     (tt_project_6_uio_oe),
+
+        .i_in  (pudding_i_in),
+        .i_out (pudding_i_out)
     );
 
     heichips25_internal heichips25_example_small_6 (

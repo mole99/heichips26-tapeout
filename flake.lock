@@ -65,16 +65,16 @@
         "nix-eda": "nix-eda"
       },
       "locked": {
-        "lastModified": 1772718334,
+        "lastModified": 1772725070,
         "narHash": "sha256-FPh1cGCNRZUwpQ4f+dBqjD36xw6nkd+DDsYRSCUEh70=",
         "owner": "librelane",
         "repo": "librelane",
-        "rev": "a8e5a15a0815bddc8980ac4e2f1a78255b58ee5b",
+        "rev": "28029c03dab8b767daa58286e05b215f16dc1b8d",
         "type": "github"
       },
       "original": {
         "owner": "librelane",
-        "ref": "leo/netgen-ignore-cells",
+        "ref": "dev",
         "repo": "librelane",
         "type": "github"
       }

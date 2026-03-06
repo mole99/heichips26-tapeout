@@ -79,17 +79,6 @@ PAD_EAST: [
         
     fpga_config_busy,
     fpga_config_configured,
-    
-    "analogs\\[0\\].analog",
-    "analogs\\[1\\].analog",
-    "analogs\\[2\\].analog",
-    "analogs\\[3\\].analog",
-    "analogs\\[4\\].analog",
-    "analogs\\[5\\].analog",
-    "analogs\\[6\\].analog",
-    #"analogs\\[7\\].analog",
-    #"analogs\\[8\\].analog",
-    #"analogs\\[9\\].analog",
 
     user_usb_dn,
     user_usb_dp,
@@ -136,6 +125,9 @@ PAD_WEST: [
     internal_analog_pin0,
     internal_analog_pin1,
     internal_analog_adc,
+
+    pudding_i_out,
+    pudding_i_in,
 
     fpga_clk,
     fpga_rst_n,
@@ -209,6 +201,8 @@ DRT_ASSIGN_NDR:
   "^internal_analog_pin0_PADRES$": NDR_0p4
   "^internal_analog_pin1_PADRES$": NDR_0p4
   "^internal_analog_adc_PADRES$": NDR_0p4
+  "^pudding_i_in_PADRES$": NDR_0p4
+  "^pudding_i_out_PADRES$": NDR_0p4
 
 PAD_LEFS: dir::../sg13g2_io.lef
 
@@ -358,9 +352,9 @@ MACROS:
       #heichips25_core/fabric_wrapper/heichips25_example_small_4:
       #  location: [390, expr::(895 + 95.00)]
       #  orientation: FN
-      heichips25_core/fabric_wrapper/heichips25_example_small_5:
-        location: [390, expr::(680 + 95.00)]
-        orientation: FN
+      #heichips25_core/fabric_wrapper/heichips25_example_small_5:
+      #  location: [390, expr::(680 + 95.00)]
+      #  orientation: FN
       #heichips25_core/fabric_wrapper/heichips25_example_small_6:
       #  location: [390, expr::(465 + 95.00)]
       #  orientation: FN
@@ -566,6 +560,21 @@ MACROS:
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_6:
         location: [391, expr::(465 + 95.00)]
+        orientation: FN
+
+  heichips25_pudding:
+    gds:
+      - dir::../ip/user_projects/heichips25-pudding/macro/gds/heichips25_pudding.gds
+    lef:
+      - dir::../ip/user_projects/heichips25-pudding/macro/lef/heichips25_pudding.lef
+    nl:
+      - dir::../ip/user_projects/heichips25-pudding/macro/nl/heichips25_pudding.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25-pudding/macro/spef/nom/heichips25_pudding.nom.spef
+    instances:
+      heichips25_core/fabric_wrapper/heichips25_example_small_5:
+        location: [390, expr::(680 + 95.00)]
         orientation: FN
 
 PDN_OBSTRUCTIONS:

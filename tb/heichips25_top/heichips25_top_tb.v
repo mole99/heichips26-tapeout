@@ -30,7 +30,22 @@ module heichips25_top_tb;
     
     wire [31:0]   fpga_io_PAD;
 
-    wire [9:0]    analog_PAD;
+    // User I/Os
+    wire         user_usb_dn_PAD;
+    wire         user_usb_dp_PAD;
+    wire         user_usb_dp_up_PAD;
+    
+    wire         user_tmds_b_PAD;
+    wire         user_tmds_g_PAD;
+    wire         user_tmds_r_PAD;
+    wire         user_tmds_clk_PAD;
+    
+    wire         internal_analog_pin0_PAD;
+    wire         internal_analog_pin1_PAD;
+    wire         internal_analog_adc_PAD;
+    
+    wire         pudding_i_in_PAD;
+    wire         pudding_i_out_PAD;
     
     `ifdef BITSTREAM_FLASH
     
@@ -73,7 +88,22 @@ module heichips25_top_tb;
 
         .fpga_io_PAD,
         
-        .analog_PAD
+        // User I/Os
+        .user_usb_dn_PAD,
+        .user_usb_dp_PAD,
+        .user_usb_dp_up_PAD,
+            
+        .user_tmds_b_PAD,
+        .user_tmds_g_PAD,
+        .user_tmds_r_PAD,
+        .user_tmds_clk_PAD,
+            
+        .internal_analog_pin0_PAD,
+        .internal_analog_pin1_PAD,
+        .internal_analog_adc_PAD,
+            
+        .pudding_i_in_PAD,
+        .pudding_i_out_PAD
     );
 
 endmodule
