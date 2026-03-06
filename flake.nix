@@ -9,7 +9,7 @@
   };
 
   inputs = {
-    librelane.url = "github:librelane/librelane/leo/netgen-ignore-cells";
+    librelane.url = "github:librelane/librelane/dev";
   };
 
   outputs =
