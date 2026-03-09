@@ -25,20 +25,28 @@ clone-pdk: $(PDK_ROOT)/$(PDK) ## Clone the IHP-Open-PDK repository
 all: librelane ## Build the project (runs LibreLane)
 .PHONY: all
 
-librelane: $(PDK_ROOT)/$(PDK) ## Run LibreLane flow (synthesis, PnR, verification)
+librelane: $(PDK_ROOT)/$(PDK) ## Run LibreLane
 	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/
 .PHONY: librelane
 
-librelane-nodrc: $(PDK_ROOT)/$(PDK) ## Run LibreLane flow without DRC checks
-	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --skip KLayout.DRC --skip Magic.DRC --skip KLayout.Antenna --skip KLayout.Density --skip KLayout.Filler
+librelane-nodrc: $(PDK_ROOT)/$(PDK) ## Run LibreLane without DRC checks
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --skip KLayout.DRC --skip Magic.DRC --skip KLayout.Antenna --skip KLayout.Density
 .PHONY: librelane-nodrc
 
-librelane-openroad: $(PDK_ROOT)/$(PDK) ## Open the last run in OpenROAD
-	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --last-run --flow OpenInOpenROAD
+librelane-magicdrc: $(PDK_ROOT)/$(PDK) ## Run LibreLane with only Magic DRC checks
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --skip KLayout.DRC
+.PHONY: librelane-magicdrc
+
+librelane-klayoutdrc: $(PDK_ROOT)/$(PDK) ## Run LibreLane with only KLayout DRC checks
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --skip Magic.DRC
+.PHONY: librelane-nodrc
+
+librelane-openroad: $(PDK_ROOT)/$(PDK) ## Open the last LibreLane run in OpenROAD GUI
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --last-run --flow OpenInOpenROAD
 .PHONY: librelane-openroad
 
-librelane-klayout: $(PDK_ROOT)/$(PDK) ## Open the last run in KLayout
-	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/ --last-run --flow OpenInKLayout
+librelane-klayout: $(PDK_ROOT)/$(PDK) ## Open the last LibreLane run in KLayout
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --last-run --flow OpenInKLayout
 .PHONY: librelane-klayout
 
 sim: ## Run RTL simulation with cocotb

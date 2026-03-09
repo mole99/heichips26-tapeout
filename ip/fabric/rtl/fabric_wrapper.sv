@@ -1250,7 +1250,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_11_uio_oe)
     );
 
-    heichips25_example_small heichips25_example_small_10 (
+    heichips25_ICELab heichips25_example_small_10 (
         .clk        (tt_project_12_clk),
         .rst_n      (tt_project_12_rst_n),
         .ena        (tt_project_12_ena),

@@ -37,3 +37,6 @@
 [submodule "ip/user_projects/heichips25-ethernet"]
 	path = ip/user_projects/heichips25-ethernet
 	url = ../../HeiChips/heichips25-ethernet.git
+[submodule "ip/user_projects/heichips25_ICELab"]
+	path = ip/user_projects/heichips25_ICELab
+	url = ../../HeiChips/ASHES-IHP130nm.git

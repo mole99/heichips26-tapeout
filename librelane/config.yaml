@@ -387,13 +387,12 @@ MACROS:
       #heichips25_core/fabric_wrapper/heichips25_example_small_9:
       #  location: [2109, expr::(895 + 95.00)]
       #  orientation: N
-      heichips25_core/fabric_wrapper/heichips25_example_small_10:
-        location: [2109, expr::(680 + 95.00)]
-        orientation: N
+      #heichips25_core/fabric_wrapper/heichips25_example_small_10:
+      #  location: [2109, expr::(680 + 95.00)]
+      #  orientation: N
       #heichips25_core/fabric_wrapper/heichips25_example_small_11:
       #  location: [2109, expr::(465 + 95.00)]
       #  orientation: N
-
 
   heichips25_example_large:
     gds:
@@ -611,6 +610,18 @@ MACROS:
         location: [2109, expr::(465 + 95.00)]
         orientation: N
 
+  heichips25_ICELab:
+    gds:
+      - dir::../ip/user_projects/heichips25_ICELab/ihp130_cells/small_frame/heichips25_ICELab.gds
+    lef:
+      - dir::../ip/user_projects/heichips25_ICELab/ihp130_cells/small_frame/heichips25_ICELab.lef
+    vh:
+      - dir::../ip/user_projects/heichips25_ICELab/ihp130_cells/small_frame/heichips25_ICELab.vh
+    instances:
+      heichips25_core/fabric_wrapper/heichips25_example_small_10:
+        location: [2109, expr::(680 + 95.00)]
+        orientation: N
+
 PDN_OBSTRUCTIONS:
  # Left
  - [TopMetal1,  390, expr::(1970 + 95.00),  888, expr::(2385 + 95.00)] # heichips25_example_large_0
@@ -677,10 +688,3 @@ PDN_MACRO_CONNECTIONS:
   - "heichips25_core/fabric_wrapper/sram0_0 VDD VSS VDDARRAY! VSS!"
   - "heichips25_core/fabric_wrapper/sram0_1 VDD VSS VDD! VSS!"
   - "heichips25_core/fabric_wrapper/sram0_1 VDD VSS VDDARRAY! VSS!"
-
-# Ignore logos for LVS
-LVS_IGNORE_CELLS:
-- alignment_mark
-- logo_heichips
-- logo_fabulous
-- logo_credits
