@@ -18,9 +18,7 @@ module heichips25_template (
     
     // Dedicated pins
     inout  wire       analog_pin0,
-    inout  wire       analog_pin1,
-    
-    inout  wire       analog_adc
+    inout  wire       analog_pin1
 );
 
 endmodule

@@ -64,19 +64,15 @@ TRACKS X 2000 DO 125 STEP 4000 LAYER TopMetal2 ;
 TRACKS Y 2000 DO 50 STEP 4000 LAYER TopMetal2 ;
 COMPONENTS 0 ;
 END COMPONENTS
-PINS 46 ;
-    - analog_adc + NET analog_adc + DIRECTION INOUT + USE SIGNAL
-      + PORT
-        + LAYER Metal3 ( -200 -200 ) ( 200 200 )
-        + PLACED ( 499800 165900 ) N ;
+PINS 45 ;
     - analog_pin0 + NET analog_pin0 + DIRECTION INOUT + USE SIGNAL
       + PORT
         + LAYER Metal3 ( -200 -200 ) ( 200 200 )
-        + PLACED ( 499800 33180 ) N ;
+        + PLACED ( 499800 49980 ) N ;
     - analog_pin1 + NET analog_pin1 + DIRECTION INOUT + USE SIGNAL
       + PORT
         + LAYER Metal3 ( -200 -200 ) ( 200 200 )
-        + PLACED ( 499800 99540 ) N ;
+        + PLACED ( 499800 149940 ) N ;
     - clk + NET clk + DIRECTION INPUT + USE SIGNAL
       + PORT
         + LAYER Metal3 ( -200 -200 ) ( 200 200 )
@@ -254,8 +250,7 @@ SPECIALNETS 2 ;
     - VGND + USE GROUND ;
     - VPWR + USE POWER ;
 END SPECIALNETS
-NETS 46 ;
-    - analog_adc ( PIN analog_adc ) + USE SIGNAL ;
+NETS 45 ;
     - analog_pin0 ( PIN analog_pin0 ) + USE SIGNAL ;
     - analog_pin1 ( PIN analog_pin1 ) + USE SIGNAL ;
     - clk ( PIN clk ) + USE SIGNAL ;
