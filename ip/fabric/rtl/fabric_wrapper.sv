@@ -48,7 +48,10 @@ module fabric_wrapper #(
     inout internal_analog_adc,
     
     inout pudding_i_in,
-    inout pudding_i_out
+    inout pudding_i_out,
+    
+    output ethernet_dp,
+    output ethernet_dn
 );
     
     // TT_PROJECT 0 (X0Y2)
@@ -1258,7 +1261,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_12_uio_oe)
     );
 
-    heichips25_example_small heichips25_example_small_11 (
+    heichips25_ethernet heichips25_example_small_11 (
         .clk        (tt_project_13_clk),
         .rst_n      (tt_project_13_rst_n),
         .ena        (tt_project_13_ena),
@@ -1266,7 +1269,10 @@ module fabric_wrapper #(
         .uio_in     (tt_project_13_uio_in),
         .uo_out     (tt_project_13_uo_out),
         .uio_out    (tt_project_13_uio_out),
-        .uio_oe     (tt_project_13_uio_oe)
+        .uio_oe     (tt_project_13_uio_oe),
+        
+        .ethernet_dp  (ethernet_dp),
+        .ethernet_dn  (ethernet_dn)
     );
 
     // SRAM 0 instances

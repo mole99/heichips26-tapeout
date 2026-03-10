@@ -80,6 +80,9 @@ PAD_EAST: [
     fpga_config_busy,
     fpga_config_configured,
 
+    ethernet_dp,
+    ethernet_dn,
+
     user_usb_dn,
     user_usb_dp,
     user_usb_dp_up,
@@ -203,8 +206,24 @@ DRT_ASSIGN_NDR:
   "^internal_analog_adc_PADRES$": NDR_0p4
   "^pudding_i_in_PADRES$": NDR_0p4
   "^pudding_i_out_PADRES$": NDR_0p4
+  "^ethernet_dp_PADRES$": NDR_0p4
+  "^ethernet_dn_PADRES$": NDR_0p4
 
-PAD_LEFS: dir::../sg13g2_io.lef
+PAD_LEFS: dir::../sg13g2_io_custom/sg13g2_io.lef
+PAD_VERILOG_MODELS: dir::../sg13g2_io_custom/sg13g2_io.v
+
+LIB:
+  "*_typ_1p20V_25C":
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_typ_1p20V_25C.lib
+    #- pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_typ_1p2V_3p3V_25C.lib
+    - dir::../sg13g2_io_custom/sg13g2_io_typ_1p2V_3p3V_25C.lib
+  "*_fast_1p32V_m40C":
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_fast_1p32V_m40C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_fast_1p32V_3p6V_m40C.lib
+  "*_slow_1p08V_125C":
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_slow_1p08V_125C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_slow_1p08V_3p0V_125C.lib
+
 
 CTS_APPLY_NDR: none #full
 
@@ -371,9 +390,9 @@ MACROS:
       heichips25_core/fabric_wrapper/heichips25_example_small_10:
         location: [2109, expr::(680 + 95.00)]
         orientation: N
-      heichips25_core/fabric_wrapper/heichips25_example_small_11:
-        location: [2109, expr::(465 + 95.00)]
-        orientation: N
+      #heichips25_core/fabric_wrapper/heichips25_example_small_11:
+      #  location: [2109, expr::(465 + 95.00)]
+      #  orientation: N
 
 
   heichips25_example_large:
@@ -576,6 +595,21 @@ MACROS:
       heichips25_core/fabric_wrapper/heichips25_example_small_5:
         location: [390, expr::(680 + 95.00)]
         orientation: FN
+
+  heichips25_ethernet:
+    gds:
+      - dir::../ip/user_projects/heichips25-ethernet/macro/gds/heichips25_ethernet.gds
+    lef:
+      - dir::../ip/user_projects/heichips25-ethernet/macro/lef/heichips25_ethernet.lef
+    nl:
+      - dir::../ip/user_projects/heichips25-ethernet/macro/nl/heichips25_ethernet.nl.v
+    spef:
+      "nom_*":
+        - dir::../ip/user_projects/heichips25-ethernet/macro/spef/nom/heichips25_ethernet.nom.spef
+    instances:
+      heichips25_core/fabric_wrapper/heichips25_example_small_11:
+        location: [2109, expr::(465 + 95.00)]
+        orientation: N
 
 PDN_OBSTRUCTIONS:
  # Left

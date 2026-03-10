@@ -25,7 +25,7 @@ tt_projects = {
     'X5Y6': ('heichips25_usb_cdc', 'heichips25_example_small_8'),
     'X5Y7': ('heichips25_tiny_wrapper', 'heichips25_example_small_9'),
     'X5Y8': ('heichips25_example_small', 'heichips25_example_small_10'),
-    'X5Y9': ('heichips25_example_small', 'heichips25_example_small_11'),
+    'X5Y9': ('heichips25_ethernet', 'heichips25_example_small_11'),
 }
 
 print(f'------------------ header ------------------\n')

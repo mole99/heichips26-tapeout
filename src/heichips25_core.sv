@@ -55,7 +55,10 @@ module heichips25_core (
     inout internal_analog_adc,
     
     inout pudding_i_in,
-    inout pudding_i_out
+    inout pudding_i_out,
+    
+    output ethernet_dp,
+    output ethernet_dn
 );
     
     // Fabric parameters
@@ -359,11 +362,13 @@ module heichips25_core (
         // heichips25-fg
         // 4 analog pins
         
-        // heichips25-lvds
+        // heichips25-ethernet
         // 2 analog pins
+        .ethernet_dp  (ethernet_dp),
+        .ethernet_dn  (ethernet_dn),
         
         // heichips25-internal
-        // 2 (DLL) + 1 (ADC)
+        // 3 analog pins
         .internal_analog_pin0 (internal_analog_pin0),
         .internal_analog_pin1 (internal_analog_pin1),
         .internal_analog_adc  (internal_analog_adc)
