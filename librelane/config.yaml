@@ -629,9 +629,9 @@ PDN_OBSTRUCTIONS:
  - [TopMetal1,  390, expr::(1540 + 95.00),  888, expr::(1740 + 95.00)] # heichips25_example_small_1
  - [TopMetal1,  390, expr::(1325 + 95.00),  888, expr::(1525 + 95.00)] # heichips25_example_small_2
  - [TopMetal1,  390, expr::(1110 + 95.00),  888, expr::(1310 + 95.00)] # heichips25_example_small_3
- - [TopMetal1,  390, expr::( 895 + 95.00),  888, expr::(1095 + 95.00)] # heichips25_example_small_3
- - [TopMetal1,  390, expr::( 680 + 95.00),  888, expr::( 880 + 95.00)] # heichips25_example_small_3
- - [TopMetal1,  390, expr::( 465 + 95.00),  888, expr::( 665 + 95.00)] # heichips25_example_small_3
+ - [TopMetal1,  390, expr::( 895 + 95.00),  888, expr::(1095 + 95.00)] # heichips25_example_small_4
+ - [TopMetal1,  390, expr::( 680 + 95.00),  888, expr::( 880 + 95.00)] # heichips25_example_small_5
+ - [TopMetal1,  390, expr::( 465 + 95.00),  888, expr::( 665 + 95.00)] # heichips25_example_small_6
   
  # Right
  - [TopMetal1, 2109, expr::(1540 + 95.00), 2609, expr::(1955 + 95.00)] # heichips25_example_large_1
