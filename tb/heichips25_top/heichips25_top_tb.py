@@ -93,7 +93,8 @@ if __name__ == "__main__":
         Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_sram" / "verilog" / "RM_IHPSG13_1P_core_behavioral_bm_bist.v",
         
         # IO Pad models
-        Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_io" / "verilog" / "sg13g2_io.v",
+        #Path(pdk_root).expanduser() / pdk / "libs.ref" / "sg13g2_io" / "verilog" / "sg13g2_io.v",
+        testbench_path / '../../sg13g2_io_custom/sg13g2_io.v',
         
         # Alignment mark
         testbench_path / '../../ip/alignment_mark/vh/alignment_mark.v',

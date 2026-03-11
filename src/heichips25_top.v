@@ -48,7 +48,10 @@ module heichips25_top #(
     inout  wire         internal_analog_adc_PAD,
     
     inout  wire         pudding_i_in_PAD,
-    inout  wire         pudding_i_out_PAD
+    inout  wire         pudding_i_out_PAD,
+    
+    inout  wire         ethernet_dp_PAD,
+    inout  wire         ethernet_dn_PAD
 );
     // FPGA
     wire fpga_clk_PAD2CORE;
@@ -86,6 +89,9 @@ module heichips25_top #(
 
     wire pudding_i_in_PADRES;
     wire pudding_i_out_PADRES;
+
+    wire ethernet_dp_PADRES;
+    wire ethernet_dn_PADRES;
 
     // Power/ground pad instances
 
@@ -441,6 +447,29 @@ module heichips25_top #(
         .pad (pudding_i_out_PAD)
     );
 
+    (* keep *) sg13g2_IOPadAnalog ethernet_dp (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .padbare (ethernet_dp_PADRES),
+        .pad (ethernet_dp_PAD)
+    );
+
+    (* keep *) sg13g2_IOPadAnalog ethernet_dn (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .padbare (ethernet_dn_PADRES),
+        .pad (ethernet_dn_PAD)
+    );
+
+
     // Core
     heichips25_core heichips25_core (
         // FPGA
@@ -493,7 +522,10 @@ module heichips25_top #(
         .internal_analog_adc  (internal_analog_adc_PADRES),
         
         .pudding_i_in    (pudding_i_in_PADRES),
-        .pudding_i_out   (pudding_i_out_PADRES)
+        .pudding_i_out   (pudding_i_out_PADRES),
+
+        .ethernet_dp    (ethernet_dp_PADRES),
+        .ethernet_dn    (ethernet_dn_PADRES)
     );
 
     // Alignment marks for bonding
