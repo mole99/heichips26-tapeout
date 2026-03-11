@@ -345,17 +345,17 @@ MACROS:
       heichips25_core/fabric_wrapper/sram0_1:
         location: [2150, expr::(2235 + 95.00)]
         orientation: N
-  heichips25_example_small:
-    gds:
-      - dir::../ip/user_projects/heichips25_example_small/macro/gds/heichips25_example_small.gds
-    lef:
-      - dir::../ip/user_projects/heichips25_example_small/macro/lef/heichips25_example_small.lef
-    nl:
-      - dir::../ip/user_projects/heichips25_example_small/macro/nl/heichips25_example_small.nl.v
-    spef:
-      "nom_*":
-        - dir::../ip/user_projects/heichips25_example_small/macro/spef/nom/heichips25_example_small.nom.spef
-    instances:
+  #heichips25_example_small:
+  #  gds:
+  #    - dir::../ip/user_projects/heichips25_example_small/macro/gds/heichips25_example_small.gds
+  #  lef:
+  #    - dir::../ip/user_projects/heichips25_example_small/macro/lef/heichips25_example_small.lef
+  #  nl:
+  #    - dir::../ip/user_projects/heichips25_example_small/macro/nl/heichips25_example_small.nl.v
+  #  spef:
+  #    "nom_*":
+  #      - dir::../ip/user_projects/heichips25_example_small/macro/spef/nom/heichips25_example_small.nom.spef
+  #  instances:
       #heichips25_core/fabric_wrapper/heichips25_example_small_0:
       #  location: [390, 1755]
       #  orientation: FN
