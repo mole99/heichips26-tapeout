@@ -29,6 +29,8 @@ meta:
     #Checker.LVS: null
     
     OpenROAD.IRDropReport: null
+    
+    KLayout.Filler: Magic.Filler
 
 DESIGN_NAME: heichips25_top
 VERILOG_FILES:
