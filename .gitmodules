@@ -40,3 +40,6 @@
 [submodule "ip/user_projects/heichips25_ICELab"]
 	path = ip/user_projects/heichips25_ICELab
 	url = ../../HeiChips/ASHES-IHP130nm.git
+[submodule "ip/fabulous-tiles"]
+	path = ip/fabulous-tiles
+	url = ../../mole99/fabulous-tiles.git
