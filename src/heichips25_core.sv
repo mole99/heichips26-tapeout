@@ -50,6 +50,11 @@ module heichips25_core (
     output tmds_r,
     output tmds_clk,
     
+    inout icelab_analog_pin0,
+    inout icelab_analog_pin1,
+    inout icelab_analog_pin2,
+    inout icelab_analog_pin3,
+    
     inout internal_analog_pin0,
     inout internal_analog_pin1,
     inout internal_analog_adc,
@@ -81,13 +86,13 @@ module heichips25_core (
     wire [FABRIC_NUM_IO_SOUTH-1:0]      fabric_io_south_out_o;
     wire [FABRIC_NUM_IO_SOUTH-1:0]      fabric_io_south_oe_o;
 
-    assign fabric_io_north_in_i = fabric_io_in_i[15:0];
-    assign fabric_io_out_o[15:0] = fabric_io_north_out_o;
-    assign fabric_io_oe_o[15:0] = fabric_io_north_oe_o;
+    assign fabric_io_north_in_i = fabric_io_in_i[31:16];
+    assign fabric_io_out_o[31:16] = fabric_io_north_out_o;
+    assign fabric_io_oe_o[31:16] = fabric_io_north_oe_o;
 
-    assign fabric_io_south_in_i = fabric_io_in_i[31:16];
-    assign fabric_io_out_o[31:16] = fabric_io_south_out_o;
-    assign fabric_io_oe_o[31:16] = fabric_io_south_oe_o;
+    assign fabric_io_south_in_i = fabric_io_in_i[15:0];
+    assign fabric_io_out_o[15:0] = fabric_io_south_out_o;
+    assign fabric_io_oe_o[15:0] = fabric_io_south_oe_o;
     
     // Fabric config is currently
     // configuring the fabric
@@ -319,9 +324,7 @@ module heichips25_core (
         .FrameStrobe_o      (FrameStrobe)
     );
     
-    fabric_wrapper fabric_wrapper (
-        .clk_i  (fpga_clk_i),
-        
+    fabric_wrapper fabric_wrapper (        
         // Configuration
         .FrameData_i    (FrameData),
         .FrameStrobe_i  (FrameStrobe),
@@ -361,6 +364,10 @@ module heichips25_core (
         
         // heichips25-fg
         // 4 analog pins
+        .icelab_analog_pin0 (icelab_analog_pin0),
+        .icelab_analog_pin1 (icelab_analog_pin1),
+        .icelab_analog_pin2 (icelab_analog_pin2),
+        .icelab_analog_pin3 (icelab_analog_pin3),
         
         // heichips25-ethernet
         // 2 analog pins
