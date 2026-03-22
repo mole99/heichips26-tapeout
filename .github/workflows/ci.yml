@@ -57,7 +57,7 @@ jobs:
           key: cache-tiles-${{ matrix.tile_library }}-${{ matrix.pdk }}-${{ github.sha }}
       - name: Implement the tiles
         run: |
-          PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ matrix.tile_library }} nix develop --command bash -c "cd ip/fabulous-tiles/ && make all"
+          cd ip/fabulous-tiles/; PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ matrix.tile_library }} nix develop --command make all
 
   chip:
     runs-on: ubuntu-24.04
