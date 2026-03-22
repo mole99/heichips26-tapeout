@@ -211,12 +211,12 @@ module fabric_wrapper #(
     logic        fabric_sram0_tie_high_o;
     logic        fabric_sram0_tie_low_o;
 
-    classic_fabric_heichips_2025
+    classic_fabric_heichips25
     //#(
     //    .MaxFramesPerCol(MaxFramesPerCol),
     //    .FrameBitsPerRow(FrameBitsPerRow)
     //)
-    classic_fabric_heichips_2025
+    classic_fabric_heichips25
     (
         .FrameData      (FrameData_i),
         .FrameStrobe    (FrameStrobe_i),

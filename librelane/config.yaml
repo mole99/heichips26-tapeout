@@ -314,23 +314,22 @@ MACROS:
       logo_credits:
         location: [2658, 55]
         orientation: N
-  classic_fabric_heichips_2025:
+  classic_fabric_heichips25:
     gds:
-      - dir::../fabrics/classic_fabric_heichips_2025/macro/ihp-sg13g2/gds/classic_fabric_heichips_2025.gds
+      - dir::../fabrics/classic_fabric_heichips25/macro/ihp-sg13g2/gds/classic_fabric_heichips25.gds
     lef:
-      - dir::../fabrics/classic_fabric_heichips_2025/macro/ihp-sg13g2/lef/classic_fabric_heichips_2025.lef
+      - dir::../fabrics/classic_fabric_heichips25/macro/ihp-sg13g2/lef/classic_fabric_heichips25.lef
     nl:
-      - dir::../fabrics/classic_fabric_heichips_2025/macro/ihp-sg13g2/nl/classic_fabric_heichips_2025.nl.v
+      - dir::../fabrics/classic_fabric_heichips25/macro/ihp-sg13g2/nl/classic_fabric_heichips25.nl.v
     instances: 
-      heichips25_core/fabric_wrapper/classic_fabric_heichips_2025:
+      heichips25_core/fabric_wrapper/classic_fabric_heichips25:
         # X should be multiple of 0.48 (Metal2 pitch)
         # Y should be multiple of 0.42 (Metal3 pitch)
         location: [expr::(974.88 + 15), expr::(381.36 + 95.00)]
         orientation: N
   RM_IHPSG13_1P_512x32_c2_bm_bist:
     gds:
-      #- pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
-      - dir::../tmp/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
+      - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
     lef:
       - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_512x32_c2_bm_bist.lef
     nl:
@@ -670,7 +669,7 @@ ROUTING_OBSTRUCTIONS:
 # TODO update pdn config
 PDN_MACRO_CONNECTIONS:
   # eFPGA
-  - "heichips25_core/fabric_wrapper/classic_fabric_heichips_2025 VDD VSS VPWR VGND" 
+  - "heichips25_core/fabric_wrapper/classic_fabric_heichips25 VDD VSS VPWR VGND" 
   # Large User Projects
   - "heichips25_core/fabric_wrapper/heichips25_example_large_0 VDD VSS VPWR VGND"
   - "heichips25_core/fabric_wrapper/heichips25_example_large_1 VDD VSS VPWR VGND"

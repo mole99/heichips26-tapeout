@@ -1,5 +1,6 @@
 from contextlib import redirect_stdout
 
+FABRIC_NAME = "classic_fabric_heichips25"
 FABRIC_HEIGHT = 11
 FABRIC_WIDTH = 6
 FABRIC_NUM_IO_NORTH = 16
@@ -122,12 +123,12 @@ module fabric_wrapper #(
     logic        fabric_sram{i}_tie_low_o;\n""")
 
 
-        print(f"""    classic_fabric_heichips_2025
+        print(f"""    {FABRIC_NAME}
     //#(
     //    .MaxFramesPerCol(MaxFramesPerCol),
     //    .FrameBitsPerRow(FrameBitsPerRow)
     //)
-    classic_fabric_heichips_2025
+    {FABRIC_NAME}
     (""")
 
         print(f"""        .FrameData      (FrameData_i),""")

@@ -65,7 +65,7 @@ jobs:
     strategy:
       matrix:
         pdk: [ihp-sg13g2]
-        fabrics: [classic_fabric_heichips_2025]
+        fabrics: [classic_fabric_heichips25]
     name: Build the Chip
     steps:
       - uses: actions/checkout@v4

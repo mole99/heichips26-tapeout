@@ -18,7 +18,7 @@ from cocotb.types import LogicArray, Logic
 from cocotbext.spi import SpiBus, SpiConfig, SpiMaster
 
 proj_path = Path(__file__).resolve().parent
-fabric = os.getenv("FABRIC", "classic_fabric_heichips_2025")
+fabric = os.getenv("FABRIC", "classic_fabric_heichips25")
 tile_library = os.getenv("TILE_LIBRARY", "classic")
 
 lookup = {
