@@ -143,8 +143,15 @@ jobs:
             img/heichips25_top_white_small.png
             img/heichips25_top_black.png
             img/heichips25_top_black_small.png
-      # TODO
-      #- name: Run GL simulation
-      #  if: success() || failure()
-      #  run: |
-      #    nix develop --command make sim-gl
+      - name: Simulate the FPGA RTL (Emulation)
+        run: |
+          EMULATION=top_counter PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 top_tb.py"
+      - name: Simulate the FPGA RTL (Simulation)
+        run: |
+          PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 top_tb.py"
+      - name: Set up the PDK
+        run: |
+          nix develop --command ciel enable --pdk-family ihp-sg13g2 d335549443691aa7b6095c4186961c5806e0bcff
+      - name: Simulate the FPGA RTL/GL (Simulation)
+        run: |
+          GL=1 PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 top_tb.py"

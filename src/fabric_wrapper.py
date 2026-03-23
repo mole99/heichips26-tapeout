@@ -88,7 +88,7 @@ module fabric_wrapper #(
     
     inout internal_analog_pin0,
     inout internal_analog_pin1,
-    inout internal_analog_adc,
+    inout internal_analog_pin2,
     
     inout pudding_i_in,
     inout pudding_i_out,
@@ -246,9 +246,7 @@ module fabric_wrapper #(
                     print(f""",\n        // DLL
         .analog_pin0  (internal_analog_pin0),
         .analog_pin1  (internal_analog_pin1),
-
-        // ADC
-        .analog_adc   (internal_analog_adc)\n""")
+        .analog_pin2  (internal_analog_pin2)\n""")
                 elif module == "heichips25_pudding":
                     print(f""",\n        .i_in  (pudding_i_in),
         .i_out (pudding_i_out)\n""")

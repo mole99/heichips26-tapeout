@@ -43,7 +43,7 @@ module heichips25_top_tb;
     
     wire         internal_analog_pin0_PAD;
     wire         internal_analog_pin1_PAD;
-    wire         internal_analog_adc_PAD;
+    wire         internal_analog_pin2_PAD;
     
     wire         pudding_i_in_PAD;
     wire         pudding_i_out_PAD;
@@ -148,7 +148,7 @@ module heichips25_top_tb;
             
       .internal_analog_pin0_PAD,
       .internal_analog_pin1_PAD,
-      .internal_analog_adc_PAD,
+      .internal_analog_pin2_PAD,
             
       .pudding_i_in_PAD,
       .pudding_i_out_PAD,

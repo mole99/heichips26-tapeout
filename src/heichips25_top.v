@@ -50,7 +50,7 @@ module heichips25_top #(
     
     inout  wire         internal_analog_pin0_PAD,
     inout  wire         internal_analog_pin1_PAD,
-    inout  wire         internal_analog_adc_PAD,
+    inout  wire         internal_analog_pin2_PAD,
     
     inout  wire         pudding_i_in_PAD,
     inout  wire         pudding_i_out_PAD,
@@ -95,13 +95,13 @@ module heichips25_top #(
 
     wire internal_analog_pin0_PADRES;
     wire internal_analog_pin1_PADRES;
-    wire internal_analog_adc_PADRES;
+    wire internal_analog_pin2_PADRES;
 
     wire pudding_i_in_PADRES;
     wire pudding_i_out_PADRES;
 
-    wire ethernet_dp_PADRES;
-    wire ethernet_dn_PADRES;
+    wire ethernet_dp_PADBARE;
+    wire ethernet_dn_PADBARE;
 
     // Power/ground pad instances
 
@@ -468,15 +468,15 @@ module heichips25_top #(
         .pad (internal_analog_pin1_PAD)
     );
 
-    (* keep *) sg13g2_IOPadAnalog internal_analog_adc (
+    (* keep *) sg13g2_IOPadAnalog internal_analog_pin2 (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
         .iovss  (IOVSS),
         .vdd    (VDD),
         .vss    (VSS),
         `endif
-        .padres (internal_analog_adc_PADRES),
-        .pad (internal_analog_adc_PAD)
+        .padres (internal_analog_pin2_PADRES),
+        .pad (internal_analog_pin2_PAD)
     );
 
     (* keep *) sg13g2_IOPadAnalog pudding_i_in (
@@ -508,7 +508,7 @@ module heichips25_top #(
         .vdd    (VDD),
         .vss    (VSS),
         `endif
-        .padbare (ethernet_dp_PADRES),
+        .padbare (ethernet_dp_PADBARE),
         .pad (ethernet_dp_PAD)
     );
 
@@ -519,10 +519,9 @@ module heichips25_top #(
         .vdd    (VDD),
         .vss    (VSS),
         `endif
-        .padbare (ethernet_dn_PADRES),
+        .padbare (ethernet_dn_PADBARE),
         .pad (ethernet_dn_PAD)
     );
-
 
     // Core
     heichips25_core heichips25_core (
@@ -578,13 +577,13 @@ module heichips25_top #(
  
         .internal_analog_pin0 (internal_analog_pin0_PADRES),
         .internal_analog_pin1 (internal_analog_pin1_PADRES),
-        .internal_analog_adc  (internal_analog_adc_PADRES),
+        .internal_analog_pin2  (internal_analog_pin2_PADRES),
         
         .pudding_i_in    (pudding_i_in_PADRES),
         .pudding_i_out   (pudding_i_out_PADRES),
 
-        .ethernet_dp    (ethernet_dp_PADRES),
-        .ethernet_dn    (ethernet_dn_PADRES)
+        .ethernet_dp    (ethernet_dp_PADBARE),
+        .ethernet_dn    (ethernet_dn_PADBARE)
     );
 
     // Alignment marks for bonding

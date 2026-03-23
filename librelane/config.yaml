@@ -30,6 +30,7 @@ meta:
     
     OpenROAD.IRDropReport: null
     
+    # Use Magic filler generation instead
     KLayout.Filler: Magic.Filler
 
 DESIGN_NAME: heichips25_top
@@ -45,10 +46,15 @@ VERILOG_FILES:
 VERILOG_DEFINES:
 - FUNCTIONAL
 
+# We don't have much logic in the top-level
+# so we can just as well just keep it all hierarchical
 SYNTH_HIERARCHY_MODE: keep
 
 # Slightly smaller file sizes
 PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+
+# distributed (multi-processing)
+MAGIC_FILLER_OPTIONS: ["-dist"]
 
 PAD_SOUTH: [
     "iovdd_pads\\[0\\].iovdd_pad",
@@ -134,7 +140,7 @@ PAD_WEST: [
 
     internal_analog_pin0,
     internal_analog_pin1,
-    internal_analog_adc,
+    internal_analog_pin2,
 
     pudding_i_out,
     pudding_i_in,
@@ -210,11 +216,21 @@ DRT_ASSIGN_NDR:
   # Analog traces for internal project
   "^internal_analog_pin0_PADRES$": NDR_0p4
   "^internal_analog_pin1_PADRES$": NDR_0p4
-  "^internal_analog_adc_PADRES$": NDR_0p4
+  "^internal_analog_pin2_PADRES$": NDR_0p4
   "^pudding_i_in_PADRES$": NDR_0p4
   "^pudding_i_out_PADRES$": NDR_0p4
-  "^ethernet_dp_PADRES$": NDR_0p4
-  "^ethernet_dn_PADRES$": NDR_0p4
+  "^ethernet_dp_PADBARE$": NDR_0p4
+  "^ethernet_dn_PADBARE$": NDR_0p4
+
+RSZ_DONT_TOUCH_LIST:
+  # Analog traces for internal project
+- "internal_analog_pin0_PADRES"
+- "internal_analog_pin1_PADRES"
+- "internal_analog_pin2_PADRES"
+- "pudding_i_in_PADRES"
+- "pudding_i_out_PADRES"
+- "ethernet_dp_PADBARE"
+- "ethernet_dn_PADBARE"
 
 PAD_LEFS: dir::../sg13g2_io_custom/sg13g2_io.lef
 PAD_VERILOG_MODELS: dir::../sg13g2_io_custom/sg13g2_io.v
@@ -325,7 +341,7 @@ MACROS:
       heichips25_core/fabric_wrapper/classic_fabric_heichips25:
         # X should be multiple of 0.48 (Metal2 pitch)
         # Y should be multiple of 0.42 (Metal3 pitch)
-        location: [expr::(974.88 + 15), expr::(381.36 + 95.00)]
+        location: [expr::(0.48 * 2062), expr::(0.42 * 1134)]
         orientation: N
   RM_IHPSG13_1P_512x32_c2_bm_bist:
     gds:
