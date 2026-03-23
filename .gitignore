@@ -1,4 +1,3 @@
-__pycache__/
 sim_build/
 *.vvp
 *.fst
@@ -7,7 +6,16 @@ sim_build/
 *.elf
 *.bin
 *.hex
+*.gtkw
 
+# Virtual environment
+*.venv
+
+# Python
+*.egg-info/
+__pycache__/
+
+# LibreOffice
 .~lock.*
 
 extract_script.tcl

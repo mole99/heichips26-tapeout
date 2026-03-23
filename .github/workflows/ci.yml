@@ -28,8 +28,44 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' || !(startsWith(github.ref_name, 'version-') || github.ref_name == 'main' || github.ref_name == 'dev') }}
 
 jobs:
+  tiles:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        pdk: [ihp-sg13g2]
+        tile_library: [classic]
+    name: Tiles (${{ matrix.tile_library }}/${{ matrix.pdk }})
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+      - name: Setup Nix
+        uses: ./.github/actions/setup_nix
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          nix_cache_domain: ${{ vars.NIX_CACHE }}
+          nix_public_key: ${{ vars.NIX_PUBLIC_KEY }}
+      - name: Build with Nix
+        uses: ./.github/actions/build_nix
+        with:
+          nix_system: x86_64-linux
+          derivation: github:mole99/librelane_plugin_fabulous
+      - name: Cache the tiles
+        uses: actions/cache@v5
+        with:
+          path: ip/fabulous-tiles/tiles
+          key: cache-tiles-${{ matrix.tile_library }}-${{ matrix.pdk }}-${{ github.sha }}
+      - name: Implement the tiles
+        run: |
+          cd ip/fabulous-tiles/; PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ matrix.tile_library }} nix develop --command make all
+
   chip:
     runs-on: ubuntu-24.04
+    needs: [tiles]
+    strategy:
+      matrix:
+        pdk: [ihp-sg13g2]
+        fabrics: [classic_fabric_heichips25]
     name: Build the Chip
     steps:
       - uses: actions/checkout@v4
@@ -49,29 +85,38 @@ jobs:
         run: |
           sudo du -hs /nix/store/* | sort -h | tail -n 10
           sudo tree /nix/store/*-librelane || true
+      - name: Get the tile library
+        run: |
+          echo "TILE_LIBRARY=$(echo "${{ matrix.fabrics }}" | cut -d'_' -f1)" >> $GITHUB_ENV
+      - name: Restore the tiles
+        uses: actions/cache/restore@v5
+        with:
+          path: ip/fabulous-tiles/tiles
+          key: cache-tiles-${{ env.TILE_LIBRARY }}-${{ matrix.pdk }}-${{ github.sha }}
+          fail-on-cache-miss: true
+      - name: Stitch the tiles
+        run: |
+          PDK=${{ matrix.pdk }} nix develop --command make ${{ matrix.fabrics }}
+      - name: Upload Macro Folder
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.fabrics }}_${{ matrix.pdk }}
+          path: fabrics/${{ matrix.fabrics }}/macro/${{ matrix.pdk }}/
+          include-hidden-files: true
+      - name: Build the User Designs
+        run: |
+          cd user_designs; PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command make all
+      - name: Simulate the Fabric (Emulation)
+        run: |
+          EMULATION=counter PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 fabric_tb.py"
+      - name: Simulate the Fabric (Simulation)
+        run: |
+          PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 fabric_tb.py"
       - name: Clone the PDK
         run: |
           export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           nix develop --command make clone-pdk
-      - name: Implement the Tiles
-        run: |
-          cd ip/tile_library/; nix develop --command make all
-      - name: Implement the Fabric
-        run: |
-          cd ip/fabric/; nix develop --command make fabric
-      - name: Upload Fabric Data
-        if: success() || failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: fabric_data
-          path: ip/fabric/macro/ihp-sg13g2/fabulous/*
-      - name: Build the Bitstreams
-        run: |
-          pip3 install fasm
-          cd ip/fabric/user_designs/; nix shell nixpkgs#{yosys,nextpnr} --command make build_all
-      - name: Run RTL simulation
-        run: |
-          nix develop --command make sim
       - name: Implement the Chip
         if: success() || failure()
         run: |
@@ -90,14 +135,16 @@ jobs:
           path: final/gds/*
       - name: Upload image
         uses: actions/upload-artifact@v4
+        if: success() || failure()
         with:
-          name: greyhound_image
+          name: heichips25_image
           path: |
             img/heichips25_top_white.png
             img/heichips25_top_white_small.png
             img/heichips25_top_black.png
             img/heichips25_top_black_small.png
-      - name: Run GL simulation
-        if: success() || failure()
-        run: |
-          nix develop --command make sim-gl
+      # TODO
+      #- name: Run GL simulation
+      #  if: success() || failure()
+      #  run: |
+      #    nix develop --command make sim-gl

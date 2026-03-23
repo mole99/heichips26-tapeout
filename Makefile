@@ -12,6 +12,27 @@ PDK_COMMIT ?= 3b5a704ba6738aa686b08706187830e6284d2a10
 $(PDK_ROOT)/$(PDK):
 	ciel enable $(PDK_COMMIT) --pdk-root $(PDK_ROOT) --pdk-family $(PDK)
 
+# Get the fabric names
+FABRICS :=  $(patsubst fabrics/%,%,$(wildcard fabrics/*)) 
+
+FABRICS_OPENROAD := $(addsuffix -openroad,$(FABRICS))
+FABRICS_KLAYOUT := $(addsuffix -klayout,$(FABRICS))
+
+all: $(FABRICS)
+.PHONY: all
+
+$(FABRICS):
+	librelane --pdk ${PDK} fabrics/$@/config.yaml --save-views-to fabrics/$@/macro/${PDK}/
+.PHONY: $(FABRICS)
+
+$(FABRICS_OPENROAD):
+	librelane --pdk ${PDK} fabrics/$(subst -openroad,,$@)/config.yaml --last-run --flow OpenInOpenROAD
+.PHONY: $(FABRICS_OPENROAD)
+
+$(FABRICS_KLAYOUT):
+	librelane --pdk ${PDK} fabrics/$(subst -klayout,,$@)/config.yaml --last-run --flow OpenInKLayout
+.PHONY: $(FABRICS_KLAYOUT)
+
 help: ## Show this help message
 	@echo 'Usage: make [target]'
 	@echo ''

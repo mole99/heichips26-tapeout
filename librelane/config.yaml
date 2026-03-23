@@ -36,7 +36,7 @@ DESIGN_NAME: heichips25_top
 VERILOG_FILES:
 - dir::../src/heichips25_top.v
 - dir::../src/heichips25_core.sv
-- dir::../ip/fabric/rtl/fabric_wrapper.sv
+- dir::../src/fabric_wrapper.sv
 - dir::../ip/fabric_config/fabric_config.sv
 - dir::../ip/fabric_config/fabric_spi_controller.sv
 - dir::../ip/fabric_config/fabric_spi_receiver.sv
@@ -84,6 +84,11 @@ PAD_EAST: [
 
     ethernet_dp,
     ethernet_dn,
+
+    icelab_analog_pin0,
+    icelab_analog_pin1,
+    icelab_analog_pin2,
+    icelab_analog_pin3,
 
     user_usb_dn,
     user_usb_dp,
@@ -309,26 +314,22 @@ MACROS:
       logo_credits:
         location: [2658, 55]
         orientation: N
-  eFPGA:
+  classic_fabric_heichips25:
     gds:
-      - dir::../ip/fabric/macro/ihp-sg13g2/gds/eFPGA.gds
+      - dir::../fabrics/classic_fabric_heichips25/macro/ihp-sg13g2/gds/classic_fabric_heichips25.gds
     lef:
-      - dir::../ip/fabric/macro/ihp-sg13g2/lef/eFPGA.lef
+      - dir::../fabrics/classic_fabric_heichips25/macro/ihp-sg13g2/lef/classic_fabric_heichips25.lef
     nl:
-      - dir::../ip/fabric/macro/ihp-sg13g2/nl/eFPGA.nl.v
-    spef:
-      "nom_*":
-        - dir::../ip/fabric/macro/ihp-sg13g2/spef/nom/eFPGA.nom.spef
+      - dir::../fabrics/classic_fabric_heichips25/macro/ihp-sg13g2/nl/classic_fabric_heichips25.nl.v
     instances: 
-      heichips25_core/fabric_wrapper/eFPGA:
+      heichips25_core/fabric_wrapper/classic_fabric_heichips25:
         # X should be multiple of 0.48 (Metal2 pitch)
         # Y should be multiple of 0.42 (Metal3 pitch)
-        location: [974.88, expr::(381.36 + 95.00)]
+        location: [expr::(974.88 + 15), expr::(381.36 + 95.00)]
         orientation: N
   RM_IHPSG13_1P_512x32_c2_bm_bist:
     gds:
-      #- pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
-      - dir::../tmp/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
+      - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
     lef:
       - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_512x32_c2_bm_bist.lef
     nl:
@@ -459,7 +460,7 @@ MACROS:
         - dir::../ip/user_projects/heichips25_CORDIC/macro/spef/nom/heichips25_CORDIC.nom.spef
     instances:
       heichips25_core/fabric_wrapper/heichips25_example_small_0:
-        location: [390, expr::(1755 + 95.00)]
+        location: [405, expr::(1755 + 95.00)]
         orientation: FN
 
   heichips25_tiny_wrapper2:
@@ -668,7 +669,7 @@ ROUTING_OBSTRUCTIONS:
 # TODO update pdn config
 PDN_MACRO_CONNECTIONS:
   # eFPGA
-  - "heichips25_core/fabric_wrapper/eFPGA VDD VSS VPWR VGND" 
+  - "heichips25_core/fabric_wrapper/classic_fabric_heichips25 VDD VSS VPWR VGND" 
   # Large User Projects
   - "heichips25_core/fabric_wrapper/heichips25_example_large_0 VDD VSS VPWR VGND"
   - "heichips25_core/fabric_wrapper/heichips25_example_large_1 VDD VSS VPWR VGND"

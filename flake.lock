@@ -3,6 +3,7 @@
     "ciel": {
       "inputs": {
         "nix-eda": [
+          "librelane_plugin_fabulous",
           "librelane",
           "nix-eda"
         ]
@@ -24,6 +25,7 @@
     "devshell": {
       "inputs": {
         "nixpkgs": [
+          "librelane_plugin_fabulous",
           "librelane",
           "nix-eda",
           "nixpkgs"
@@ -65,11 +67,11 @@
         "nix-eda": "nix-eda"
       },
       "locked": {
-        "lastModified": 1773732541,
-        "narHash": "sha256-PDlgOpu6VeHHKILlLJQUzGcvF9Ki6ZWdZ0q8kWX0fAg=",
+        "lastModified": 1773744325,
+        "narHash": "sha256-ret4vLgxCOKOalwxrlekjp5V1eCKUXXjdIQVmqWlMaE=",
         "owner": "librelane",
         "repo": "librelane",
-        "rev": "55803c4172fcb33a24e440cb74ace43a331f43fa",
+        "rev": "fe01eb16448cc47377381fad633b69cce65db95b",
         "type": "github"
       },
       "original": {
@@ -79,21 +81,40 @@
         "type": "github"
       }
     },
+    "librelane_plugin_fabulous": {
+      "inputs": {
+        "librelane": "librelane"
+      },
+      "locked": {
+        "lastModified": 1773931110,
+        "narHash": "sha256-Mi2hrV3KCqy8YZQaJ3kLaBOUZ5Bag2jwp/rdhCV5LtY=",
+        "owner": "mole99",
+        "repo": "librelane_plugin_fabulous",
+        "rev": "95c33d3b189d42c4b846f65ac1a559411bbc9318",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mole99",
+        "ref": "1.7.0",
+        "repo": "librelane_plugin_fabulous",
+        "type": "github"
+      }
+    },
     "nix-eda": {
       "inputs": {
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1773303822,
-        "narHash": "sha256-Aey3PT/xisIHj8y696NiS65xzNxpW5rDzm2iK9X2DSw=",
+        "lastModified": 1773737628,
+        "narHash": "sha256-eVBNgEPHD7LyrvK18YQB5cN7jbRzVaGnqLhfzMlD8V4=",
         "owner": "fossi-foundation",
         "repo": "nix-eda",
-        "rev": "691472a25cf4d6c1a6e9975b9149f32deba6e0c7",
+        "rev": "9270bc82a2b7696ed99de2567cfb33ffb2cda706",
         "type": "github"
       },
       "original": {
         "owner": "fossi-foundation",
-        "ref": "6.9.0",
+        "ref": "6.10.0",
         "repo": "nix-eda",
         "type": "github"
       }
@@ -116,7 +137,7 @@
     },
     "root": {
       "inputs": {
-        "librelane": "librelane"
+        "librelane_plugin_fabulous": "librelane_plugin_fabulous"
       }
     }
   },

@@ -43,6 +43,11 @@ module heichips25_top #(
     inout  wire         user_tmds_r_PAD,
     inout  wire         user_tmds_clk_PAD,
     
+    inout  wire         icelab_analog_pin0_PAD,
+    inout  wire         icelab_analog_pin1_PAD,
+    inout  wire         icelab_analog_pin2_PAD,
+    inout  wire         icelab_analog_pin3_PAD,
+    
     inout  wire         internal_analog_pin0_PAD,
     inout  wire         internal_analog_pin1_PAD,
     inout  wire         internal_analog_adc_PAD,
@@ -82,6 +87,11 @@ module heichips25_top #(
     wire [31:0] fpga_io_PAD2CORE;
     wire [31:0] fpga_io_CORE2PAD;
     wire [31:0] fpga_io_CORE2PAD_EN;
+
+    wire icelab_analog_pin0_PADRES;
+    wire icelab_analog_pin1_PADRES;
+    wire icelab_analog_pin2_PADRES;
+    wire icelab_analog_pin3_PADRES;
 
     wire internal_analog_pin0_PADRES;
     wire internal_analog_pin1_PADRES;
@@ -392,6 +402,50 @@ module heichips25_top #(
         .pad (user_tmds_clk_PAD)
     );
 
+    (* keep *) sg13g2_IOPadAnalog icelab_analog_pin0 (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .padres (icelab_analog_pin0_PADRES),
+        .pad (icelab_analog_pin0_PAD)
+    );
+
+    (* keep *) sg13g2_IOPadAnalog icelab_analog_pin1 (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .padres (icelab_analog_pin1_PADRES),
+        .pad (icelab_analog_pin1_PAD)
+    );
+
+    (* keep *) sg13g2_IOPadAnalog icelab_analog_pin2 (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .padres (icelab_analog_pin2_PADRES),
+        .pad (icelab_analog_pin2_PAD)
+    );
+
+    (* keep *) sg13g2_IOPadAnalog icelab_analog_pin3 (
+        `ifdef USE_POWER_PINS
+        .iovdd  (IOVDD),
+        .iovss  (IOVSS),
+        .vdd    (VDD),
+        .vss    (VSS),
+        `endif
+        .padres (icelab_analog_pin3_PADRES),
+        .pad (icelab_analog_pin3_PAD)
+    );
+
     (* keep *) sg13g2_IOPadAnalog internal_analog_pin0 (
         `ifdef USE_POWER_PINS
         .iovdd  (IOVDD),
@@ -517,6 +571,11 @@ module heichips25_top #(
         .tmds_r         (user_tmds_r_CORE2PAD),
         .tmds_clk       (user_tmds_clk_CORE2PAD),
         
+        .icelab_analog_pin0   (icelab_analog_pin0_PADRES),
+        .icelab_analog_pin1   (icelab_analog_pin1_PADRES),
+        .icelab_analog_pin2   (icelab_analog_pin2_PADRES),
+        .icelab_analog_pin3   (icelab_analog_pin3_PADRES),
+ 
         .internal_analog_pin0 (internal_analog_pin0_PADRES),
         .internal_analog_pin1 (internal_analog_pin1_PADRES),
         .internal_analog_adc  (internal_analog_adc_PADRES),

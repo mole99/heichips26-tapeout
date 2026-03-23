@@ -9,6 +9,10 @@ inputs:
     description: "The nix platform string to build for"
     required: true
     default: "x86_64-linux"
+  derivation:
+    description: "The derivation to build"
+    required: false
+    default: ".#devShells.x86_64-linux.default"
 runs:
   using: "composite"
   steps:
@@ -23,6 +27,6 @@ runs:
           --accept-flake-config\
           --option system ${{ inputs.nix_system }}\
           --extra-platforms ${{ inputs.nix_system }}\
-          .#devShells.${{ inputs.nix_system }}.default)
+          ${{ inputs.derivation }})
         echo "out-path=$outPath" >> $GITHUB_OUTPUT
         sudo du -hs /nix/store/* | sort -h | tail -n 20

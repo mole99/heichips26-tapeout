@@ -9,16 +9,17 @@
   };
 
   inputs = {
-    librelane.url = "github:librelane/librelane/dev";
+    librelane_plugin_fabulous.url = "github:mole99/librelane_plugin_fabulous/1.7.0";
   };
 
   outputs =
     {
       self,
-      librelane,
+      librelane_plugin_fabulous,
       ...
     }:
     let
+      librelane = librelane_plugin_fabulous.inputs.librelane;
       nix-eda = librelane.inputs.nix-eda;
       devshell = librelane.inputs.devshell;
       nixpkgs = nix-eda.inputs.nixpkgs;
@@ -34,20 +35,21 @@
             nix-eda.overlays.default
             devshell.overlays.default
             librelane.overlays.default
+            librelane_plugin_fabulous.overlays.default
             (nix-eda.composePythonOverlay (
-              pkgs': pkgs: pypkgs': pypkgs:
-              let
-                callPythonPackage = lib.callPackageWith (pkgs' // pypkgs');
-              in
-              {
-                cocotbext-spi = callPythonPackage ./nix/cocotbext-spi.nix { };
-              }
-            ))
-            (final: prev: {
-              openroad = prev.openroad.overrideAttrs {
-                patches = prev.openroad.patches ++ [./disable_auto_taper.patch];
-              };
-            })
+            pkgs': pkgs: pypkgs': pypkgs:
+            let
+              callPythonPackage = lib.callPackageWith (pkgs' // pypkgs');
+            in
+            {
+              cocotbext-spi = callPythonPackage ./nix/cocotbext-spi.nix { };
+            }
+          ))
+          (final: prev: {
+            openroad = prev.openroad.overrideAttrs {
+              patches = prev.openroad.patches ++ [./disable_auto_taper.patch];
+            };
+          })
           ];
         }
       );
@@ -64,6 +66,7 @@
         in
         {
           default = pkgs.librelane-shell.override ({
+            librelane-plugins = ps: with ps; [librelane-plugin-fabulous];
             extra-packages = with pkgs; [
               # Utilities
               gnumake
@@ -81,12 +84,12 @@
               # Image scaling
               imagemagick
             ];
-
             extra-python-packages = ps: with ps; [
               # Verification
               cocotb
               cocotbext-spi
-
+              pytest
+              
               # For logo generation
               pillow
             ];
