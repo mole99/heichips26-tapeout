@@ -135,8 +135,9 @@ jobs:
           path: final/gds/*
       - name: Upload image
         uses: actions/upload-artifact@v4
+        if: success() || failure()
         with:
-          name: greyhound_image
+          name: heichips25_image
           path: |
             img/heichips25_top_white.png
             img/heichips25_top_white_small.png
