@@ -55,6 +55,8 @@ ifeq ($(FABRIC),classic_fabric_heichips25)
 EXTRA_MLIBMAPS_PATH	 = -extra-mlibmap ../../../../ip/fabulous-tiles/primitives/IHP_SRAM_1024x32_1RW/yosys/memory_map/IHP_SRAM_1024x32_1RW_map.txt
 endif
 
+CLKBUF_MAP_PATH		 = -clkbuf-map ../../../../ip/fabulous-tiles/primitives/GBUF/yosys/techmap/GBUF_map.v
+
 BIT_GEN 			?= ../../../scripts/bit_gen.py
 BIT_TO_HEX 		?= ../../../scripts/bit_to_hex.py
 
@@ -72,7 +74,8 @@ synth:
 	$(MULTIPLIER_MAP_PATH) \
 	$(EXTRA_PLIBS_PATH) \
 	$(EXTRA_MAPS_PATH) \
-	$(EXTRA_MLIBMAPS_PATH); \
+	$(EXTRA_MLIBMAPS_PATH) \
+	$(CLKBUF_MAP_PATH) ; \
 	show -format dot -prefix $(TOP); \
 	write_json -noscopeinfo $(TOP).json; \
 	" \

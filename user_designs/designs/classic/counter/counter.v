@@ -11,17 +11,10 @@ module counter (
     output wire [7:0] c
 );
 
-    wire clk1_buf;
-
-    GBUF clock_buf (
-      .IN   (clk1),
-      .OUT  (clk1_buf)
-    );
-
     reg [7:0] ctr1;
 
     // Reset before enable
-    always @(posedge clk1_buf) begin
+    always @(posedge clk1) begin
         if (rst) begin
             ctr1 <= '0;
         end else begin
