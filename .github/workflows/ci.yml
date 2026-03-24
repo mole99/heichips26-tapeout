@@ -50,11 +50,14 @@ jobs:
         with:
           nix_system: x86_64-linux
           derivation: github:mole99/librelane_plugin_fabulous
+      - name: Get the tile library hash
+        run: |
+          echo "TILE_LIBRARY_SHORT_HASH=$(git rev-parse --short HEAD:ip/fabulous-tiles)" >> $GITHUB_ENV
       - name: Cache the tiles
         uses: actions/cache@v5
         with:
           path: ip/fabulous-tiles/tiles
-          key: cache-tiles-${{ matrix.tile_library }}-${{ matrix.pdk }}-${{ github.sha }}
+          key: cache-tiles-${{ matrix.tile_library }}-${{ matrix.pdk }}-${{ env.TILE_LIBRARY_SHORT_HASH }}
       - name: Implement the tiles
         run: |
           cd ip/fabulous-tiles/; PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ matrix.tile_library }} nix develop --command make all
@@ -85,14 +88,15 @@ jobs:
         run: |
           sudo du -hs /nix/store/* | sort -h | tail -n 10
           sudo tree /nix/store/*-librelane || true
-      - name: Get the tile library
+      - name: Get the tile library name and hash
         run: |
           echo "TILE_LIBRARY=$(echo "${{ matrix.fabrics }}" | cut -d'_' -f1)" >> $GITHUB_ENV
+          echo "TILE_LIBRARY_SHORT_HASH=$(git rev-parse --short HEAD:ip/fabulous-tiles)" >> $GITHUB_ENV
       - name: Restore the tiles
         uses: actions/cache/restore@v5
         with:
           path: ip/fabulous-tiles/tiles
-          key: cache-tiles-${{ env.TILE_LIBRARY }}-${{ matrix.pdk }}-${{ github.sha }}
+          key: cache-tiles-${{ env.TILE_LIBRARY }}-${{ matrix.pdk }}-${{ env.TILE_LIBRARY_SHORT_HASH }}
           fail-on-cache-miss: true
       - name: Stitch the tiles
         run: |
