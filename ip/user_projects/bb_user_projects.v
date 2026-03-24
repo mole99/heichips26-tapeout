@@ -191,9 +191,7 @@ module heichips25_internal (
     // DLL
     inout analog_pin0,
     inout analog_pin1,
-    
-    // ADC
-    inout analog_adc
+    inout analog_pin2
 );
     assign uo_out = '0;
     assign uio_out = '0;

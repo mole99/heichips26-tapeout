@@ -57,7 +57,7 @@ module heichips25_core (
     
     inout internal_analog_pin0,
     inout internal_analog_pin1,
-    inout internal_analog_adc,
+    inout internal_analog_pin2,
     
     inout pudding_i_in,
     inout pudding_i_out,
@@ -378,7 +378,7 @@ module heichips25_core (
         // 3 analog pins
         .internal_analog_pin0 (internal_analog_pin0),
         .internal_analog_pin1 (internal_analog_pin1),
-        .internal_analog_adc  (internal_analog_adc)
+        .internal_analog_pin2 (internal_analog_pin2)
         
     );
     

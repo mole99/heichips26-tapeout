@@ -20,6 +20,7 @@ from cocotbext.spi import SpiBus, SpiConfig, SpiMaster
 proj_path = Path(__file__).resolve().parent
 fabric = os.getenv("FABRIC", "classic_fabric_heichips25")
 tile_library = os.getenv("TILE_LIBRARY", "classic")
+emulation = os.getenv("EMULATION", False)
 
 lookup = {
     "X1Y10/A" : "fpga_io_PAD_0",
@@ -58,6 +59,8 @@ lookup = {
 }
 
 async def clear_bitstream_spi(spi_master):
+    if emulation:
+        return
 
     FRAME_BITS_PER_ROW = 32
     MAX_FRAMES_PER_COL = 20
@@ -84,6 +87,9 @@ async def clear_bitstream_spi(spi_master):
     await spi_master.write(header_bytes)
 
 async def upload_bitstream_spi(bitstream_path, spi_master):
+    if emulation:
+        return
+
     with open(bitstream_path, 'br') as f:
         data = f.read(4)
         while data:
@@ -595,11 +601,10 @@ async def test_ihp_sram_1024x32_1rw(dut):
 if __name__ == "__main__":
 
     sim = os.getenv("SIM", "icarus")
-    pdk_root = os.getenv("PDK_ROOT", Path("~/.ciel").expanduser())
+    pdk_root = os.getenv("PDK_ROOT", proj_path / "../IHP-Open-PDK/")
     pdk = os.getenv("PDK", "ihp-sg13g2")
     scl = os.getenv("SCL", "sg13g2_stdcell")
     gl = os.getenv("GL", None)
-    emulation = os.getenv("EMULATION", False)
     tile_library = os.getenv("TILE_LIBRARY", "classic")
     
     """if emulation and gl:
