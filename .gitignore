@@ -37,3 +37,9 @@ IHP-Open-PDK/
 runs/
 macro/
 final/
+
+# explicitly allow nextpnr model
+!user_designs/fabrics/*/macro/
+
+# DRC
+drc_run_*/
