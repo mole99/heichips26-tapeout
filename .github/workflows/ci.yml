@@ -55,10 +55,12 @@ jobs:
           echo "TILE_LIBRARY_SHORT_HASH=$(git rev-parse --short HEAD:ip/fabulous-tiles)" >> $GITHUB_ENV
       - name: Cache the tiles
         uses: actions/cache@v5
+        id: cache
         with:
           path: ip/fabulous-tiles/tiles
           key: cache-tiles-${{ matrix.tile_library }}-${{ matrix.pdk }}-${{ env.TILE_LIBRARY_SHORT_HASH }}
       - name: Implement the tiles
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           cd ip/fabulous-tiles/; PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ matrix.tile_library }} nix develop --command make all
 
