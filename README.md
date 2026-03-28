@@ -67,14 +67,14 @@ If passive SPI mode is selected, the bitstream can be supplied via an external S
 
 <p align="center">
   <a href="img/bonding_diagram.png">
-    <img src="img/bonding_diagram.png" alt="bonding diagram" width=40%>
+    <img src="img/bonding_diagram.png" alt="bonding diagram" width=65%>
   </a>
 </p>
 
 The IO voltage (IOVDD) should be 3.3V.
 The core voltage (VDD) should be 1.2V.
 
-The core can be increased to a maximum of 1.8V. However, doing so could lead to hold violations in the configuration logic. If this occurs, you can try increasing the voltage after configuration is complete.
+The core can be increased to a maximum of 1.8V. However, doing so could lead to hold violations in the configuration logic. If this happens, you can try increasing the voltage after configuration is complete.
 
 | Pin name                | Description                   |
 |-------------------------|-------------------------------|
