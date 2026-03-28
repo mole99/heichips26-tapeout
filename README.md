@@ -53,7 +53,7 @@ The eFPGA fabric can be configured using the SPI peripheral or the SPI controlle
 | fpga_mode | description |
 |---|---|
 | 0 | Active SPI mode. |
-| 1 | Passice SPI mode. |
+| 1 | Passive SPI mode. |
 
 If active SPI mode is selected and fpga_rst_n is deasserted, the configuration logic will fetch the bitstream from slot 0 (address 0) of the external SPI flash. Using fpga_config_slot[3:0] and fpga_config_trigger (which is only possible when the configuration logic is not busy), it is possible to initiate reconfiguration from a different slot.
 The offset of the slots is 0x800 words (0x2000 bytes). The controller uses the first 0x5A6 words (0x1698 bytes) of a slot as the bitstream.
