@@ -67,7 +67,7 @@ module heichips25_core (
 );
     
     // Fabric parameters
-        localparam FrameBitsPerRow = 32;
+    localparam FrameBitsPerRow = 32;
     localparam MaxFramesPerCol = 20;
     
     localparam NumColumns = 6;
@@ -270,7 +270,6 @@ module heichips25_core (
         .miso_o     (spi_receiver_miso_o)
     );
 
-    // TODO update length
     // bitstream size: 0x1698
     // bitstream word size: 0x5A6
     fabric_spi_controller #(

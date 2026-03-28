@@ -2,8 +2,8 @@
 
 ![heichips25.jpg](img/heichips25.jpg)
 
-This repository contains the chip for the [HeiChips Summer School 2025](https://heichips.github.io/). It includes several designs created during the Hackathon all connected to a common eFPGA fabric in the center.
-Thanks to FABulous, the user bitstream for the FPGA can be generated using the upstream yosys and nextpnr toolchain.
+This repository contains the chip for the [HeiChips Summer School 2025](https://heichips.github.io/) targeting SG13CMOS from IHP. It includes several designs created during the Hackathon all connected to a common eFPGA fabric in the center.
+Thanks to FABulous, the user bitstream for the FPGA can be generated using the Yosys and nextpnr toolchain.
 
 The chip is designed with open source EDA tools and the [IHP Open Source PDK](https://github.com/IHP-GmbH/IHP-Open-PDK).
 
@@ -18,7 +18,7 @@ The chip is designed with open source EDA tools and the [IHP Open Source PDK](ht
 
 ## Feature Overview
 
-The chip includes several user submitted designs from the HeiChips 2025 Hackathon. In the center of the chip is an eFPGA which allows the user projects to connect to each other, utilize the SRAM or connect to the external I/Os.
+The chip includes several user submitted designs from the HeiChips 2025 Hackathon. In the center of the chip is an eFPGA which allows the user projects to connect to each other, utilize the SRAM, or connect to the external I/Os.
 
 - [FABulous](https://github.com/FPGA-Research/FABulous) eFPGA
   - 32x I/Os
@@ -51,7 +51,98 @@ The following user projects are included:
 
 ## Configuration of the FPGA Fabric
 
-The eFPGA fabric can be configured using the SPI peripheral or the SPI controller, depending on the value of `fpga_mode`. If the SPI controller is selected, upon startup it will fetch the bitstream from slot 0 of the external SPI flash. Using the slot input and the trigger one can initiate a reconfiguration. If the SPI peripheral is selected it will wait for bitstream data on the SPI interface upon startup.
+The eFPGA fabric can be configured using the SPI peripheral or the SPI controller, depending on the value of `fpga_mode`.
+
+| fpga_mode | description |
+|---|---|
+| 0 | Active SPI mode. |
+| 1 | Passice SPI mode. The bitstream can be supplied via an external controller. |
+
+If active SPI mode is selected and fpga_rst_n is deasserted, the configuration logic will fetch the bitstream from slot 0 (address 0) of the external SPI flash. Using fpga_config_slot[3:0] and fpga_config_trigger (which is only possible when the configuration logic is not busy), it is possible to initiate reconfiguration from a different slot.
+The offset of the slots is 0x800 words (0x2000 bytes). The controller uses the first 0x5A6 words (0x1698 bytes) of a slot as the bitstream.
+
+If passive SPI mode is selected, the bitstream can be supplied via an external SPI controller.
+
+## Pinout
+
+<p align="center">
+  <a href="img/bonding_diagram.png">
+    <img src="img/bonding_diagram.png" alt="bonding diagram" width=40%>
+  </a>
+</p>
+
+The IO voltage (IOVDD) should be 3.3V.
+The core voltage (VDD) should be 1.2V.
+
+The core can be increased to a maximum of 1.8V. However, doing so could lead to hold violations in the configuration logic. If this occurs, you can try increasing the voltage after configuration is complete.
+
+| Pin name                | Description                   |
+|-------------------------|-------------------------------|
+| fpga_clk                | The clock for the FPGA configuration logic. |
+| fpga_rst_n              | The reset for the FPGA configuration logic (active low) |
+| fpga_mode               | Set configuration mode. 0 = active, 1 = passive. |
+| fpga_config_busy        | High while the FPGA is under configuration. |
+| fpga_config_configured  | High after the FPGA has been configured. |
+| fpga_sclk               | SPI: source clock             |
+| fpga_cs_n               | SPI: chip select (active low) |
+| fpga_mosi               | SPI controller out, peripheral in |
+| fpga_miso               | SPI: controller in, peripheral out |
+| fpga_config_trigger     | If high, trigger a reconfiguration in active mode from one of 16 slots of the SPI flash. |
+| fpga_config_slot[0]     | Set bit 0 for the FPGA configuration slot. |
+| fpga_config_slot[1]     | Set bit 1 for the FPGA configuration slot. |
+| fpga_config_slot[2]     | Set bit 2 for the FPGA configuration slot. |
+| fpga_config_slot[3]     | Set bit 3 for the FPGA configuration slot. |
+| usb_dp                  | Pin of the heichips25_usb_cdc project. |
+| usb_dn                  | Pin of the heichips25_usb_cdc project. |
+| usb_dp_up               | Pin of the heichips25_usb_cdc project. |
+| tmds_r                  | Pin of the heichips25_bagel project. |
+| tmds_g                  | Pin of the heichips25_bagel project. |
+| tmds_b                  | Pin of the heichips25_bagel project. |
+| tmds_clk                | Pin of the heichips25_bagel project. |
+| icelab_analog_pin0      | Pin of the heichips25_ICELab project. |
+| icelab_analog_pin1      | Pin of the heichips25_ICELab project. |
+| icelab_analog_pin2      | Pin of the heichips25_ICELab project. |
+| icelab_analog_pin3      | Pin of the heichips25_ICELab project. |
+| ethernet_dp             | Pin of the heichips25_ethernet project. |
+| ethernet_dn             | Pin of the heichips25_ethernet project. |
+| pudding_i_out           | Pin of the heichips25_pudding project. |
+| pudding_i_in            | Pin of the heichips25_pudding project. |
+| internal_analog_pin0    | Pin of the heichips25_internal project. |
+| internal_analog_pin1    | Pin of the heichips25_internal project. |
+| internal_analog_pin2    | Pin of the heichips25_internal project. |
+| fpga_io[0]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[1]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[2]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[3]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[4]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[5]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[6]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[7]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[8]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[9]              | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[10]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[11]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[12]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[13]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[14]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[15]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[16]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[17]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[18]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[19]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[20]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[21]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[22]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[23]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[24]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[25]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[26]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[27]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[28]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[29]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[30]             | I/O pin which can be controlled by the FPGA user project. |
+| fpga_io[31]             | I/O pin which can be controlled by the FPGA user project. |
+
 
 ## Building User Designs for the eFPGA
 
