@@ -160,27 +160,37 @@ To build a bitstream of a user design for the eFPGA, see [README.md](ip/fabric/u
 > git submodule update --init --recursive .
 >```
 
-
-
 To clone the compatible PDK version, simply run `make clone-pdk`.
 
-In the next step, install LibreLane by following the Nix-based installation instructions: https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html
+For information on installing Nix with the FOSSi Foundation cache, please refer to the LibreLane documentation: https://librelane.readthedocs.io/en/stable/installation/nix_installation/index.html
 
 Afterwards you can enable a Nix shell by running `nix-shell`.
 
-## Implementing the Tiles
+## Stitch the Fabric
+
+As a prerequisite make sure that the tiles for the tile library that you are using have been implemented in `ip/fabulous-tiles`.
+If that is the case, you can proceed by enabling a Nix shell with LibreLane in this repository:
 
 ```
-cd ip/tile_library/; nix develop --command make all
+nix-shell
 ```
 
-## Implementing the Fabric
+To implement the fabric, run:
 
 ```
-cd ip/fabric/; nix develop --command make fabric
+make classic_fabric_heichips25
 ```
 
-### Running LibreLane
+After the fabric has been implemented you can view it either in OpenROAD or KLayout by appending `-openroad` or `-klayout` to the fabric name.
+For example, to view `classic_fabric_heichips25` in OpenROAD, run: `make classic_fabric_heichips25-openroad`.
+
+After the fabric has been generated, run:
+
+```
+make copy-fabric
+```
+
+### Build The Chip
 
 To build the chip with LibreLane:
 
@@ -208,28 +218,36 @@ make render-image
 
 And with this the chip is ready for tapeout. 
 
-### Building the Bitstreams
+## Implement User Designs
 
-To build the bitstream, install the fasm Python package:
+Please see the README in `user_designs/` on how to implement a user design for the fabrics.
 
-```
-pip3 install fasm
-```
+### Simulate the Fabric
 
-And run the following:
+To run all fabric simulations, simply run:
 
 ```
-cd ip/fabric/user_designs/; nix shell nixpkgs#{yosys,nextpnr} --command make build_all
+make sim-fabric
 ```
 
-### Running Chip-Top Level Simulation
+To view them:
 
-The cocotb testbench is located under `tb/heichips25_top/heichips25_top_tb.py`.
+```
+make sim-fabric-view
+```
 
-To run all chip-top level simulations, simply run:
+### Simulate the Chip
+
+To run all chip-level simulations, simply run:
 
 ```
 make sim
+```
+
+To view them:
+
+```
+make sim-view
 ```
 
 You can run the gate-level tests after the chip has been implemented:

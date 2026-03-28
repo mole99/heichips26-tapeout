@@ -83,26 +83,27 @@ librelane-klayout: $(PDK_ROOT)/$(PDK) ## Open the last LibreLane run in KLayout
 	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --last-run --flow OpenInKLayout
 .PHONY: librelane-klayout
 
+sim-fabric: ## Runfabric  RTL simulation with cocotb
+	cd tb/; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 fabric_tb.py
+	! grep failure tb/sim_build/results.xml
+.PHONY: sim-fabric
+
 sim: ## Run RTL simulation with cocotb
-	cd tb/heichips25_top; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_all_zeros
-	! grep failure tb/heichips25_top/sim_build/results.xml
-	cd tb/heichips25_top; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_all_ones
-	! grep failure tb/heichips25_top/sim_build/results.xml
-	cd tb/heichips25_top; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_counter_top
-	! grep failure tb/heichips25_top/sim_build/results.xml
+	cd tb/; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 top_tb.py
+	! grep failure tb/sim_build/results.xml
 .PHONY: sim
 
 sim-gl: $(PDK_ROOT)/$(PDK) ## Run gate-level simulation with cocotb
-	cd tb/heichips25_top; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_all_zeros
-	! grep failure tb/heichips25_top/sim_build/results.xml
-	cd tb/heichips25_top; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_all_ones
-	! grep failure tb/heichips25_top/sim_build/results.xml
-	cd tb/heichips25_top; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 heichips25_top_tb.py test_fpga_counter_top
-	! grep failure tb/heichips25_top/sim_build/results.xml
+	cd tb/; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 top_tb.py
+	! grep failure tb/sim_build/results.xml
 .PHONY: sim-gl
 
+sim-fabric-view: ## View simulation waveforms in GTKWave
+	gtkwave tb/sim_build/classic_fabric_heichips25.fst
+.PHONY: sim-fabric-view
+
 sim-view: ## View simulation waveforms in GTKWave
-	gtkwave tb/heichips25_top/sim_build/heichips25_top_tb.fst
+	gtkwave tb/sim_build/heichips25_top_tb.fst
 .PHONY: sim-view
 
 render-image:
