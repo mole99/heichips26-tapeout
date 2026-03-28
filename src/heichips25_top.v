@@ -3,12 +3,12 @@
 
 module heichips25_top #(
     // Power/ground pads for core
-    parameter NUM_VDD_PADS = 4,
-    parameter NUM_VSS_PADS = 4,
+    parameter NUM_VDD_PADS = 6,
+    parameter NUM_VSS_PADS = 6,
     
     // Power/ground pads for I/O
-    parameter NUM_IOVDD_PADS = 4,
-    parameter NUM_IOVSS_PADS = 4
+    parameter NUM_IOVDD_PADS = 6,
+    parameter NUM_IOVSS_PADS = 6
     )(
     `ifdef USE_POWER_PINS
     inout wire VDD,
@@ -98,7 +98,7 @@ module heichips25_top #(
     wire internal_analog_pin2_PADRES;
 
     wire pudding_i_in_PADRES;
-    wire pudding_i_out_PADRES;
+    wire pudding_i_out_PADBARE;
 
     wire ethernet_dp_PADBARE;
     wire ethernet_dn_PADBARE;
@@ -497,7 +497,7 @@ module heichips25_top #(
         .vdd    (VDD),
         .vss    (VSS),
         `endif
-        .padres (pudding_i_out_PADRES),
+        .padbare (pudding_i_out_PADBARE),
         .pad (pudding_i_out_PAD)
     );
 
@@ -580,7 +580,7 @@ module heichips25_top #(
         .internal_analog_pin2  (internal_analog_pin2_PADRES),
         
         .pudding_i_in    (pudding_i_in_PADRES),
-        .pudding_i_out   (pudding_i_out_PADRES),
+        .pudding_i_out   (pudding_i_out_PADBARE),
 
         .ethernet_dp    (ethernet_dp_PADBARE),
         .ethernet_dn    (ethernet_dn_PADBARE)

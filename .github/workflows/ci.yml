@@ -76,6 +76,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: 'true'
+      - name: Clone the PDK
+        run: |
+          make clone-pdk
       - name: Setup Nix
         uses: ./.github/actions/setup_nix
         with:
@@ -119,10 +122,6 @@ jobs:
       - name: Simulate the Fabric (Simulation)
         run: |
           PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 fabric_tb.py"
-      - name: Clone the PDK
-        run: |
-          export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          nix develop --command make clone-pdk
       - name: Implement the Chip
         if: success() || failure()
         run: |
@@ -155,9 +154,6 @@ jobs:
       - name: Simulate the FPGA RTL (Simulation)
         run: |
           PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 top_tb.py"
-      - name: Set up the PDK
-        run: |
-          nix develop --command ciel enable --pdk-family ihp-sg13g2 d335549443691aa7b6095c4186961c5806e0bcff
       - name: Simulate the FPGA RTL/GL (Simulation)
         run: |
           GL=1 PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 top_tb.py"
