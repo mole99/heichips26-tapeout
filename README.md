@@ -7,9 +7,6 @@ Thanks to FABulous, the user bitstream for the FPGA can be generated using the Y
 
 The chip is designed with open source EDA tools and the [IHP Open Source PDK](https://github.com/IHP-GmbH/IHP-Open-PDK).
 
-> [!WARNING]
-> This repository is a Work in Progress.
-
 <p align="center">
   <a href="img/heichips25_top_white.png">
     <img src="img/heichips25_top_white_small.png" alt="chip layout" width=40%>
