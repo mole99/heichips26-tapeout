@@ -197,7 +197,30 @@ GRT_ALLOW_CONGESTION: true
 # Clock
 CLOCK_PORT: fpga_clk_PAD
 CLOCK_NET: fpga_clk/p2c
-CLOCK_PERIOD: 100
+CLOCK_PERIOD: 12.5 # 12.5ns = 80 MHz
+
+# Add additional corners
+LIB:
+  "*_typ_1p20V_25C":
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_typ_1p20V_25C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_typ_1p2V_3p3V_25C.lib
+  "*_fast_1p32V_m40C":
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_fast_1p32V_m40C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_fast_1p32V_3p6V_m40C.lib
+  "*_slow_1p08V_125C":
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_slow_1p08V_125C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_slow_1p08V_3p0V_125C.lib
+  "*_typ_1p50V_25C":
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_typ_1p50V_25C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_typ_1p5V_3p3V_25C.lib
+  "*_fast_1p65V_m40C":
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_fast_1p65V_m40C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_fast_1p65V_3p6V_m40C.lib
+  "*_slow_1p35V_125C":
+    - pdk_dir::libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_slow_1p35V_125C.lib
+    - pdk_dir::libs.ref/sg13g2_io/lib/sg13g2_io_slow_1p35V_3p0V_125C.lib
+
+# Floorplanning
 FP_SIZING: absolute
 DIE_AREA: [0, 0, 3000, 3000]
 CORE_AREA: [365, 365, "expr::$DIE_AREA[2] - 365", "expr::$DIE_AREA[3] - 365"]
