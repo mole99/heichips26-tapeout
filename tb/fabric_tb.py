@@ -26,36 +26,56 @@ if __name__ == "__main__":
     emulation = os.getenv("EMULATION", False)
     tile_library = os.getenv("TILE_LIBRARY", "classic")
     
+    if emulation and gl:
+        print("Error: EMULATION and GL can't be set at the same time.")
+        sys.exit(1)
+    
     tiles_path = Path(proj_path / ".." / "ip" / "fabulous-tiles")
     primitives_path = Path(tiles_path) / "primitives"
     tile_library_path = Path(tiles_path) / "tiles" / tile_library
 
-    primitives_files = list(primitives_path.glob('**/fabulous/*.v'))
-    tile_files = list(tile_library_path.glob(f'**/macro/{pdk}/fabulous/*.v'))
-
-    #print(f"Primitive sources: {primitives_files}")
-    #print(f"Tile sources: {tile_files}")
-    
     sources = []
     defines = {}
     test_filter = None
     
-    if emulation:
-        sources.append(proj_path / f'../user_designs/designs/{tile_library}/{emulation}/{emulation}.vh')
-        defines = {"EMULATION": True}
-        test_filter = "test_" + emulation
-    
-    sources.extend(primitives_files)
-    sources.extend(tile_files)
-    
-    # Add models pack
-    sources.append(tiles_path / "models_pack.v")
+    # RTL
+    if not gl:
+        if emulation:
+            sources.append(proj_path / f'../user_designs/designs/{tile_library}/{emulation}/{emulation}.vh')
+            defines = {"EMULATION": True}
+            test_filter = "test_" + emulation
 
-    # Add custom cells
-    sources.append(tiles_path / "custom.v")
+        primitives_files = list(primitives_path.glob('**/fabulous/*.v'))
+        tile_files = list(tile_library_path.glob(f'**/macro/{pdk}/fabulous/*.v'))
 
-    # Add fabric netlist
-    sources.append(proj_path / f'../fabrics/{fabric}/macro/{pdk}/fabulous/{fabric}.v')
+        #print(f"Primitive sources: {primitives_files}")
+        #print(f"Tile sources: {tile_files}")
+        
+        sources.extend(primitives_files)
+        sources.extend(tile_files)
+        
+        # Add models pack
+        sources.append(tiles_path / "models_pack.v")
+
+        # Add custom cells
+        sources.append(tiles_path / "custom.v")
+
+        # Add fabric netlist
+        sources.append(proj_path / f'../fabrics/{fabric}/macro/{pdk}/fabulous/{fabric}.v')
+
+    # Gate-level
+    else:
+        # SCL models
+        sources.append(Path(pdk_root) / pdk / "libs.ref" / scl / "verilog" / f"{scl}.v")
+        sources.append(Path(pdk_root) / pdk / "libs.ref" / scl / "verilog" / f"sg13g2_udp.v")
+        
+        # Tile GL netlists
+        tile_files = list(tile_library_path.glob(f'**/macro/{pdk}/nl/*.nl.v'))
+        #print(f"Tile sources: {tile_files}")
+        sources.extend(tile_files)
+        
+        # Fabric GL netlist
+        sources.append(proj_path / f'../fabrics/{fabric}/macro/{pdk}/nl/{fabric}.nl.v')
 
     hdl_toplevel = fabric
 

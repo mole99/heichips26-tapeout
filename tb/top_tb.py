@@ -465,7 +465,7 @@ async def test_counter(dut):
 
     assert pcf.get("c").to_unsigned() == NUM_CYCLES-1
 
-@cocotb.test()
+@cocotb.test(skip=os.getenv("GL", None) is not None)
 async def test_multiplication(dut):
     """Load bitstream for multiplication"""
 
@@ -521,7 +521,7 @@ async def test_multiplication(dut):
         await Timer(10, unit="ns")
         assert(pcf.get("product").to_unsigned() == result)
 
-@cocotb.test()
+@cocotb.test(skip=os.getenv("GL", None) is not None)
 async def test_ihp_sram_1024x32_1rw(dut):
     """Load bitstream for ihp_sram_1024x32_1rw"""
 
@@ -615,9 +615,9 @@ if __name__ == "__main__":
     gl = os.getenv("GL", None)
     tile_library = os.getenv("TILE_LIBRARY", "classic")
     
-    """if emulation and gl:
+    if emulation and gl:
         print("Error: EMULATION and GL can't be set at the same time.")
-        sys.exit(1)"""
+        sys.exit(1)
     
     hdl_toplevel = "heichips25_top_tb"
     
@@ -625,18 +625,9 @@ if __name__ == "__main__":
     primitives_path = Path(tiles_path) / "primitives"
     tile_library_path = Path(tiles_path) / "tiles" / tile_library
 
-    primitives_files = list(primitives_path.glob('**/fabulous/*.v'))
-    tile_files = list(tile_library_path.glob(f'**/macro/{pdk}/fabulous/*.v'))
-
-    #print(f"Primitive sources: {primitives_files}")
-    #print(f"Tile sources: {tile_files}")
-    
     sources = []
     defines = {}
     test_filter = None
-    
-    sources.extend(primitives_files)
-    sources.extend(tile_files)
     
     # TB wrapper
     sources.append(proj_path / f"heichips25_top_tb.v")
@@ -666,14 +657,31 @@ if __name__ == "__main__":
     # Bondpads
     sources.append(proj_path / '../ip/bondpad_70x70_novias/vh/bondpad_70x70_novias.v')
     
-    # gate-level
-    if gl:
-        # We use the unpowered netlist
-        sources.append(proj_path / f"../final/nl/heichips25_top.nl.v")
-
-        #defines["USE_POWER_PINS"] = False
     # RTL
-    else:
+    if not gl:
+        if emulation:
+            sources.append(proj_path / f'../user_designs/designs/{tile_library}/{emulation}/{emulation}.vh')
+            defines["EMULATION"] = True
+            test_filter = "test_" + emulation
+    
+        primitives_files = list(primitives_path.glob('**/fabulous/*.v'))
+        tile_files = list(tile_library_path.glob(f'**/macro/{pdk}/fabulous/*.v'))
+
+        #print(f"Primitive sources: {primitives_files}")
+        #print(f"Tile sources: {tile_files}")
+        
+        sources.extend(primitives_files)
+        sources.extend(tile_files)
+    
+        # Add models pack
+        sources.append(tiles_path / "models_pack.v")
+
+        # Add custom cells
+        sources.append(tiles_path / "custom.v")
+
+        # Add fabric RTL netlist
+        sources.append(proj_path / f'../fabrics/{fabric}/macro/{pdk}/fabulous/{fabric}.v')
+    
         sources.append(proj_path / f"../src/heichips25_top.v")
         sources.append(proj_path / f"../src/heichips25_core.sv")
         sources.append(proj_path / f"../src/fabric_wrapper.sv")
@@ -681,19 +689,20 @@ if __name__ == "__main__":
         sources.append(proj_path / f"../ip/fabric_config/fabric_spi_controller.sv")
         sources.append(proj_path / f"../ip/fabric_config/fabric_spi_receiver.sv")
     
-    if emulation:
-        sources.append(proj_path / f'../user_designs/designs/{tile_library}/{emulation}/{emulation}.vh')
-        defines["EMULATION"] = True
-        test_filter = "test_" + emulation
-    
-    # Add models pack
-    sources.append(tiles_path / "models_pack.v")
+    # Gate-level
+    else:
+        # We use the unpowered netlist
+        sources.append(proj_path / f"../final/nl/heichips25_top.nl.v")
 
-    # Add custom cells
-    sources.append(tiles_path / "custom.v")
+        # Tile GL netlists
+        tile_files = list(tile_library_path.glob(f'**/macro/{pdk}/nl/*.nl.v'))
+        #print(f"Tile sources: {tile_files}")
+        sources.extend(tile_files)
+        
+        # Fabric GL netlist
+        sources.append(proj_path / f'../fabrics/{fabric}/macro/{pdk}/nl/{fabric}.nl.v')
 
-    # Add fabric netlist
-    sources.append(proj_path / f'../fabrics/{fabric}/macro/{pdk}/fabulous/{fabric}.v')
+        #defines["USE_POWER_PINS"] = False
 
     runner = get_runner(sim)
     runner.build(

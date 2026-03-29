@@ -88,23 +88,38 @@ sim-fabric: ## Runfabric  RTL simulation with cocotb
 	! grep failure tb/sim_build/results.xml
 .PHONY: sim-fabric
 
-sim: ## Run RTL simulation with cocotb
+sim-fabric-emulation: ## Runfabric  RTL simulation with cocotb (emulation)
+	cd tb/; EMULATION=counter PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 fabric_tb.py
+	! grep failure tb/sim_build/results.xml
+.PHONY: sim-fabric-emulation
+
+sim-fabric-gl: ## Runfabric  RTL simulation with cocotb
+	cd tb/; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 fabric_tb.py
+	! grep failure tb/sim_build/results.xml
+.PHONY: sim-fabric-gl
+
+sim-top: ## Run RTL simulation with cocotb
 	cd tb/; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 top_tb.py
 	! grep failure tb/sim_build/results.xml
-.PHONY: sim
+.PHONY: sim-top
 
-sim-gl: $(PDK_ROOT)/$(PDK) ## Run gate-level simulation with cocotb
+sim-top-emulation: ## Run RTL simulation with cocotb (emulation)
+	cd tb/; EMULATION=counter PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 top_tb.py
+	! grep failure tb/sim_build/results.xml
+.PHONY: sim-top-emulation
+
+sim-top-gl: $(PDK_ROOT)/$(PDK) ## Run gate-level simulation with cocotb
 	cd tb/; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 top_tb.py
 	! grep failure tb/sim_build/results.xml
-.PHONY: sim-gl
+.PHONY: sim-top-gl
 
 sim-fabric-view: ## View simulation waveforms in GTKWave
 	gtkwave tb/sim_build/classic_fabric_heichips25.fst
 .PHONY: sim-fabric-view
 
-sim-view: ## View simulation waveforms in GTKWave
+sim-top-view: ## View simulation waveforms in GTKWave
 	gtkwave tb/sim_build/heichips25_top_tb.fst
-.PHONY: sim-view
+.PHONY: sim-top-view
 
 render-image:
 	PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 scripts/lay2img.py final/gds/${TOP}.gds img/${TOP}.png --width 4069 --oversampling 4
