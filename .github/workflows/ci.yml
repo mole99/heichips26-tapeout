@@ -122,7 +122,7 @@ jobs:
       - name: Simulate the Fabric RTL (Simulation)
         run: |
           nix develop --command make sim-fabric
-        - name: Simulate the Fabric GL (Simulation)
+      - name: Simulate the Fabric GL (Simulation)
         run: |
           nix develop --command make sim-fabric-gl
       - name: Implement the Chip
