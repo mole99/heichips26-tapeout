@@ -29,6 +29,8 @@ The chip includes several user submitted designs from the HeiChips 2025 Hackatho
 
 The following user projects are included:
 
+![User Projects](img/heichips25_projects.png)
+
 | Project | Size | Location | Description | Link |
 |---------------|---------------|---------------|---------------|------|
 | heichips25_snitch_wrapper | Large | X0Y2          | Snitch RISC‑V (RV32) integer core implemented with LibreLane on IHP SG13G2 (130 nm). | [Link](https://github.com/HeiChips/heichips_25_snitch_core) |
