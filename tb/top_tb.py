@@ -606,6 +606,91 @@ async def test_ihp_sram_1024x32_1rw(dut):
 
         assert(pcf.get("ram_dout_byte").to_unsigned() == i & 0xFF)
 
+@cocotb.test(skip=os.getenv("GL", None) is not None)
+async def test_mem_1024x32_1rw(dut):
+    """Load bitstream for mem_1024x32_1rw"""
+
+    testname = "mem_1024x32_1rw"
+
+    pcf = PCF(dut, proj_path / f"../fabrics/{fabric}/constraints.pcf", lookup)
+    pcf.write_gtkw(f"{testname}.gtkw", ["clk1", "ram_addr", "ram_byte_sel", "ram_wen", "ram_men", "ram_ren", "ram_din_byte", "ram_dout_byte"])
+
+    # Reset
+    pcf.set("clk1", Logic(0), index=0)
+    await Timer(10, unit="ns")
+
+    # Setup SPI
+    spi_bus = SpiBus.from_prefix(dut, "fpga", bus_separator="_", sclk_name="sclk_PAD", cs_name="cs_n_PAD", mosi_name='mosi_PAD', miso_name='miso_PAD')
+
+    spi_config = SpiConfig(
+        word_width = 8,
+        sclk_freq  = 10e6,
+        cpol       = False,
+        cpha       = True,
+        msb_first  = True,
+        frame_spacing_ns = 500
+    )
+
+    spi_master = SpiMaster(spi_bus, spi_config)
+
+    # Static setup
+    dut.fpga_mode_PAD.value = 1 # Configure FPGA as receiver
+    dut.fpga_config_slot_PAD.value = 0
+    dut.fpga_config_trigger_PAD.value = 0
+
+    cocotb.start_soon(Clock(dut.fpga_clk_PAD, 10, 'ns').start())
+
+    # Assert reset
+    dut.fpga_rst_n_PAD.value = 0
+    await ClockCycles(dut.fpga_clk_PAD, 10)
+
+    # Deassert reset
+    dut.fpga_rst_n_PAD.value = 1
+    await ClockCycles(dut.fpga_clk_PAD, 10)
+
+    # Configure FPGA via SPI
+    await cocotb.start_soon(clear_bitstream_spi(spi_master))
+    await cocotb.start_soon(upload_bitstream_spi(proj_path / f'../user_designs/designs/{tile_library}/{testname}/{testname}.bit', spi_master))
+    await ClockCycles(dut.fpga_clk_PAD, 10)
+
+    # Start a clock on clk1
+    clock1 = pcf.get_raw("clk1", "OUT")
+    cocotb.start_soon(Clock(clock1, 10, 'ns').start())
+    
+    await ClockCycles(clock1, 10)
+    
+    pcf.set("ram_men", Logic(1), index=0)
+    pcf.set("ram_wen", Logic(0), index=0)
+    pcf.set("ram_ren", Logic(0), index=0)
+    pcf.set("ram_addr", LogicArray.from_unsigned(0, len(pcf.get("ram_addr"))))
+    pcf.set("ram_byte_sel", LogicArray.from_unsigned(0, len(pcf.get("ram_byte_sel"))))
+    pcf.set("ram_din_byte", LogicArray.from_unsigned(0, len(pcf.get("ram_din_byte"))))
+    await ClockCycles(clock1, 1)
+    
+    pcf.set("ram_wen", Logic(1), index=0)
+    pcf.set("ram_ren", Logic(0), index=0)
+    
+    data = [random.randint(0, 2**10-1) for _ in range(100)] # 4 KiB memory
+
+    # Fill the memory with data
+    for i in data:
+        pcf.set("ram_addr", LogicArray.from_unsigned(i >> 2, len(pcf.get("ram_addr"))))
+        pcf.set("ram_byte_sel", LogicArray.from_unsigned(i & 0x3, len(pcf.get("ram_byte_sel"))))
+        pcf.set("ram_din_byte", LogicArray.from_unsigned(i & 0xFF, len(pcf.get("ram_din_byte"))))
+        
+        await ClockCycles(clock1, 1)
+
+    pcf.set("ram_wen", Logic(0), index=0)
+    pcf.set("ram_ren", Logic(1), index=0)
+    
+    # Read the same data
+    for i in data:
+        pcf.set("ram_addr", LogicArray.from_unsigned(i >> 2, len(pcf.get("ram_addr"))))
+        pcf.set("ram_byte_sel", LogicArray.from_unsigned(i & 0x3, len(pcf.get("ram_byte_sel"))))
+        await ClockCycles(clock1, 2)
+
+        assert(pcf.get("ram_dout_byte").to_unsigned() == i & 0xFF)
+
 if __name__ == "__main__":
 
     sim = os.getenv("SIM", "icarus")

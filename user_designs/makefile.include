@@ -41,7 +41,8 @@ endif
 
 EXTRA_MAPS_PATH		 = -extra-map ../../../../ip/fabulous-tiles/primitives/FABULOUS_LC/yosys/techmap/lut_map.v \
 			   -extra-map ../../../../ip/fabulous-tiles/primitives/FABULOUS_LC/yosys/techmap/ff_map.v \
-			   -extra-map ../../../../ip/fabulous-tiles/primitives/IOBUF/yosys/techmap/IOBUF_map.v
+			   -extra-map ../../../../ip/fabulous-tiles/primitives/IOBUF/yosys/techmap/IOBUF_map.v \
+			   -extra-map ../../../../ip/fabulous-tiles/primitives/IHP_SRAM_1024x32_1RW/yosys/techmap/IHP_SRAM_1024x32_1RW_map.v
 
 #ifeq ($(TILE_LIBRARY),classic)
 #EXTRA_MAPS_PATH		+= -extra-map ../../../../ip/fabulous-tiles/primitives/RAM_32x4_2R_1W/yosys/techmap/RAM_32x4_2R_1W_map.v
