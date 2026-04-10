@@ -50,11 +50,11 @@ EXTRA_MAPS_PATH		 = -extra-map ../../../../ip/fabulous-tiles/primitives/FABULOUS
 #endif
 
 #ifeq ($(TILE_LIBRARY),classic)
-#EXTRA_MLIBMAPS_PATH	 = -extra-mlibmap ../../../../ip/fabulous-tiles/primitives/RAM_32x4_2R_1W/yosys/memory_map/RAM_32x4_2R_1W_map.txt
+#EXTRA_MLIBMAPS_PATH	 = -extra-mlibmap ../../../../ip/fabulous-tiles/primitives/RAM_32x4_2R_1W/yosys/memlib/RAM_32x4_2R_1W_lib.txt
 #endif
 
 ifeq ($(FABRIC),classic_fabric_heichips25)
-EXTRA_MLIBMAPS_PATH	 = -extra-mlibmap ../../../../ip/fabulous-tiles/primitives/IHP_SRAM_1024x32_1RW/yosys/memory_map/IHP_SRAM_1024x32_1RW_map.txt
+EXTRA_MLIBMAPS_PATH	 = -extra-mlibmap ../../../../ip/fabulous-tiles/primitives/IHP_SRAM_1024x32_1RW/yosys/memlib/IHP_SRAM_1024x32_1RW_lib.txt
 endif
 
 CLKBUF_MAP_PATH		 = -clkbuf-map ../../../../ip/fabulous-tiles/primitives/GBUF/yosys/techmap/GBUF_map.v
