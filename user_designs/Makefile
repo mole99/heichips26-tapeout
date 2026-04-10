@@ -9,9 +9,6 @@ $(info $(TILE_LIBRARY))
 # Get the design names
 DESIGNS :=  $(patsubst designs/${TILE_LIBRARY}/%/,%,$(wildcard designs/${TILE_LIBRARY}/*/)) 
 
-# TODO
-DESIGNS := $(filter-out register_file,$(DESIGNS))
-
 DESIGNS_CLEAN := $(addsuffix -clean,$(DESIGNS))
 DESIGNS_SYNTH := $(addsuffix -synth,$(DESIGNS))
 DESIGNS_PNR := $(addsuffix -pnr,$(DESIGNS))

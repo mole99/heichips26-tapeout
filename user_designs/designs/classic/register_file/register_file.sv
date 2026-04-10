@@ -9,8 +9,8 @@ module register_file (
     input  wire       rst,
     input  wire       ena,
     
-    input  wire [4:0] addr_a,
-    input  wire [4:0] addr_b,
+    input  wire [3:0] addr_a,
+    input  wire [3:0] addr_b,
     input  wire [1:0] addr_c,
     
     // Input word
@@ -21,31 +21,17 @@ module register_file (
     output wire [3:0] word_c
 );
 
-    logic clk1_buf;
-
-    GBUF clock1_buf (
-      .IN   (clk1),
-      .OUT  (clk1_buf)
-    );
-
-    logic clk2_buf;
-
-    GBUF clock2_buf (
-      .IN   (clk2),
-      .OUT  (clk2_buf)
-    );
-
-    logic [3:0] mem [32];
+    logic [3:0] mem [16];
 
     // Port A
-    always_ff @(posedge clk1_buf) begin
+    always_ff @(posedge clk1) begin
         mem[addr_a] <= word_a;
     end
 
     logic [3:0] word_b_reg;
 
     // Port B
-    always_ff @(posedge clk2_buf) begin
+    always_ff @(posedge clk2) begin
         word_b_reg <= mem[addr_b]; 
     end
     
