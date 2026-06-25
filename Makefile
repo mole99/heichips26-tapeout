@@ -4,15 +4,25 @@ RUN_TAG = $(shell ls librelane/runs/ | tail -n 1)
 TOP = heichips25_top
 
 PDK_ROOT ?= $(MAKEFILE_DIR)/IHP-Open-PDK
-PDK ?= ihp-sg13g2
-#PDK_COMMIT ?= 3b5a704ba6738aa686b08706187830e6284d2a10
-PDK_BRANCH ?= heichips25
+PDK ?= ihp-sg13cmos5l
+
+PDK_REPO_IHP ?= https://github.com/IHP-GmbH/IHP-Open-PDK
+PDK_COMMIT_IHP ?= 22f2a25f1734796de3debbbf29cf697cbbc54081
+
+PDK_REPO ?= https://github.com/IHP-GmbH/ihp-sg13cmos5l
+PDK_COMMIT ?= e8a87d708b8977e7c07684b033658a0f80af59a0
+#PDK_BRANCH ?= heichips25
+
+SCL ?= sg13cmos5l_stdcell
 
 .DEFAULT_GOAL := help
 
 $(PDK_ROOT)/$(PDK):
 	#ciel enable $(PDK_COMMIT) --pdk-root $(PDK_ROOT) --pdk-family $(PDK)
-	git clone https://github.com/HeiChips/IHP-Open-PDK.git --recurse-submodules --depth=1 --single-branch -b $(PDK_BRANCH)
+	mkdir -p $(PDK_ROOT)
+	#git clone $(PDK_REPO) --recurse-submodules --depth=1 --single-branch -b $(PDK_BRANCH) $(PDK_ROOT)
+	git clone $(PDK_REPO_IHP) --recurse-submodules --depth=1 --revision $(PDK_COMMIT_IHP) $(PDK_ROOT)
+	git clone $(PDK_REPO) --recurse-submodules --depth=1 --revision $(PDK_COMMIT) $(PDK_ROOT)/$(PDK)
 
 # Get the fabric names
 FABRICS :=  $(patsubst fabrics/%,%,$(wildcard fabrics/*)) 
@@ -55,8 +65,33 @@ clone-pdk: $(PDK_ROOT)/$(PDK) ## Clone the IHP-Open-PDK repository
 all: librelane ## Build the project (runs LibreLane)
 .PHONY: all
 
+
+#############
+
+templates: $(PDK_ROOT)/$(PDK) ## Run LibreLane
+	cd ip/heichips26_template/; PDK=${PDK} PDK_ROOT=${PDK_ROOT} SCL=${SCL} python3 build.py
+.PHONY: templates
+
+example-small: $(PDK_ROOT)/$(PDK) ## Run LibreLane
+	cd ip/user_projects/heichips26_example_small/; librelane config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --scl ${SCL} --save-views-to macro/
+.PHONY: example-small
+
+example-large: $(PDK_ROOT)/$(PDK) ## Run LibreLane
+	cd ip/user_projects/heichips26_example_large/; librelane config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --scl ${SCL} --save-views-to macro/
+.PHONY: example-large
+
+logos: $(PDK_ROOT)/$(PDK) ## Run LibreLane
+	cd ip/logo_fabulous/; PDK=${PDK} PDK_ROOT=${PDK_ROOT} make all
+	cd ip/logo_heichips/; PDK=${PDK} PDK_ROOT=${PDK_ROOT} make all
+	cd ip/logo_credits/; PDK=${PDK} PDK_ROOT=${PDK_ROOT} make all
+.PHONY: logos
+
+
+##############
+
+
 librelane: $(PDK_ROOT)/$(PDK) ## Run LibreLane
-	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to final/
+	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --scl ${SCL} --save-views-to final/
 .PHONY: librelane
 
 librelane-nodrc: $(PDK_ROOT)/$(PDK) ## Run LibreLane without DRC checks

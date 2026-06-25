@@ -4,11 +4,16 @@ PDK_ROOT ?= $(MAKEFILE_DIR)/../../IHP-Open-PDK
 PDK ?= ihp-sg13g2
 TOP ?= logo_credits
 
+PRBOUNDARY = "189/0"
+METAL4 = "50/0"
+METAL4_NOFILL = "50/23"
+TOPMETAL1_NOFILL = "126/23"
+
 all: logo drc
 .PHONY: all
 
 logo:
-	python3 script/make_gds.py image/${TOP}.png gds/${TOP}.gds --cellname ${TOP} --merge --pixel-size 0.21 --width 900 --height 900 --foreground "67/0" --boundary "67/23" "126/23" "134/23" "189/4"
+	python3 script/make_gds.py image/${TOP}.png gds/${TOP}.gds --cellname ${TOP} --merge --pixel-size 0.21 --width 900 --height 900 --foreground ${METAL4} --boundary ${PRBOUNDARY} ${METAL4_NOFILL} ${TOPMETAL1_NOFILL}
 .PHONY: logo
 
 drc:

@@ -211,12 +211,12 @@ module fabric_wrapper #(
     logic        fabric_sram0_tie_high_o;
     logic        fabric_sram0_tie_low_o;
 
-    classic_fabric_heichips25
+    classic_fabric_heichips26
     //#(
     //    .MaxFramesPerCol(MaxFramesPerCol),
     //    .FrameBitsPerRow(FrameBitsPerRow)
     //)
-    classic_fabric_heichips25
+    classic_fabric_heichips26
     (
         .FrameData      (FrameData_i),
         .FrameStrobe    (FrameStrobe_i),
@@ -1100,7 +1100,7 @@ module fabric_wrapper #(
         .Tile_X5Y6_CONFIGURED_top(configured_i)
     );
 
-    heichips25_snitch_wrapper heichips25_example_large_0 (
+    (* keep *) heichips26_example_large heichips26_example_large_0 (
         .clk        (tt_project_0_clk),
         .rst_n      (tt_project_0_rst_n),
         .ena        (tt_project_0_ena),
@@ -1111,7 +1111,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_0_uio_oe)
     );
 
-    heichips25_CORDIC heichips25_example_small_0 (
+    (* keep *) heichips26_example_small heichips26_example_small_0 (
         .clk        (tt_project_1_clk),
         .rst_n      (tt_project_1_rst_n),
         .ena        (tt_project_1_ena),
@@ -1122,7 +1122,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_1_uio_oe)
     );
 
-    heichips25_tiny_wrapper2 heichips25_example_small_1 (
+    (* keep *) heichips26_example_small heichips26_example_small_1 (
         .clk        (tt_project_2_clk),
         .rst_n      (tt_project_2_rst_n),
         .ena        (tt_project_2_ena),
@@ -1133,7 +1133,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_2_uio_oe)
     );
 
-    heichips25_top_sorter heichips25_example_small_2 (
+    (* keep *) heichips26_example_small heichips26_example_small_2 (
         .clk        (tt_project_3_clk),
         .rst_n      (tt_project_3_rst_n),
         .ena        (tt_project_3_ena),
@@ -1144,7 +1144,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_3_uio_oe)
     );
 
-    heichips25_systolicArrayTop heichips25_example_small_3 (
+    (* keep *) heichips26_example_small heichips26_example_small_3 (
         .clk        (tt_project_4_clk),
         .rst_n      (tt_project_4_rst_n),
         .ena        (tt_project_4_ena),
@@ -1155,7 +1155,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_4_uio_oe)
     );
 
-    heichips25_pudding heichips25_example_small_4 (
+    (* keep *) heichips26_example_small heichips26_example_small_4 (
         .clk        (tt_project_5_clk),
         .rst_n      (tt_project_5_rst_n),
         .ena        (tt_project_5_ena),
@@ -1163,12 +1163,10 @@ module fabric_wrapper #(
         .uio_in     (tt_project_5_uio_in),
         .uo_out     (tt_project_5_uo_out),
         .uio_out    (tt_project_5_uio_out),
-        .uio_oe     (tt_project_5_uio_oe),
-        .i_in  (pudding_i_in),
-        .i_out (pudding_i_out)
+        .uio_oe     (tt_project_5_uio_oe)
     );
 
-    heichips25_fazyrv_exotiny heichips25_example_large_1 (
+    (* keep *) heichips26_example_large heichips26_example_large_1 (
         .clk        (tt_project_6_clk),
         .rst_n      (tt_project_6_rst_n),
         .ena        (tt_project_6_ena),
@@ -1179,7 +1177,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_6_uio_oe)
     );
 
-    heichips25_internal heichips25_example_small_5 (
+    (* keep *) heichips26_example_small heichips26_example_small_5 (
         .clk        (tt_project_7_clk),
         .rst_n      (tt_project_7_rst_n),
         .ena        (tt_project_7_ena),
@@ -1187,14 +1185,10 @@ module fabric_wrapper #(
         .uio_in     (tt_project_7_uio_in),
         .uo_out     (tt_project_7_uo_out),
         .uio_out    (tt_project_7_uio_out),
-        .uio_oe     (tt_project_7_uio_oe),
-        // DLL
-        .analog_pin0  (internal_analog_pin0),
-        .analog_pin1  (internal_analog_pin1),
-        .analog_pin2  (internal_analog_pin2)
+        .uio_oe     (tt_project_7_uio_oe)
     );
 
-    heichips25_ethernet heichips25_example_small_6 (
+    (* keep *) heichips26_example_small heichips26_example_small_6 (
         .clk        (tt_project_8_clk),
         .rst_n      (tt_project_8_rst_n),
         .ena        (tt_project_8_ena),
@@ -1202,12 +1196,10 @@ module fabric_wrapper #(
         .uio_in     (tt_project_8_uio_in),
         .uo_out     (tt_project_8_uo_out),
         .uio_out    (tt_project_8_uio_out),
-        .uio_oe     (tt_project_8_uio_oe),
-        .ethernet_dp  (ethernet_dp),
-        .ethernet_dn  (ethernet_dn)
+        .uio_oe     (tt_project_8_uio_oe)
     );
 
-    heichips25_SDR heichips25_example_small_7 (
+    (* keep *) heichips26_example_small heichips26_example_small_7 (
         .clk        (tt_project_9_clk),
         .rst_n      (tt_project_9_rst_n),
         .ena        (tt_project_9_ena),
@@ -1218,7 +1210,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_9_uio_oe)
     );
 
-    heichips25_ICELab heichips25_example_small_8 (
+    (* keep *) heichips26_example_small heichips26_example_small_8 (
         .clk        (tt_project_10_clk),
         .rst_n      (tt_project_10_rst_n),
         .ena        (tt_project_10_ena),
@@ -1226,15 +1218,10 @@ module fabric_wrapper #(
         .uio_in     (tt_project_10_uio_in),
         .uo_out     (tt_project_10_uo_out),
         .uio_out    (tt_project_10_uio_out),
-        .uio_oe     (tt_project_10_uio_oe),
-        // DLL
-        .analog_pin0  (icelab_analog_pin0),
-        .analog_pin1  (icelab_analog_pin1),
-        .analog_pin2  (icelab_analog_pin2),
-        .analog_pin3  (icelab_analog_pin3)
+        .uio_oe     (tt_project_10_uio_oe)
     );
 
-    heichips25_bagel heichips25_example_small_9 (
+    (* keep *) heichips26_example_small heichips26_example_small_9 (
         .clk        (tt_project_11_clk),
         .rst_n      (tt_project_11_rst_n),
         .ena        (tt_project_11_ena),
@@ -1242,14 +1229,10 @@ module fabric_wrapper #(
         .uio_in     (tt_project_11_uio_in),
         .uo_out     (tt_project_11_uo_out),
         .uio_out    (tt_project_11_uio_out),
-        .uio_oe     (tt_project_11_uio_oe),
-        .tmds_b     (tmds_b),
-        .tmds_g     (tmds_g),
-        .tmds_r     (tmds_r),
-        .tmds_clk   (tmds_clk)
+        .uio_oe     (tt_project_11_uio_oe)
     );
 
-    heichips25_tiny_wrapper heichips25_example_small_10 (
+    (* keep *) heichips26_example_small heichips26_example_small_10 (
         .clk        (tt_project_12_clk),
         .rst_n      (tt_project_12_rst_n),
         .ena        (tt_project_12_ena),
@@ -1260,7 +1243,7 @@ module fabric_wrapper #(
         .uio_oe     (tt_project_12_uio_oe)
     );
 
-    heichips25_usb_cdc heichips25_example_small_11 (
+    (* keep *) heichips26_example_small heichips26_example_small_11 (
         .clk        (tt_project_13_clk),
         .rst_n      (tt_project_13_rst_n),
         .ena        (tt_project_13_ena),
@@ -1268,14 +1251,7 @@ module fabric_wrapper #(
         .uio_in     (tt_project_13_uio_in),
         .uo_out     (tt_project_13_uo_out),
         .uio_out    (tt_project_13_uio_out),
-        .uio_oe     (tt_project_13_uio_oe),
-        .usb_dn_en_o    (usb_dn_en_o),
-        .usb_dn_rx_i    (usb_dn_rx_i),
-        .usb_dn_tx_o    (usb_dn_tx_o),
-        .usb_dp_en_o    (usb_dp_en_o),
-        .usb_dp_rx_i    (usb_dp_rx_i),
-        .usb_dp_tx_o    (usb_dp_tx_o),
-        .usb_dp_up_o    (usb_dp_up_o)
+        .uio_oe     (tt_project_13_uio_oe)
     );
 
     // SRAM 0 instances
@@ -1300,7 +1276,7 @@ module fabric_wrapper #(
         end
     end
 
-    RM_IHPSG13_1P_512x32_c2_bm_bist sram0_0 (
+    (* keep *) RM_IHPSG13_1P_512x32_c2_bm_bist sram0_0 (
         .A_CLK      (fabric_sram0_clk_o),
         .A_MEN      (fabric_sram0_men_o && select_sram0 == 1'b0),
         .A_WEN      (fabric_sram0_wen_o),
@@ -1321,7 +1297,7 @@ module fabric_wrapper #(
         .A_BIST_BM      ({32{fabric_sram0_tie_low_o}})
     );
 
-    RM_IHPSG13_1P_512x32_c2_bm_bist sram0_1 (
+    (* keep *) RM_IHPSG13_1P_512x32_c2_bm_bist sram0_1 (
         .A_CLK      (fabric_sram0_clk_o),
         .A_MEN      (fabric_sram0_men_o && select_sram0 == 1'b1),
         .A_WEN      (fabric_sram0_wen_o),
@@ -1341,5 +1317,16 @@ module fabric_wrapper #(
         .A_BIST_DIN     ({32{fabric_sram0_tie_low_o}}),
         .A_BIST_BM      ({32{fabric_sram0_tie_low_o}})
     );
+    assign usb_dn_en_o = '0;
+    assign usb_dn_tx_o = '0;
+    assign usb_dp_en_o = '0;
+    assign usb_dp_tx_o = '0;
+    assign usb_dp_up_o = '0;
+    assign tmds_b = '0;
+    assign tmds_g = '0;
+    assign tmds_r = '0;
+    assign tmds_clk = '0;
+    assign ethernet_dp = '0;
+    assign ethernet_dn = '0;
 
 endmodule

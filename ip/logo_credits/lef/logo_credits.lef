@@ -8,8 +8,6 @@ MACRO logo_credits
   ORIGIN 0.000 0.000 ;
   SIZE 79.80 BY 79.80 ;
   OBS
-      LAYER TopMetal2 ;
-        RECT 0.0 0.0 79.80 79.80 ;
       LAYER TopMetal1 ;
         RECT 0.0 0.0 79.80 79.80 ;
       LAYER Metal5 ;

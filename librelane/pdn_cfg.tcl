@@ -197,8 +197,8 @@ add_pdn_connect \
 define_pdn_grid \
     -macro \
     -instances "\
-heichips25_core/fabric_wrapper/sram0_0 \
-heichips25_core/fabric_wrapper/sram0_1" \
+heichips26_core.fabric_wrapper.sram0_0 \
+heichips26_core.fabric_wrapper.sram0_1" \
     -name sram \
     -starts_with POWER
 

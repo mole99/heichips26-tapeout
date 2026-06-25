@@ -1,6 +1,6 @@
 from contextlib import redirect_stdout
 
-FABRIC_NAME = "classic_fabric_heichips25"
+FABRIC_NAME = "classic_fabric_heichips26"
 FABRIC_HEIGHT = 11
 FABRIC_WIDTH = 6
 FABRIC_NUM_IO_NORTH = 16
@@ -13,27 +13,27 @@ SRAM_WIDTH = 32
 tt_projects = {
     # left side
     #'X0Y1'
-    'X0Y2': ('heichips25_snitch_wrapper',   'heichips25_example_large_0'),
-    'X0Y3': ('heichips25_CORDIC',           'heichips25_example_small_0'),
-    'X0Y4': ('heichips25_tiny_wrapper2',    'heichips25_example_small_1'),
-    'X0Y5': ('heichips25_top_sorter',       'heichips25_example_small_2'),
-    'X0Y6': ('heichips25_systolicArrayTop', 'heichips25_example_small_3'),
-    'X0Y7': ('heichips25_pudding',          'heichips25_example_small_4'),
+    'X0Y2': ('heichips26_example_large', 'heichips26_example_large_0'),
+    'X0Y3': ('heichips26_example_small', 'heichips26_example_small_0'),
+    'X0Y4': ('heichips26_example_small', 'heichips26_example_small_1'),
+    'X0Y5': ('heichips26_example_small', 'heichips26_example_small_2'),
+    'X0Y6': ('heichips26_example_small', 'heichips26_example_small_3'),
+    'X0Y7': ('heichips26_example_small', 'heichips26_example_small_4'),
     #'X0Y8'
-    'X0Y9': ('heichips25_fazyrv_exotiny',   'heichips25_example_large_1'),
+    'X0Y9': ('heichips26_example_large', 'heichips26_example_large_1'),
 
     # right side
     # SRAM Top
     # SRAM Bot
-    'X5Y1': ('heichips25_internal',         'heichips25_example_small_5'),
-    'X5Y2': ('heichips25_ethernet',         'heichips25_example_small_6'),
-    'X5Y3': ('heichips25_SDR',              'heichips25_example_small_7'),
-    'X5Y4': ('heichips25_ICELab',           'heichips25_example_small_8'),
+    'X5Y1': ('heichips26_example_small', 'heichips26_example_small_5'),
+    'X5Y2': ('heichips26_example_small', 'heichips26_example_small_6'),
+    'X5Y3': ('heichips26_example_small', 'heichips26_example_small_7'),
+    'X5Y4': ('heichips26_example_small', 'heichips26_example_small_8'),
     #'X5Y5'
     #'X5Y6' - SRAM
-    'X5Y7': ('heichips25_bagel',            'heichips25_example_small_9'),
-    'X5Y8': ('heichips25_tiny_wrapper',     'heichips25_example_small_10'),
-    'X5Y9': ('heichips25_usb_cdc',          'heichips25_example_small_11'),
+    'X5Y7': ('heichips26_example_small', 'heichips26_example_small_9'),
+    'X5Y8': ('heichips26_example_small', 'heichips26_example_small_10'),
+    'X5Y9': ('heichips26_example_small', 'heichips26_example_small_11'),
 }
 
 with open('fabric_wrapper.sv', 'w') as f:
@@ -216,7 +216,7 @@ module fabric_wrapper #(
             else:
                 module, instance = mod_inst
 
-                print(f"""    {module} {instance} (
+                print(f"""    (* keep *) {module} {instance} (
         .clk        (tt_project_{i}_clk),
         .rst_n      (tt_project_{i}_rst_n),
         .ena        (tt_project_{i}_ena),
@@ -225,10 +225,10 @@ module fabric_wrapper #(
         .uo_out     (tt_project_{i}_uo_out),
         .uio_out    (tt_project_{i}_uio_out),
         .uio_oe     (tt_project_{i}_uio_oe)""", end="")
-                if module == "heichips25_ethernet":
+                if module == "heichips26_ethernet":
                     print(f""",\n        .ethernet_dp  (ethernet_dp),
         .ethernet_dn  (ethernet_dn)""")
-                elif module == "heichips25_usb_cdc":
+                elif module == "heichips26_usb_cdc":
                     print(f""",\n        .usb_dn_en_o    (usb_dn_en_o),
         .usb_dn_rx_i    (usb_dn_rx_i),
         .usb_dn_tx_o    (usb_dn_tx_o),
@@ -236,23 +236,23 @@ module fabric_wrapper #(
         .usb_dp_rx_i    (usb_dp_rx_i),
         .usb_dp_tx_o    (usb_dp_tx_o),
         .usb_dp_up_o    (usb_dp_up_o)""")
-                elif module == "heichips25_ICELab":
+                elif module == "heichips26_ICELab":
                     print(f""",\n        // DLL
         .analog_pin0  (icelab_analog_pin0),
         .analog_pin1  (icelab_analog_pin1),
         .analog_pin2  (icelab_analog_pin2),
         .analog_pin3  (icelab_analog_pin3)""")
-                elif module == "heichips25_bagel":
+                elif module == "heichips26_bagel":
                     print(f""",\n        .tmds_b     (tmds_b),
         .tmds_g     (tmds_g),
         .tmds_r     (tmds_r),
         .tmds_clk   (tmds_clk)""")
-                elif module == "heichips25_internal":
+                elif module == "heichips26_internal":
                     print(f""",\n        // DLL
         .analog_pin0  (internal_analog_pin0),
         .analog_pin1  (internal_analog_pin1),
         .analog_pin2  (internal_analog_pin2)""")
-                elif module == "heichips25_pudding":
+                elif module == "heichips26_pudding":
                     print(f""",\n        .i_in  (pudding_i_in),
         .i_out (pudding_i_out)""")
                 else:
@@ -284,7 +284,7 @@ module fabric_wrapper #(
         end
     end
 
-    RM_IHPSG13_1P_512x32_c2_bm_bist sram{i}_0 (
+    (* keep *) RM_IHPSG13_1P_512x32_c2_bm_bist sram{i}_0 (
         .A_CLK      (fabric_sram{i}_clk_o),
         .A_MEN      (fabric_sram{i}_men_o && select_sram{i} == 1'b0),
         .A_WEN      (fabric_sram{i}_wen_o),
@@ -305,7 +305,7 @@ module fabric_wrapper #(
         .A_BIST_BM      ({{32{{fabric_sram{i}_tie_low_o}}}})
     );
 
-    RM_IHPSG13_1P_512x32_c2_bm_bist sram{i}_1 (
+    (* keep *) RM_IHPSG13_1P_512x32_c2_bm_bist sram{i}_1 (
         .A_CLK      (fabric_sram{i}_clk_o),
         .A_MEN      (fabric_sram{i}_men_o && select_sram{i} == 1'b1),
         .A_WEN      (fabric_sram{i}_wen_o),
@@ -325,5 +325,18 @@ module fabric_wrapper #(
         .A_BIST_DIN     ({{32{{fabric_sram{i}_tie_low_o}}}}),
         .A_BIST_BM      ({{32{{fabric_sram{i}_tie_low_o}}}})
     );""")
+
+
+        print("""    assign usb_dn_en_o = '0;
+    assign usb_dn_tx_o = '0;
+    assign usb_dp_en_o = '0;
+    assign usb_dp_tx_o = '0;
+    assign usb_dp_up_o = '0;
+    assign tmds_b = '0;
+    assign tmds_g = '0;
+    assign tmds_r = '0;
+    assign tmds_clk = '0;
+    assign ethernet_dp = '0;
+    assign ethernet_dn = '0;""")
 
         print("\nendmodule")

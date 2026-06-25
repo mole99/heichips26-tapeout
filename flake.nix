@@ -9,7 +9,11 @@
   };
 
   inputs = {
-    librelane_plugin_fabulous.url = "github:mole99/librelane_plugin_fabulous/1.8.0";
+    librelane.url = "github:librelane/librelane/dev";
+    librelane_plugin_fabulous = {
+      url = "github:mole99/librelane_plugin_fabulous/1.12.0";
+      inputs.librelane.follows = "librelane";
+    };
   };
 
   outputs =
@@ -45,11 +49,11 @@
               cocotbext-spi = callPythonPackage ./nix/cocotbext-spi.nix { };
             }
           ))
-          (final: prev: {
-            openroad = prev.openroad.overrideAttrs {
-              patches = prev.openroad.patches ++ [./nix/disable_auto_taper.patch];
-            };
-          })
+          #(final: prev: {
+          #  openroad = prev.openroad.overrideAttrs {
+          #    patches = prev.openroad.patches ++ [./nix/disable_auto_taper.patch];
+          #  };
+          #})
           ];
         }
       );

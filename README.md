@@ -73,8 +73,8 @@ Using a core voltage higher than 1.65V (while remaining within the safe operatin
 ## Pinout
 
 <p align="center">
-  <a href="img/bonding_diagram.png">
-    <img src="img/bonding_diagram.png" alt="bonding diagram" width=65%>
+  <a href="">
+    <img src="" alt="bonding diagram" width=65%>
   </a>
 </p>
 
