@@ -197,7 +197,7 @@ GRT_ALLOW_CONGESTION: true
 # Clock
 CLOCK_PORT: fpga_clk_PAD
 CLOCK_NET: fpga_clk/p2c
-CLOCK_PERIOD: 12.5 # 12.5ns = 80 MHz
+CLOCK_PERIOD: 15 # 15ns = ~66 MHz
 
 # Add additional corners
 LIB:
@@ -219,6 +219,14 @@ LIB:
   "*_slow_1p35V_125C":
     - pdk_dir::libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_slow_1p35V_125C.lib
     - pdk_dir::libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_slow_1p35V_3p0V_125C.lib
+
+STA_CORNERS:
+- nom_fast_1p32V_m40C
+- nom_slow_1p08V_125C
+- nom_typ_1p20V_25C
+- nom_fast_1p65V_m40C
+- nom_slow_1p35V_125C
+- nom_typ_1p50V_25C
 
 # Floorplanning
 FP_SIZING: absolute
