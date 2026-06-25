@@ -66,16 +66,16 @@
         "nix-eda": "nix-eda"
       },
       "locked": {
-        "lastModified": 1782137483,
-        "narHash": "sha256-sk2Z6ssEwvyCTg+PH9/paj0g1YIO1ciCU9MSaocO+V4=",
+        "lastModified": 1782401723,
+        "narHash": "sha256-NrlrdQrZ4HhbYoSbn6Nvy7o+zc84Wo+Ep3XRnigZj+A=",
         "owner": "librelane",
         "repo": "librelane",
-        "rev": "5e7e7f5c5f49fb342450e723864ff96ab06fd51c",
+        "rev": "473d300f5f177930f7a68625193144d148005bbe",
         "type": "github"
       },
       "original": {
         "owner": "librelane",
-        "ref": "dev",
+        "ref": "leo/klayout-drc-options",
         "repo": "librelane",
         "type": "github"
       }
@@ -87,16 +87,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1781006560,
-        "narHash": "sha256-fJsWtItjnIVXjLanvvt4aAMAJ+lsqOqmC2HO7WP34Gg=",
+        "lastModified": 1782394514,
+        "narHash": "sha256-5cnV2bMCR04kPJyAaEEhR7SF7vlbS+c0ndAVG3HeLDc=",
         "owner": "mole99",
         "repo": "librelane_plugin_fabulous",
-        "rev": "70d0811b46f2da7c5625eb59104ff52c24c83a09",
+        "rev": "dfb445b7f0ce20fb3404af244096833111f9109b",
         "type": "github"
       },
       "original": {
         "owner": "mole99",
-        "ref": "1.12.0",
+        "ref": "1.13.0",
         "repo": "librelane_plugin_fabulous",
         "type": "github"
       }
