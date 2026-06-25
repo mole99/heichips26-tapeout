@@ -406,6 +406,13 @@ MACROS:
         - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_fast_1p32V_m55C.lib
       "nom_slow_1p08V_125C":
         - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_slow_1p08V_125C.lib
+      # Use the same timing data again...
+      "nom_typ_1p50V_25C":
+        - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_typ_1p20V_25C.lib
+      "nom_fast_1p65V_m40C":
+        - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_fast_1p32V_m55C.lib
+      "nom_slow_1p35V_125C":
+        - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_512x32_c2_bm_bist_slow_1p08V_125C.lib
     instances:
       heichips26_core.fabric_wrapper.sram0_0:
         location: [expr::((0.48 * 4394) + 41.68), expr::(((1333*0.42) + ((512*3)*0.42)) - 15)]
