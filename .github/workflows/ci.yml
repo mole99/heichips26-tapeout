@@ -53,7 +53,7 @@ jobs:
       - name: Get the tile library hash
         run: |
           echo "TILE_LIBRARY_SHORT_HASH=$(git rev-parse --short HEAD:ip/fabulous-tiles)" >> $GITHUB_ENV
-        - name: Clone ihp-sg13cmos5l PDK
+      - name: Clone ihp-sg13cmos5l PDK
         if: matrix.pdk == 'ihp-sg13cmos5l'
         run: |
           cd ip/fabulous-tiles/; PDK=${{ matrix.pdk }} SCL=${{ matrix.scl }} make clone-ihp-sg13cmos5l
