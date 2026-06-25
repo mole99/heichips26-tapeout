@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        pdk: [ihp-sg13g2]
+        pdk: [ihp-sg13cmos5l]
         tile_library: [classic]
     name: Tiles (${{ matrix.tile_library }}/${{ matrix.pdk }})
     steps:
@@ -53,6 +53,10 @@ jobs:
       - name: Get the tile library hash
         run: |
           echo "TILE_LIBRARY_SHORT_HASH=$(git rev-parse --short HEAD:ip/fabulous-tiles)" >> $GITHUB_ENV
+        - name: Clone ihp-sg13cmos5l PDK
+        if: matrix.pdk == 'ihp-sg13cmos5l'
+        run: |
+          cd ip/fabulous-tiles/; PDK=${{ matrix.pdk }} SCL=${{ matrix.scl }} make clone-ihp-sg13cmos5l
       - name: Cache the tiles
         uses: actions/cache@v5
         id: cache
@@ -69,7 +73,7 @@ jobs:
     needs: [tiles]
     strategy:
       matrix:
-        pdk: [ihp-sg13g2]
+        pdk: [ihp-sg13cmos5l]
         fabrics: [classic_fabric_heichips25]
     name: Build the Chip
     steps:
@@ -97,6 +101,9 @@ jobs:
         run: |
           echo "TILE_LIBRARY=$(echo "${{ matrix.fabrics }}" | cut -d'_' -f1)" >> $GITHUB_ENV
           echo "TILE_LIBRARY_SHORT_HASH=$(git rev-parse --short HEAD:ip/fabulous-tiles)" >> $GITHUB_ENV
+      - name: Clone PDK
+        run: |
+          make clone-pdk
       - name: Restore the tiles
         uses: actions/cache/restore@v5
         with:

@@ -34,15 +34,15 @@ all: $(FABRICS)
 .PHONY: all
 
 $(FABRICS):
-	librelane --pdk ${PDK} fabrics/$@/config.yaml --save-views-to fabrics/$@/macro/${PDK}/
+	librelane --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk fabrics/$@/config.yaml --save-views-to fabrics/$@/macro/${PDK}/
 .PHONY: $(FABRICS)
 
 $(FABRICS_OPENROAD):
-	librelane --pdk ${PDK} fabrics/$(subst -openroad,,$@)/config.yaml --last-run --flow OpenInOpenROAD
+	librelane --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk fabrics/$(subst -openroad,,$@)/config.yaml --last-run --flow OpenInOpenROAD
 .PHONY: $(FABRICS_OPENROAD)
 
 $(FABRICS_KLAYOUT):
-	librelane --pdk ${PDK} fabrics/$(subst -klayout,,$@)/config.yaml --last-run --flow OpenInKLayout
+	librelane --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk fabrics/$(subst -klayout,,$@)/config.yaml --last-run --flow OpenInKLayout
 .PHONY: $(FABRICS_KLAYOUT)
 
 copy-fabric:
@@ -65,9 +65,6 @@ clone-pdk: $(PDK_ROOT)/$(PDK) ## Clone the IHP-Open-PDK repository
 all: librelane ## Build the project (runs LibreLane)
 .PHONY: all
 
-
-#############
-
 templates: $(PDK_ROOT)/$(PDK) ## Run LibreLane
 	cd ip/heichips26_template/; PDK=${PDK} PDK_ROOT=${PDK_ROOT} SCL=${SCL} python3 build.py
 .PHONY: templates
@@ -85,10 +82,6 @@ logos: $(PDK_ROOT)/$(PDK) ## Run LibreLane
 	cd ip/logo_heichips/; PDK=${PDK} PDK_ROOT=${PDK_ROOT} make all
 	cd ip/logo_credits/; PDK=${PDK} PDK_ROOT=${PDK_ROOT} make all
 .PHONY: logos
-
-
-##############
-
 
 librelane: $(PDK_ROOT)/$(PDK) ## Run LibreLane
 	librelane librelane/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --scl ${SCL} --save-views-to final/
