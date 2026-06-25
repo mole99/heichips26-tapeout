@@ -3159,7 +3159,7 @@
   <dither-pattern>C3</dither-pattern>
   <line-style>C0</line-style>
   <valid>true</valid>
-  <visible>false</visible>
+  <visible>true</visible>
   <transparent>false</transparent>
   <width>1</width>
   <marked>false</marked>
@@ -7895,7 +7895,7 @@
   <pattern>
    <line>*</line>
   </pattern>
-  <order>0</order>
+  <order>52</order>
   <name/>
  </custom-dither-pattern>
  <custom-dither-pattern>
@@ -7959,7 +7959,7 @@
  </custom-line-style>
  <custom-line-style>
   <pattern/>
-  <order>0</order>
+  <order>10</order>
   <name/>
  </custom-line-style>
  <custom-line-style>

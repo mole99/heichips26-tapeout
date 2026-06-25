@@ -552,3 +552,8 @@ MAGIC_GDS_FLATGLOB:
 
 # To check for shorts
 #MAGIC_EXT_USE_GDS: True
+
+# Image render settings
+KLAYOUT_RENDER_RESOLUTION: 2048
+KLAYOUT_RENDER_OVERSAMPLING: 3
+KLAYOUT_PROPERTIES: dir::sg13cmos5l_render.lyp
