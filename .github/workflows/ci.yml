@@ -153,11 +153,7 @@ jobs:
         if: success() || failure()
         with:
           name: heichips26_image
-          path: |
-            img/heichips26_top_white.png
-            img/heichips26_top_white_small.png
-            img/heichips26_top_black.png
-            img/heichips26_top_black_small.png
+          path: final/render/*
       - name: Simulate the FPGA RTL (Emulation)
         run: |
           nix develop --command make sim-top-emulation
