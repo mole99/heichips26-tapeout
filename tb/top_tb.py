@@ -18,7 +18,7 @@ from cocotb.types import LogicArray, Logic
 from cocotbext.spi import SpiBus, SpiConfig, SpiMaster
 
 proj_path = Path(__file__).resolve().parent
-fabric = os.getenv("FABRIC", "classic_fabric_heichips25")
+fabric = os.getenv("FABRIC", "classic_fabric_heichips26")
 tile_library = os.getenv("TILE_LIBRARY", "classic")
 emulation = os.getenv("EMULATION", False)
 
@@ -704,7 +704,7 @@ if __name__ == "__main__":
         print("Error: EMULATION and GL can't be set at the same time.")
         sys.exit(1)
     
-    hdl_toplevel = "heichips25_top_tb"
+    hdl_toplevel = "heichips26_top_tb"
     
     tiles_path = Path(proj_path / ".." / "ip" / "fabulous-tiles")
     primitives_path = Path(tiles_path) / "primitives"
@@ -715,7 +715,7 @@ if __name__ == "__main__":
     test_filter = None
     
     # TB wrapper
-    sources.append(proj_path / f"heichips25_top_tb.v")
+    sources.append(proj_path / f"heichips26_top_tb.v")
     
     # SCL models
     sources.append(Path(pdk_root) / pdk / "libs.ref" / scl / "verilog" / f"{scl}.v")

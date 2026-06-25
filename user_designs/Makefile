@@ -1,5 +1,5 @@
-export PDK 		?= ihp-sg13g2
-export FABRIC 		?= classic_fabric_heichips25
+export PDK 		?= ihp-sg13cmos5l
+export FABRIC 		?= classic_fabric_heichips26
 export TILE_LIBRARY 	?= classic
 
 $(info $(PDK))

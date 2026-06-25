@@ -29,6 +29,7 @@ FABRICS :=  $(patsubst fabrics/%,%,$(wildcard fabrics/*))
 
 FABRICS_OPENROAD := $(addsuffix -openroad,$(FABRICS))
 FABRICS_KLAYOUT := $(addsuffix -klayout,$(FABRICS))
+FABRICS_COPY := $(addsuffix -copy,$(FABRICS))
 
 all: $(FABRICS)
 .PHONY: all
@@ -45,12 +46,12 @@ $(FABRICS_KLAYOUT):
 	librelane --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk fabrics/$(subst -klayout,,$@)/config.yaml --last-run --flow OpenInKLayout
 .PHONY: $(FABRICS_KLAYOUT)
 
-copy-fabric:
+$(FABRICS_COPY):
 	# Copy fabric database
-	mkdir -p user_designs/fabrics/classic_fabric_heichips25/macro/ihp-sg13g2/
-	cp -R fabrics/classic_fabric_heichips25/macro/ihp-sg13g2/fabulous/ user_designs/fabrics/classic_fabric_heichips25/macro/ihp-sg13g2/
-	cp fabrics/classic_fabric_heichips25/constraints.pcf user_designs/fabrics/classic_fabric_heichips25/constraints.pcf
-.PHONY: copy-fabric
+	mkdir -p user_designs/fabrics/$(subst -copy,,$@)/macro/${PDK}/
+	cp -R fabrics/$(subst -copy,,$@)/macro/${PDK}/fabulous/ user_designs/fabrics/$(subst -copy,,$@)/macro/${PDK}/
+	cp fabrics/$(subst -copy,,$@)/constraints.pcf user_designs/fabrics/$(subst -copy,,$@)/constraints.pcf
+.PHONY: $(FABRICS_COPY)
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'

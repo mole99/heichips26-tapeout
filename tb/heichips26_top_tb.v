@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: © 2025 Leo Moser <leo.moser@pm.me>
 // SPDX-License-Identifier: Apache-2.0
 
-module heichips25_top_tb;
+module heichips26_top_tb;
 
     `ifdef USE_POWER_PINS
     wire VDD;

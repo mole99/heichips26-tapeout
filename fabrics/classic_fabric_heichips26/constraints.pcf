@@ -214,4 +214,3 @@ set_io fazyrv_gpi_i[4]      X4Y0/A
 set_io fazyrv_gpi_i[5]      X4Y0/B
 
 set_io fazyrv_gpo_o         X4Y0/C
-

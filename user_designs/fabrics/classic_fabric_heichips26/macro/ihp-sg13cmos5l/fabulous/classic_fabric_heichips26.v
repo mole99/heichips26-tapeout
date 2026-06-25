@@ -1,4 +1,4 @@
-module classic_fabric_heichips25
+module classic_fabric_heichips26
     #(
         parameter MaxFramesPerCol=20,
         parameter FrameBitsPerRow=32

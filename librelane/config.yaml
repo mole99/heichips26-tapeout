@@ -41,7 +41,6 @@ VERILOG_FILES:
 - dir::../ip/fabric_config/fabric_config.sv
 - dir::../ip/fabric_config/fabric_spi_controller.sv
 - dir::../ip/fabric_config/fabric_spi_receiver.sv
-- dir::../src/classic_fabric_heichips26_placeholder.v
 
 # SRAMs require FUNCTIONAL
 VERILOG_DEFINES:
@@ -372,19 +371,19 @@ MACROS:
       logo_credits:
         location: [2658, 55]
         orientation: N
-  #classic_fabric_heichips26:
-  #  gds:
-  #    - dir::../fabrics/classic_fabric_heichips26/macro/ihp-sg13cmos5l/gds/classic_fabric_heichips26.gds
-  #  lef:
-  #    - dir::../fabrics/classic_fabric_heichips26/macro/ihp-sg13cmos5l/lef/classic_fabric_heichips26.lef
-  #  nl:
-  #    - dir::../fabrics/classic_fabric_heichips26/macro/ihp-sg13cmos5l/nl/classic_fabric_heichips26.nl.v
-  #  instances: 
-  #    heichips26_core.fabric_wrapper.classic_fabric_heichips26:
-  #      # X should be multiple of 0.48 (Metal2 pitch)
-  #      # Y should be multiple of 0.42 (Metal3 pitch)
-  #      location: [expr::(0.48 * 2062), expr::(0.42 * 1134)]
-  #      orientation: N
+  classic_fabric_heichips26:
+    gds:
+      - dir::../fabrics/classic_fabric_heichips26/macro/ihp-sg13cmos5l/gds/classic_fabric_heichips26.gds
+    lef:
+      - dir::../fabrics/classic_fabric_heichips26/macro/ihp-sg13cmos5l/lef/classic_fabric_heichips26.lef
+    nl:
+      - dir::../fabrics/classic_fabric_heichips26/macro/ihp-sg13cmos5l/nl/classic_fabric_heichips26.nl.v
+    instances: 
+      heichips26_core.fabric_wrapper.classic_fabric_heichips26:
+        # X should be multiple of 0.48 (Metal2 pitch)
+        # Y should be multiple of 0.42 (Metal3 pitch)
+        location: [expr::(0.48 * 2062), expr::(0.42 * 1134)]
+        orientation: N
   RM_IHPSG13_1P_512x32_c2_bm_bist:
     gds:
       - pdk_dir::libs.ref/sg13cmos5l_sram/gds/RM_IHPSG13_1P_512x32_c2_bm_bist.gds
@@ -519,7 +518,7 @@ ROUTING_OBSTRUCTIONS:
 
 PDN_MACRO_CONNECTIONS:
   # eFPGA
-  #- "heichips26_core.fabric_wrapper.classic_fabric_heichips26 VDD VSS VPWR VGND" 
+  - "heichips26_core.fabric_wrapper.classic_fabric_heichips26 VDD VSS VPWR VGND" 
   # Large User Projects
   - "heichips26_core.fabric_wrapper.heichips26_example_large_0 VDD VSS VPWR VGND"
   - "heichips26_core.fabric_wrapper.heichips26_example_large_1 VDD VSS VPWR VGND"

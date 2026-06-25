@@ -74,7 +74,7 @@ jobs:
     strategy:
       matrix:
         pdk: [ihp-sg13cmos5l]
-        fabrics: [classic_fabric_heichips25]
+        fabrics: [classic_fabric_heichips26]
     name: Build the Chip
     steps:
       - uses: actions/checkout@v4
@@ -152,12 +152,12 @@ jobs:
         uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
-          name: heichips25_image
+          name: heichips26_image
           path: |
-            img/heichips25_top_white.png
-            img/heichips25_top_white_small.png
-            img/heichips25_top_black.png
-            img/heichips25_top_black_small.png
+            img/heichips26_top_white.png
+            img/heichips26_top_white_small.png
+            img/heichips26_top_black.png
+            img/heichips26_top_black_small.png
       - name: Simulate the FPGA RTL (Emulation)
         run: |
           nix develop --command make sim-top-emulation
