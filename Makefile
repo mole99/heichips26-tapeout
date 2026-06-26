@@ -150,10 +150,8 @@ sim-top-view: ## View simulation waveforms in GTKWave
 	gtkwave tb/sim_build/heichips25_top_tb.fst
 .PHONY: sim-top-view
 
-render-image:
-	PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 scripts/lay2img.py final/gds/${TOP}.gds img/${TOP}.png --width 4069 --oversampling 4
-	magick img/${TOP}_white.png -resize 25% img/${TOP}_white_small.png
-	magick img/${TOP}_black.png -resize 25% img/${TOP}_black_small.png
+resize-image:
+	magick final/render/${TOP}.png -resize 25% final/render/${TOP}_small.png
 .PHONY: render-image
 
 precheck:

@@ -136,7 +136,7 @@ jobs:
         if: success() || failure()
         run: |
           nix develop --command make librelane-nodrc
-          nix develop --command make render-image
+          nix develop --command make resize-image
       - name: Create summary
         if: success() || failure()
         run: |
