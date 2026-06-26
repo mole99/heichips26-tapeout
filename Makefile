@@ -113,32 +113,32 @@ librelane-klayout: $(PDK_ROOT)/$(PDK) ## Open the last LibreLane run in KLayout
 .PHONY: librelane-klayout
 
 sim-fabric: ## Runfabric  RTL simulation with cocotb
-	cd tb/; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 fabric_tb.py
+	cd tb/; PDK_ROOT=${PDK_ROOT} PDK=${PDK} SCL=${SCL} python3 fabric_tb.py
 	! grep failure tb/sim_build/results.xml
 .PHONY: sim-fabric
 
 sim-fabric-emulation: ## Runfabric  RTL simulation with cocotb (emulation)
-	cd tb/; EMULATION=counter PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 fabric_tb.py
+	cd tb/; EMULATION=counter PDK_ROOT=${PDK_ROOT} PDK=${PDK} SCL=${SCL} python3 fabric_tb.py
 	! grep failure tb/sim_build/results.xml
 .PHONY: sim-fabric-emulation
 
 sim-fabric-gl: ## Runfabric  RTL simulation with cocotb
-	cd tb/; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 fabric_tb.py
+	cd tb/; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} SCL=${SCL} python3 fabric_tb.py
 	! grep failure tb/sim_build/results.xml
 .PHONY: sim-fabric-gl
 
 sim-top: ## Run RTL simulation with cocotb
-	cd tb/; PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 top_tb.py
+	cd tb/; PDK_ROOT=${PDK_ROOT} PDK=${PDK} SCL=${SCL} python3 top_tb.py
 	! grep failure tb/sim_build/results.xml
 .PHONY: sim-top
 
 sim-top-emulation: ## Run RTL simulation with cocotb (emulation)
-	cd tb/; EMULATION=counter PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 top_tb.py
+	cd tb/; EMULATION=counter PDK_ROOT=${PDK_ROOT} PDK=${PDK} SCL=${SCL} python3 top_tb.py
 	! grep failure tb/sim_build/results.xml
 .PHONY: sim-top-emulation
 
 sim-top-gl: $(PDK_ROOT)/$(PDK) ## Run gate-level simulation with cocotb
-	cd tb/; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 top_tb.py
+	cd tb/; GL=1 PDK_ROOT=${PDK_ROOT} PDK=${PDK} SCL=${SCL} python3 top_tb.py
 	! grep failure tb/sim_build/results.xml
 .PHONY: sim-top-gl
 

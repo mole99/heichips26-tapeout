@@ -24,6 +24,8 @@ async def zero_bitstream(dut, delay=10):
     logic loops before uploading a new user design.
     """
 
+    print("Clearing the bitstream...")
+
     dut.FrameData.value = 0
     dut.FrameStrobe.value = (1<<len(dut.FrameStrobe))-1
     await Timer(delay, unit="ns")

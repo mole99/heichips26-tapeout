@@ -111,7 +111,7 @@ module heichips26_top_tb;
 
     `endif
 
-    heichips25_top heichips25_top (
+    heichips26_top heichips26_top (
       `ifdef USE_POWER_PINS
       .VDD,
       .VSS,

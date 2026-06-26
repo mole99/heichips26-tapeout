@@ -719,14 +719,14 @@ if __name__ == "__main__":
     
     # SCL models
     sources.append(Path(pdk_root) / pdk / "libs.ref" / scl / "verilog" / f"{scl}.v")
-    sources.append(Path(pdk_root) / pdk / "libs.ref" / scl / "verilog" / f"sg13g2_udp.v")
+    sources.append(Path(pdk_root) / pdk / "libs.ref" / scl / "verilog" / f"sg13cmos5l_udp.v")
     
     # SRAM models
-    sources.append(Path(pdk_root) / pdk / "libs.ref" / "sg13g2_sram" / "verilog" / "RM_IHPSG13_1P_512x32_c2_bm_bist.v")
-    sources.append(Path(pdk_root) / pdk / "libs.ref" / "sg13g2_sram" / "verilog" / "RM_IHPSG13_1P_core_behavioral_bm_bist.v")
+    sources.append(Path(pdk_root) / pdk / "libs.ref" / "sg13cmos5l_sram" / "verilog" / "RM_IHPSG13_1P_512x32_c2_bm_bist.v")
+    sources.append(Path(pdk_root) / pdk / "libs.ref" / "sg13cmos5l_sram" / "verilog" / "RM_IHPSG13_1P_core_behavioral_bm_bist.v")
 
     # IO models
-    sources.append(Path(pdk_root) / pdk / "libs.ref" / "sg13g2_io" / "verilog" / "sg13g2_io.v")
+    sources.append(Path(pdk_root) / pdk / "libs.ref" / "sg13cmos5l_io" / "verilog" / "sg13cmos5l_io.v")
         
     # Alignment mark
     sources.append(proj_path / '../ip/alignment_mark/vh/alignment_mark.v')
@@ -767,8 +767,8 @@ if __name__ == "__main__":
         # Add fabric RTL netlist
         sources.append(proj_path / f'../fabrics/{fabric}/macro/{pdk}/fabulous/{fabric}.v')
     
-        sources.append(proj_path / f"../src/heichips25_top.v")
-        sources.append(proj_path / f"../src/heichips25_core.sv")
+        sources.append(proj_path / f"../src/heichips26_top.v")
+        sources.append(proj_path / f"../src/heichips26_core.sv")
         sources.append(proj_path / f"../src/fabric_wrapper.sv")
         sources.append(proj_path / f"../ip/fabric_config/fabric_config.sv")
         sources.append(proj_path / f"../ip/fabric_config/fabric_spi_controller.sv")
@@ -777,7 +777,7 @@ if __name__ == "__main__":
     # Gate-level
     else:
         # We use the unpowered netlist
-        sources.append(proj_path / f"../final/nl/heichips25_top.nl.v")
+        sources.append(proj_path / f"../final/nl/heichips26_top.nl.v")
 
         # Tile GL netlists
         tile_files = list(tile_library_path.glob(f'**/macro/{pdk}/nl/*.nl.v'))

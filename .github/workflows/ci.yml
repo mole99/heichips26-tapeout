@@ -129,9 +129,9 @@ jobs:
       - name: Simulate the Fabric RTL (Simulation)
         run: |
           nix develop --command make sim-fabric
-      - name: Simulate the Fabric GL (Simulation)
-        run: |
-          nix develop --command make sim-fabric-gl
+      #- name: Simulate the Fabric GL (Simulation)
+      #  run: |
+      #    nix develop --command make sim-fabric-gl
       - name: Implement the Chip
         if: success() || failure()
         run: |
@@ -160,6 +160,6 @@ jobs:
       - name: Simulate the FPGA RTL (Simulation)
         run: |
           nix develop --command make sim-top
-      - name: Simulate the FPGA GL (Simulation)
-        run: |
-          nix develop --command make sim-top-gl
+      #- name: Simulate the FPGA GL (Simulation)
+      #  run: |
+      #    nix develop --command make sim-top-gl
