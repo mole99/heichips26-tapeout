@@ -6,8 +6,8 @@ Thanks to FABulous, the user bitstream for the FPGA can be generated using the Y
 The chip is designed with open source EDA tools and the [IHP Open Source PDK](https://github.com/IHP-GmbH/IHP-Open-PDK).
 
 <p align="center">
-  <a href="">
-    <img src="" alt="chip layout" width=40%>
+  <a href="img/heichips26.png">
+    <img src="img/heichips26_small.png" alt="chip layout" width=40%>
   </a>
 </p>
 
@@ -27,7 +27,7 @@ The chip includes several user submitted designs from the HeiChips 2026 Hackatho
 
 The following user projects are included:
 
-![User Projects](img/heichips25_projects.png)
+![User Projects](img/heichips26_projects.png)
 
 | Project       | Size          | Location      | Description   | Link |
 |---------------|---------------|---------------|---------------|------|
@@ -73,8 +73,8 @@ Using a core voltage higher than 1.65V (while remaining within the safe operatin
 ## Pinout
 
 <p align="center">
-  <a href="">
-    <img src="" alt="bonding diagram" width=65%>
+  <a href="img/heichips26_bonding.png">
+    <img src="img/heichips26_bonding.png" alt="bonding diagram" width=65%>
   </a>
 </p>
 
