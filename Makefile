@@ -147,15 +147,15 @@ sim-fabric-view: ## View simulation waveforms in GTKWave
 .PHONY: sim-fabric-view
 
 sim-top-view: ## View simulation waveforms in GTKWave
-	gtkwave tb/sim_build/heichips25_top_tb.fst
+	gtkwave tb/sim_build/${TOP}_tb.fst
 .PHONY: sim-top-view
 
 resize-image:
 	magick final/render/${TOP}.png -resize 25% final/render/${TOP}_small.png
-.PHONY: render-image
+.PHONY: resize-image
 
 precheck:
 	PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 ${PDK_ROOT}/${PDK}/libs.tech/klayout/tech/drc/run_drc.py \
 	--precheck_drc --mp=$$(nproc) --no_offgrid --density_thr=$$(nproc) \
-	--no_angle --disable_extra_rules --no_recommended --path=final/gds/heichips25_top.gds
-.PHONY: render-image
+	--no_angle --disable_extra_rules --no_recommended --path=final/gds/${TOP}.gds
+.PHONY: precheck

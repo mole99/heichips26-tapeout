@@ -1,6 +1,8 @@
 # HeiChips 2026 Tapeout [WIP!]
 
-This repository contains the chip for the [HeiChips Summer School 2026](https://heichips.github.io/) targeting SG13CMOS5L from IHP. It includes several designs created during the Hackathon all connected to a common eFPGA fabric in the center.
+![heichips26.jpg](img/heichips26.jpg)
+
+This repository contains the chip for the [HeiChips Summer School 2026](https://heichips.github.io/) targeting [SG13CMOS5L](https://dk.ihp-microelectronics.com/OpenSourceRequest.php) from IHP. It includes several designs created during the Hackathon all connected to a common eFPGA fabric in the center.
 Thanks to FABulous, the user bitstream for the FPGA can be generated using the Yosys and nextpnr toolchain.
 
 The chip is designed with open source EDA tools and the [IHP Open Source PDK](https://github.com/IHP-GmbH/IHP-Open-PDK).
