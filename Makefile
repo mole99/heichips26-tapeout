@@ -78,6 +78,13 @@ example-large: $(PDK_ROOT)/$(PDK) ## Run LibreLane
 	cd ip/user_projects/heichips26_example_large/; librelane config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --scl ${SCL} --save-views-to macro/
 .PHONY: example-large
 
+example-tiny: $(PDK_ROOT)/$(PDK) ## Run LibreLane
+	cd ip/user_projects/heichips26_example_tiny/; librelane config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --scl ${SCL} --save-views-to macro/
+.PHONY: example-tiny
+
+examples: example-small example-large example-tiny
+.PHONY: examples
+
 logos: $(PDK_ROOT)/$(PDK) ## Run LibreLane
 	cd ip/logo_fabulous/; PDK=${PDK} PDK_ROOT=${PDK_ROOT} make all
 	cd ip/logo_heichips/; PDK=${PDK} PDK_ROOT=${PDK_ROOT} make all

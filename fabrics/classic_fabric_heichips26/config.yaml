@@ -68,9 +68,3 @@ pdk::ihp-sg13cmos5l:
     
     # Timing model generation
     FABULOUS_TIMING_MODEL: PHYSICAL
-
-# For some reason I need to use an empty SDC file
-# Well, we're not going to do CTS anyway...
-PNR_SDC_FILE: dir::base.sdc
-SIGNOFF_SDC_FILE: dir::base.sdc
-FALLBACK_SDC: dir::base.sdc

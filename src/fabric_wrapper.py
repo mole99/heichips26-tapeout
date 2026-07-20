@@ -13,27 +13,28 @@ SRAM_WIDTH = 32
 tt_projects = {
     # left side
     #'X0Y1'
-    'X0Y2': ('heichips26_example_large', 'heichips26_example_large_0'),
-    'X0Y3': ('heichips26_example_small', 'heichips26_example_small_0'),
-    'X0Y4': ('heichips26_example_small', 'heichips26_example_small_1'),
-    'X0Y5': ('heichips26_example_small', 'heichips26_example_small_2'),
-    'X0Y6': ('heichips26_example_small', 'heichips26_example_small_3'),
-    'X0Y7': ('heichips26_example_small', 'heichips26_example_small_4'),
+    'X0Y2': [('heichips26_example_large', 'heichips26_example_large_0')],
+    'X0Y3': [('heichips26_example_small', 'heichips26_example_small_0')],
+    'X0Y4': [('heichips26_example_small', 'heichips26_example_small_1')],
+    'X0Y5': [('heichips26_example_small', 'heichips26_example_small_2')],
+    'X0Y6': [('heichips26_example_small', 'heichips26_example_small_3')],
+    'X0Y7': [('heichips26_example_small', 'heichips26_example_small_4')],
     #'X0Y8'
-    'X0Y9': ('heichips26_example_large', 'heichips26_example_large_1'),
+    'X0Y9': [('heichips26_example_large', 'heichips26_example_large_1')],
 
     # right side
     # SRAM Top
     # SRAM Bot
-    'X5Y1': ('heichips26_example_small', 'heichips26_example_small_5'),
-    'X5Y2': ('heichips26_example_small', 'heichips26_example_small_6'),
-    'X5Y3': ('heichips26_example_small', 'heichips26_example_small_7'),
-    'X5Y4': ('heichips26_example_small', 'heichips26_example_small_8'),
+    'X5Y1': [('heichips26_example_small', 'heichips26_example_small_5')],
+    'X5Y2': [('heichips26_example_small', 'heichips26_example_small_6')],
+    #'X5Y3': [('heichips26_example_small', 'heichips26_example_small_7')],
+    'X5Y3': [('heichips26_example_tiny', 'heichips26_example_tiny_7_0'), ('heichips26_example_tiny', 'heichips26_example_tiny_7_1')],
+    'X5Y4': [('heichips26_example_small', 'heichips26_example_small_8')],
     #'X5Y5'
     #'X5Y6' - SRAM
-    'X5Y7': ('heichips26_example_small', 'heichips26_example_small_9'),
-    'X5Y8': ('heichips26_example_small', 'heichips26_example_small_10'),
-    'X5Y9': ('heichips26_example_small', 'heichips26_example_small_11'),
+    'X5Y7': [('heichips26_example_small', 'heichips26_example_small_9')],
+    'X5Y8': [('heichips26_example_small', 'heichips26_example_small_10')],
+    'X5Y9': [('heichips26_example_small', 'heichips26_example_small_11')],
 }
 
 with open('fabric_wrapper.sv', 'w') as f:
@@ -101,16 +102,26 @@ module fabric_wrapper #(
     output ethernet_dn
 );\n""")
 
-        for i, coords in enumerate(tt_projects.keys()):
+        for i, (coords, projects) in enumerate(tt_projects.items()):
             print(f'    // TT_PROJECT {i} ({coords})')
-            print(f'    logic [7:0] tt_project_{i}_ui_in;')
-            print(f'    logic [7:0] tt_project_{i}_uo_out;')
-            print(f'    logic [7:0] tt_project_{i}_uio_in;')
-            print(f'    logic [7:0] tt_project_{i}_uio_out;')
-            print(f'    logic [7:0] tt_project_{i}_uio_oe;')
+            if "large" in projects[0][1]:
+                print(f'    logic [15:0] tt_project_{i}_ui_in;')
+                print(f'    logic [15:0] tt_project_{i}_uo_out;')
+                print(f'    logic [15:0] tt_project_{i}_uio_in;')
+                print(f'    logic [15:0] tt_project_{i}_uio_out;')
+                print(f'    logic [15:0] tt_project_{i}_uio_oe;')
+            else:
+                if len(projects) > 1:
+                    print(f'    logic tt_project_{i}_select_slot;')
+                print(f'    logic [7:0] tt_project_{i}_ui_in;')
+                print(f'    logic [7:0] tt_project_{i}_uo_out;')
+                print(f'    logic [7:0] tt_project_{i}_uio_in;')
+                print(f'    logic [7:0] tt_project_{i}_uio_out;')
+                print(f'    logic [7:0] tt_project_{i}_uio_oe;')
             print(f'    logic  tt_project_{i}_ena;')
             print(f'    logic  tt_project_{i}_clk;')
-            print(f'    logic  tt_project_{i}_rst_n;\n')
+            print(f'    logic  tt_project_{i}_rst_n;')
+            print(f'    logic  tt_project_{i}_enable_power;\n')
 
         # SRAM
         for i in range(NUM_SRAM):
@@ -163,23 +174,30 @@ module fabric_wrapper #(
         print(f"""        .Tile_X0Y10_SYS_RESET_RESET_top(sys_reset_i),\n""")
 
         # TT_PROJECT
-        for i, coords in enumerate(tt_projects.keys()):
+        for i, (coords, projects) in enumerate(tt_projects.items()):
+            if "large" in projects[0][1]:
+                bits = 16
+            else:
+                bits = 8
             print(f'        // TT_PROJECT {i} ({coords})')
             
-            for j in range(8):
+            if len(projects) > 1:
+                print(f'        .Tile_{coords}_SELECT_SLOT_TT_PROJECT(tt_project_{i}_select_slot),')
+            for j in range(bits):
                 print(f'        .Tile_{coords}_UI_IN_TT_PROJECT{j}(tt_project_{i}_ui_in[{j}]),')
-            for j in range(8):
+            for j in range(bits):
                 print(f'        .Tile_{coords}_UO_OUT_TT_PROJECT{j}(tt_project_{i}_uo_out[{j}]),')
-            for j in range(8):
+            for j in range(bits):
                 print(f'        .Tile_{coords}_UIO_IN_TT_PROJECT{j}(tt_project_{i}_uio_in[{j}]),')
-            for j in range(8):
+            for j in range(bits):
                 print(f'        .Tile_{coords}_UIO_OUT_TT_PROJECT{j}(tt_project_{i}_uio_out[{j}]),')
-            for j in range(8):
+            for j in range(bits):
                 print(f'        .Tile_{coords}_UIO_OE_TT_PROJECT{j}(tt_project_{i}_uio_oe[{j}]),')
 
             print(f'        .Tile_{coords}_ENA_TT_PROJECT(tt_project_{i}_ena),')
             print(f'        .Tile_{coords}_CLK_TT_PROJECT(tt_project_{i}_clk),')
             print(f'        .Tile_{coords}_RST_N_TT_PROJECT(tt_project_{i}_rst_n),')
+            print(f'        .Tile_{coords}_ENABLE_POWER_TT_PROJECT(tt_project_{i}_enable_power),')
             print('')
 
         # SRAM
@@ -207,57 +225,66 @@ module fabric_wrapper #(
                 print(f'        .Tile_{sram_coords}Y{sram_offset+i*2}_CONFIGURED_top(configured_i),')
         print("    );\n")
 
-        for i, (coord, mod_inst) in enumerate(tt_projects.items()):
-
-            if not mod_inst:
-                print(f"""    assign tt_project_{i}_uo_out  = '0;
-        assign tt_project_{i}_uio_out = '0;
-        assign tt_project_{i}_uio_oe  = '0;\n""")
-            else:
-                module, instance = mod_inst
-
-                print(f"""    (* keep *) {module} {instance} (
-        .clk        (tt_project_{i}_clk),
-        .rst_n      (tt_project_{i}_rst_n),
-        .ena        (tt_project_{i}_ena),
-        .ui_in      (tt_project_{i}_ui_in),
-        .uio_in     (tt_project_{i}_uio_in),
-        .uo_out     (tt_project_{i}_uo_out),
-        .uio_out    (tt_project_{i}_uio_out),
-        .uio_oe     (tt_project_{i}_uio_oe)""", end="")
-                if module == "heichips26_ethernet":
-                    print(f""",\n        .ethernet_dp  (ethernet_dp),
-        .ethernet_dn  (ethernet_dn)""")
-                elif module == "heichips26_usb_cdc":
-                    print(f""",\n        .usb_dn_en_o    (usb_dn_en_o),
-        .usb_dn_rx_i    (usb_dn_rx_i),
-        .usb_dn_tx_o    (usb_dn_tx_o),
-        .usb_dp_en_o    (usb_dp_en_o),
-        .usb_dp_rx_i    (usb_dp_rx_i),
-        .usb_dp_tx_o    (usb_dp_tx_o),
-        .usb_dp_up_o    (usb_dp_up_o)""")
-                elif module == "heichips26_ICELab":
-                    print(f""",\n        // DLL
-        .analog_pin0  (icelab_analog_pin0),
-        .analog_pin1  (icelab_analog_pin1),
-        .analog_pin2  (icelab_analog_pin2),
-        .analog_pin3  (icelab_analog_pin3)""")
-                elif module == "heichips26_bagel":
-                    print(f""",\n        .tmds_b     (tmds_b),
-        .tmds_g     (tmds_g),
-        .tmds_r     (tmds_r),
-        .tmds_clk   (tmds_clk)""")
-                elif module == "heichips26_internal":
-                    print(f""",\n        // DLL
-        .analog_pin0  (internal_analog_pin0),
-        .analog_pin1  (internal_analog_pin1),
-        .analog_pin2  (internal_analog_pin2)""")
-                elif module == "heichips26_pudding":
-                    print(f""",\n        .i_in  (pudding_i_in),
-        .i_out (pudding_i_out)""")
+        for i, (coords, projects) in enumerate(tt_projects.items()):
+            # A single "large" or "small" user project
+            if len(projects) == 1:
+                if not projects[0]:
+                    print(f"""    assign tt_project_{i}_uo_out  = '0;
+            assign tt_project_{i}_uio_out = '0;
+            assign tt_project_{i}_uio_oe  = '0;\n""")
                 else:
-                    print(f"")
-                print(f"""    );\n""")
+                    module, instance = projects[0]
+
+                    print(f"""    (* keep *) {module} {instance} (
+            .clk        (tt_project_{i}_clk),
+            .rst_n      (tt_project_{i}_rst_n),
+            .ena        (tt_project_{i}_ena),
+            .ui_in      (tt_project_{i}_ui_in),
+            .uio_in     (tt_project_{i}_uio_in),
+            .uo_out     (tt_project_{i}_uo_out),
+            .uio_out    (tt_project_{i}_uio_out),
+            .uio_oe     (tt_project_{i}_uio_oe)""")
+                    print(f"""    );\n""")
+            # Two "tiny" user projects
+            else:
+                    module, instance = projects[0]
+                    
+                    print(f'    logic [7:0] tt_project_{i}_0_uo_out;')
+                    print(f'    logic [7:0] tt_project_{i}_0_uio_out;')
+                    print(f'    logic [7:0] tt_project_{i}_0_uio_oe;')
+                    print(f'')
+                    print(f'    logic [7:0] tt_project_{i}_1_uo_out;')
+                    print(f'    logic [7:0] tt_project_{i}_1_uio_out;')
+                    print(f'    logic [7:0] tt_project_{i}_1_uio_oe;')
+                    print(f'')
+                    print(f'    assign tt_project_{i}_uo_out  = tt_project_{i}_select_slot ? tt_project_{i}_1_uo_out : tt_project_{i}_0_uo_out;')
+                    print(f'    assign tt_project_{i}_uio_out = tt_project_{i}_select_slot ? tt_project_{i}_1_uio_out : tt_project_{i}_0_uio_out;')
+                    print(f'    assign tt_project_{i}_uio_oe  = tt_project_{i}_select_slot ? tt_project_{i}_1_uio_oe : tt_project_{i}_0_uio_oe;')
+                    print(f'')
+            
+                    print(f"""    (* keep *) {module} {instance} (
+            .clk        (tt_project_{i}_clk),
+            .rst_n      (tt_project_{i}_rst_n),
+            .ena        (tt_project_{i}_ena),
+            .ui_in      (tt_project_{i}_ui_in),
+            .uio_in     (tt_project_{i}_uio_in),
+            .uo_out     (tt_project_{i}_0_uo_out),
+            .uio_out    (tt_project_{i}_0_uio_out),
+            .uio_oe     (tt_project_{i}_0_uio_oe)""")
+                    print(f"""    );\n""")
+
+                    module, instance = projects[1]
+            
+                    print(f"""    (* keep *) {module} {instance} (
+            .clk        (tt_project_{i}_clk),
+            .rst_n      (tt_project_{i}_rst_n),
+            .ena        (tt_project_{i}_ena),
+            .ui_in      (tt_project_{i}_ui_in),
+            .uio_in     (tt_project_{i}_uio_in),
+            .uo_out     (tt_project_{i}_1_uo_out),
+            .uio_out    (tt_project_{i}_1_uio_out),
+            .uio_oe     (tt_project_{i}_1_uio_oe)""")
+                    print(f"""    );\n""")
 
 
         for i in range(NUM_SRAM):

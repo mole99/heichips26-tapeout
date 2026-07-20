@@ -60,14 +60,15 @@ module fabric_wrapper #(
 );
 
     // TT_PROJECT 0 (X0Y2)
-    logic [7:0] tt_project_0_ui_in;
-    logic [7:0] tt_project_0_uo_out;
-    logic [7:0] tt_project_0_uio_in;
-    logic [7:0] tt_project_0_uio_out;
-    logic [7:0] tt_project_0_uio_oe;
+    logic [15:0] tt_project_0_ui_in;
+    logic [15:0] tt_project_0_uo_out;
+    logic [15:0] tt_project_0_uio_in;
+    logic [15:0] tt_project_0_uio_out;
+    logic [15:0] tt_project_0_uio_oe;
     logic  tt_project_0_ena;
     logic  tt_project_0_clk;
     logic  tt_project_0_rst_n;
+    logic  tt_project_0_enable_power;
 
     // TT_PROJECT 1 (X0Y3)
     logic [7:0] tt_project_1_ui_in;
@@ -78,6 +79,7 @@ module fabric_wrapper #(
     logic  tt_project_1_ena;
     logic  tt_project_1_clk;
     logic  tt_project_1_rst_n;
+    logic  tt_project_1_enable_power;
 
     // TT_PROJECT 2 (X0Y4)
     logic [7:0] tt_project_2_ui_in;
@@ -88,6 +90,7 @@ module fabric_wrapper #(
     logic  tt_project_2_ena;
     logic  tt_project_2_clk;
     logic  tt_project_2_rst_n;
+    logic  tt_project_2_enable_power;
 
     // TT_PROJECT 3 (X0Y5)
     logic [7:0] tt_project_3_ui_in;
@@ -98,6 +101,7 @@ module fabric_wrapper #(
     logic  tt_project_3_ena;
     logic  tt_project_3_clk;
     logic  tt_project_3_rst_n;
+    logic  tt_project_3_enable_power;
 
     // TT_PROJECT 4 (X0Y6)
     logic [7:0] tt_project_4_ui_in;
@@ -108,6 +112,7 @@ module fabric_wrapper #(
     logic  tt_project_4_ena;
     logic  tt_project_4_clk;
     logic  tt_project_4_rst_n;
+    logic  tt_project_4_enable_power;
 
     // TT_PROJECT 5 (X0Y7)
     logic [7:0] tt_project_5_ui_in;
@@ -118,16 +123,18 @@ module fabric_wrapper #(
     logic  tt_project_5_ena;
     logic  tt_project_5_clk;
     logic  tt_project_5_rst_n;
+    logic  tt_project_5_enable_power;
 
     // TT_PROJECT 6 (X0Y9)
-    logic [7:0] tt_project_6_ui_in;
-    logic [7:0] tt_project_6_uo_out;
-    logic [7:0] tt_project_6_uio_in;
-    logic [7:0] tt_project_6_uio_out;
-    logic [7:0] tt_project_6_uio_oe;
+    logic [15:0] tt_project_6_ui_in;
+    logic [15:0] tt_project_6_uo_out;
+    logic [15:0] tt_project_6_uio_in;
+    logic [15:0] tt_project_6_uio_out;
+    logic [15:0] tt_project_6_uio_oe;
     logic  tt_project_6_ena;
     logic  tt_project_6_clk;
     logic  tt_project_6_rst_n;
+    logic  tt_project_6_enable_power;
 
     // TT_PROJECT 7 (X5Y1)
     logic [7:0] tt_project_7_ui_in;
@@ -138,6 +145,7 @@ module fabric_wrapper #(
     logic  tt_project_7_ena;
     logic  tt_project_7_clk;
     logic  tt_project_7_rst_n;
+    logic  tt_project_7_enable_power;
 
     // TT_PROJECT 8 (X5Y2)
     logic [7:0] tt_project_8_ui_in;
@@ -148,8 +156,10 @@ module fabric_wrapper #(
     logic  tt_project_8_ena;
     logic  tt_project_8_clk;
     logic  tt_project_8_rst_n;
+    logic  tt_project_8_enable_power;
 
     // TT_PROJECT 9 (X5Y3)
+    logic tt_project_9_select_slot;
     logic [7:0] tt_project_9_ui_in;
     logic [7:0] tt_project_9_uo_out;
     logic [7:0] tt_project_9_uio_in;
@@ -158,6 +168,7 @@ module fabric_wrapper #(
     logic  tt_project_9_ena;
     logic  tt_project_9_clk;
     logic  tt_project_9_rst_n;
+    logic  tt_project_9_enable_power;
 
     // TT_PROJECT 10 (X5Y4)
     logic [7:0] tt_project_10_ui_in;
@@ -168,6 +179,7 @@ module fabric_wrapper #(
     logic  tt_project_10_ena;
     logic  tt_project_10_clk;
     logic  tt_project_10_rst_n;
+    logic  tt_project_10_enable_power;
 
     // TT_PROJECT 11 (X5Y7)
     logic [7:0] tt_project_11_ui_in;
@@ -178,6 +190,7 @@ module fabric_wrapper #(
     logic  tt_project_11_ena;
     logic  tt_project_11_clk;
     logic  tt_project_11_rst_n;
+    logic  tt_project_11_enable_power;
 
     // TT_PROJECT 12 (X5Y8)
     logic [7:0] tt_project_12_ui_in;
@@ -188,6 +201,7 @@ module fabric_wrapper #(
     logic  tt_project_12_ena;
     logic  tt_project_12_clk;
     logic  tt_project_12_rst_n;
+    logic  tt_project_12_enable_power;
 
     // TT_PROJECT 13 (X5Y9)
     logic [7:0] tt_project_13_ui_in;
@@ -198,6 +212,7 @@ module fabric_wrapper #(
     logic  tt_project_13_ena;
     logic  tt_project_13_clk;
     logic  tt_project_13_rst_n;
+    logic  tt_project_13_enable_power;
 
     // SRAM 0
     logic [31:0] fabric_sram0_dout_i;
@@ -363,6 +378,14 @@ module fabric_wrapper #(
         .Tile_X0Y2_UI_IN_TT_PROJECT5(tt_project_0_ui_in[5]),
         .Tile_X0Y2_UI_IN_TT_PROJECT6(tt_project_0_ui_in[6]),
         .Tile_X0Y2_UI_IN_TT_PROJECT7(tt_project_0_ui_in[7]),
+        .Tile_X0Y2_UI_IN_TT_PROJECT8(tt_project_0_ui_in[8]),
+        .Tile_X0Y2_UI_IN_TT_PROJECT9(tt_project_0_ui_in[9]),
+        .Tile_X0Y2_UI_IN_TT_PROJECT10(tt_project_0_ui_in[10]),
+        .Tile_X0Y2_UI_IN_TT_PROJECT11(tt_project_0_ui_in[11]),
+        .Tile_X0Y2_UI_IN_TT_PROJECT12(tt_project_0_ui_in[12]),
+        .Tile_X0Y2_UI_IN_TT_PROJECT13(tt_project_0_ui_in[13]),
+        .Tile_X0Y2_UI_IN_TT_PROJECT14(tt_project_0_ui_in[14]),
+        .Tile_X0Y2_UI_IN_TT_PROJECT15(tt_project_0_ui_in[15]),
         .Tile_X0Y2_UO_OUT_TT_PROJECT0(tt_project_0_uo_out[0]),
         .Tile_X0Y2_UO_OUT_TT_PROJECT1(tt_project_0_uo_out[1]),
         .Tile_X0Y2_UO_OUT_TT_PROJECT2(tt_project_0_uo_out[2]),
@@ -371,6 +394,14 @@ module fabric_wrapper #(
         .Tile_X0Y2_UO_OUT_TT_PROJECT5(tt_project_0_uo_out[5]),
         .Tile_X0Y2_UO_OUT_TT_PROJECT6(tt_project_0_uo_out[6]),
         .Tile_X0Y2_UO_OUT_TT_PROJECT7(tt_project_0_uo_out[7]),
+        .Tile_X0Y2_UO_OUT_TT_PROJECT8(tt_project_0_uo_out[8]),
+        .Tile_X0Y2_UO_OUT_TT_PROJECT9(tt_project_0_uo_out[9]),
+        .Tile_X0Y2_UO_OUT_TT_PROJECT10(tt_project_0_uo_out[10]),
+        .Tile_X0Y2_UO_OUT_TT_PROJECT11(tt_project_0_uo_out[11]),
+        .Tile_X0Y2_UO_OUT_TT_PROJECT12(tt_project_0_uo_out[12]),
+        .Tile_X0Y2_UO_OUT_TT_PROJECT13(tt_project_0_uo_out[13]),
+        .Tile_X0Y2_UO_OUT_TT_PROJECT14(tt_project_0_uo_out[14]),
+        .Tile_X0Y2_UO_OUT_TT_PROJECT15(tt_project_0_uo_out[15]),
         .Tile_X0Y2_UIO_IN_TT_PROJECT0(tt_project_0_uio_in[0]),
         .Tile_X0Y2_UIO_IN_TT_PROJECT1(tt_project_0_uio_in[1]),
         .Tile_X0Y2_UIO_IN_TT_PROJECT2(tt_project_0_uio_in[2]),
@@ -379,6 +410,14 @@ module fabric_wrapper #(
         .Tile_X0Y2_UIO_IN_TT_PROJECT5(tt_project_0_uio_in[5]),
         .Tile_X0Y2_UIO_IN_TT_PROJECT6(tt_project_0_uio_in[6]),
         .Tile_X0Y2_UIO_IN_TT_PROJECT7(tt_project_0_uio_in[7]),
+        .Tile_X0Y2_UIO_IN_TT_PROJECT8(tt_project_0_uio_in[8]),
+        .Tile_X0Y2_UIO_IN_TT_PROJECT9(tt_project_0_uio_in[9]),
+        .Tile_X0Y2_UIO_IN_TT_PROJECT10(tt_project_0_uio_in[10]),
+        .Tile_X0Y2_UIO_IN_TT_PROJECT11(tt_project_0_uio_in[11]),
+        .Tile_X0Y2_UIO_IN_TT_PROJECT12(tt_project_0_uio_in[12]),
+        .Tile_X0Y2_UIO_IN_TT_PROJECT13(tt_project_0_uio_in[13]),
+        .Tile_X0Y2_UIO_IN_TT_PROJECT14(tt_project_0_uio_in[14]),
+        .Tile_X0Y2_UIO_IN_TT_PROJECT15(tt_project_0_uio_in[15]),
         .Tile_X0Y2_UIO_OUT_TT_PROJECT0(tt_project_0_uio_out[0]),
         .Tile_X0Y2_UIO_OUT_TT_PROJECT1(tt_project_0_uio_out[1]),
         .Tile_X0Y2_UIO_OUT_TT_PROJECT2(tt_project_0_uio_out[2]),
@@ -387,6 +426,14 @@ module fabric_wrapper #(
         .Tile_X0Y2_UIO_OUT_TT_PROJECT5(tt_project_0_uio_out[5]),
         .Tile_X0Y2_UIO_OUT_TT_PROJECT6(tt_project_0_uio_out[6]),
         .Tile_X0Y2_UIO_OUT_TT_PROJECT7(tt_project_0_uio_out[7]),
+        .Tile_X0Y2_UIO_OUT_TT_PROJECT8(tt_project_0_uio_out[8]),
+        .Tile_X0Y2_UIO_OUT_TT_PROJECT9(tt_project_0_uio_out[9]),
+        .Tile_X0Y2_UIO_OUT_TT_PROJECT10(tt_project_0_uio_out[10]),
+        .Tile_X0Y2_UIO_OUT_TT_PROJECT11(tt_project_0_uio_out[11]),
+        .Tile_X0Y2_UIO_OUT_TT_PROJECT12(tt_project_0_uio_out[12]),
+        .Tile_X0Y2_UIO_OUT_TT_PROJECT13(tt_project_0_uio_out[13]),
+        .Tile_X0Y2_UIO_OUT_TT_PROJECT14(tt_project_0_uio_out[14]),
+        .Tile_X0Y2_UIO_OUT_TT_PROJECT15(tt_project_0_uio_out[15]),
         .Tile_X0Y2_UIO_OE_TT_PROJECT0(tt_project_0_uio_oe[0]),
         .Tile_X0Y2_UIO_OE_TT_PROJECT1(tt_project_0_uio_oe[1]),
         .Tile_X0Y2_UIO_OE_TT_PROJECT2(tt_project_0_uio_oe[2]),
@@ -395,9 +442,18 @@ module fabric_wrapper #(
         .Tile_X0Y2_UIO_OE_TT_PROJECT5(tt_project_0_uio_oe[5]),
         .Tile_X0Y2_UIO_OE_TT_PROJECT6(tt_project_0_uio_oe[6]),
         .Tile_X0Y2_UIO_OE_TT_PROJECT7(tt_project_0_uio_oe[7]),
+        .Tile_X0Y2_UIO_OE_TT_PROJECT8(tt_project_0_uio_oe[8]),
+        .Tile_X0Y2_UIO_OE_TT_PROJECT9(tt_project_0_uio_oe[9]),
+        .Tile_X0Y2_UIO_OE_TT_PROJECT10(tt_project_0_uio_oe[10]),
+        .Tile_X0Y2_UIO_OE_TT_PROJECT11(tt_project_0_uio_oe[11]),
+        .Tile_X0Y2_UIO_OE_TT_PROJECT12(tt_project_0_uio_oe[12]),
+        .Tile_X0Y2_UIO_OE_TT_PROJECT13(tt_project_0_uio_oe[13]),
+        .Tile_X0Y2_UIO_OE_TT_PROJECT14(tt_project_0_uio_oe[14]),
+        .Tile_X0Y2_UIO_OE_TT_PROJECT15(tt_project_0_uio_oe[15]),
         .Tile_X0Y2_ENA_TT_PROJECT(tt_project_0_ena),
         .Tile_X0Y2_CLK_TT_PROJECT(tt_project_0_clk),
         .Tile_X0Y2_RST_N_TT_PROJECT(tt_project_0_rst_n),
+        .Tile_X0Y2_ENABLE_POWER_TT_PROJECT(tt_project_0_enable_power),
 
         // TT_PROJECT 1 (X0Y3)
         .Tile_X0Y3_UI_IN_TT_PROJECT0(tt_project_1_ui_in[0]),
@@ -443,6 +499,7 @@ module fabric_wrapper #(
         .Tile_X0Y3_ENA_TT_PROJECT(tt_project_1_ena),
         .Tile_X0Y3_CLK_TT_PROJECT(tt_project_1_clk),
         .Tile_X0Y3_RST_N_TT_PROJECT(tt_project_1_rst_n),
+        .Tile_X0Y3_ENABLE_POWER_TT_PROJECT(tt_project_1_enable_power),
 
         // TT_PROJECT 2 (X0Y4)
         .Tile_X0Y4_UI_IN_TT_PROJECT0(tt_project_2_ui_in[0]),
@@ -488,6 +545,7 @@ module fabric_wrapper #(
         .Tile_X0Y4_ENA_TT_PROJECT(tt_project_2_ena),
         .Tile_X0Y4_CLK_TT_PROJECT(tt_project_2_clk),
         .Tile_X0Y4_RST_N_TT_PROJECT(tt_project_2_rst_n),
+        .Tile_X0Y4_ENABLE_POWER_TT_PROJECT(tt_project_2_enable_power),
 
         // TT_PROJECT 3 (X0Y5)
         .Tile_X0Y5_UI_IN_TT_PROJECT0(tt_project_3_ui_in[0]),
@@ -533,6 +591,7 @@ module fabric_wrapper #(
         .Tile_X0Y5_ENA_TT_PROJECT(tt_project_3_ena),
         .Tile_X0Y5_CLK_TT_PROJECT(tt_project_3_clk),
         .Tile_X0Y5_RST_N_TT_PROJECT(tt_project_3_rst_n),
+        .Tile_X0Y5_ENABLE_POWER_TT_PROJECT(tt_project_3_enable_power),
 
         // TT_PROJECT 4 (X0Y6)
         .Tile_X0Y6_UI_IN_TT_PROJECT0(tt_project_4_ui_in[0]),
@@ -578,6 +637,7 @@ module fabric_wrapper #(
         .Tile_X0Y6_ENA_TT_PROJECT(tt_project_4_ena),
         .Tile_X0Y6_CLK_TT_PROJECT(tt_project_4_clk),
         .Tile_X0Y6_RST_N_TT_PROJECT(tt_project_4_rst_n),
+        .Tile_X0Y6_ENABLE_POWER_TT_PROJECT(tt_project_4_enable_power),
 
         // TT_PROJECT 5 (X0Y7)
         .Tile_X0Y7_UI_IN_TT_PROJECT0(tt_project_5_ui_in[0]),
@@ -623,6 +683,7 @@ module fabric_wrapper #(
         .Tile_X0Y7_ENA_TT_PROJECT(tt_project_5_ena),
         .Tile_X0Y7_CLK_TT_PROJECT(tt_project_5_clk),
         .Tile_X0Y7_RST_N_TT_PROJECT(tt_project_5_rst_n),
+        .Tile_X0Y7_ENABLE_POWER_TT_PROJECT(tt_project_5_enable_power),
 
         // TT_PROJECT 6 (X0Y9)
         .Tile_X0Y9_UI_IN_TT_PROJECT0(tt_project_6_ui_in[0]),
@@ -633,6 +694,14 @@ module fabric_wrapper #(
         .Tile_X0Y9_UI_IN_TT_PROJECT5(tt_project_6_ui_in[5]),
         .Tile_X0Y9_UI_IN_TT_PROJECT6(tt_project_6_ui_in[6]),
         .Tile_X0Y9_UI_IN_TT_PROJECT7(tt_project_6_ui_in[7]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT8(tt_project_6_ui_in[8]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT9(tt_project_6_ui_in[9]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT10(tt_project_6_ui_in[10]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT11(tt_project_6_ui_in[11]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT12(tt_project_6_ui_in[12]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT13(tt_project_6_ui_in[13]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT14(tt_project_6_ui_in[14]),
+        .Tile_X0Y9_UI_IN_TT_PROJECT15(tt_project_6_ui_in[15]),
         .Tile_X0Y9_UO_OUT_TT_PROJECT0(tt_project_6_uo_out[0]),
         .Tile_X0Y9_UO_OUT_TT_PROJECT1(tt_project_6_uo_out[1]),
         .Tile_X0Y9_UO_OUT_TT_PROJECT2(tt_project_6_uo_out[2]),
@@ -641,6 +710,14 @@ module fabric_wrapper #(
         .Tile_X0Y9_UO_OUT_TT_PROJECT5(tt_project_6_uo_out[5]),
         .Tile_X0Y9_UO_OUT_TT_PROJECT6(tt_project_6_uo_out[6]),
         .Tile_X0Y9_UO_OUT_TT_PROJECT7(tt_project_6_uo_out[7]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT8(tt_project_6_uo_out[8]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT9(tt_project_6_uo_out[9]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT10(tt_project_6_uo_out[10]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT11(tt_project_6_uo_out[11]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT12(tt_project_6_uo_out[12]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT13(tt_project_6_uo_out[13]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT14(tt_project_6_uo_out[14]),
+        .Tile_X0Y9_UO_OUT_TT_PROJECT15(tt_project_6_uo_out[15]),
         .Tile_X0Y9_UIO_IN_TT_PROJECT0(tt_project_6_uio_in[0]),
         .Tile_X0Y9_UIO_IN_TT_PROJECT1(tt_project_6_uio_in[1]),
         .Tile_X0Y9_UIO_IN_TT_PROJECT2(tt_project_6_uio_in[2]),
@@ -649,6 +726,14 @@ module fabric_wrapper #(
         .Tile_X0Y9_UIO_IN_TT_PROJECT5(tt_project_6_uio_in[5]),
         .Tile_X0Y9_UIO_IN_TT_PROJECT6(tt_project_6_uio_in[6]),
         .Tile_X0Y9_UIO_IN_TT_PROJECT7(tt_project_6_uio_in[7]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT8(tt_project_6_uio_in[8]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT9(tt_project_6_uio_in[9]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT10(tt_project_6_uio_in[10]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT11(tt_project_6_uio_in[11]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT12(tt_project_6_uio_in[12]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT13(tt_project_6_uio_in[13]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT14(tt_project_6_uio_in[14]),
+        .Tile_X0Y9_UIO_IN_TT_PROJECT15(tt_project_6_uio_in[15]),
         .Tile_X0Y9_UIO_OUT_TT_PROJECT0(tt_project_6_uio_out[0]),
         .Tile_X0Y9_UIO_OUT_TT_PROJECT1(tt_project_6_uio_out[1]),
         .Tile_X0Y9_UIO_OUT_TT_PROJECT2(tt_project_6_uio_out[2]),
@@ -657,6 +742,14 @@ module fabric_wrapper #(
         .Tile_X0Y9_UIO_OUT_TT_PROJECT5(tt_project_6_uio_out[5]),
         .Tile_X0Y9_UIO_OUT_TT_PROJECT6(tt_project_6_uio_out[6]),
         .Tile_X0Y9_UIO_OUT_TT_PROJECT7(tt_project_6_uio_out[7]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT8(tt_project_6_uio_out[8]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT9(tt_project_6_uio_out[9]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT10(tt_project_6_uio_out[10]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT11(tt_project_6_uio_out[11]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT12(tt_project_6_uio_out[12]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT13(tt_project_6_uio_out[13]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT14(tt_project_6_uio_out[14]),
+        .Tile_X0Y9_UIO_OUT_TT_PROJECT15(tt_project_6_uio_out[15]),
         .Tile_X0Y9_UIO_OE_TT_PROJECT0(tt_project_6_uio_oe[0]),
         .Tile_X0Y9_UIO_OE_TT_PROJECT1(tt_project_6_uio_oe[1]),
         .Tile_X0Y9_UIO_OE_TT_PROJECT2(tt_project_6_uio_oe[2]),
@@ -665,9 +758,18 @@ module fabric_wrapper #(
         .Tile_X0Y9_UIO_OE_TT_PROJECT5(tt_project_6_uio_oe[5]),
         .Tile_X0Y9_UIO_OE_TT_PROJECT6(tt_project_6_uio_oe[6]),
         .Tile_X0Y9_UIO_OE_TT_PROJECT7(tt_project_6_uio_oe[7]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT8(tt_project_6_uio_oe[8]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT9(tt_project_6_uio_oe[9]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT10(tt_project_6_uio_oe[10]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT11(tt_project_6_uio_oe[11]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT12(tt_project_6_uio_oe[12]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT13(tt_project_6_uio_oe[13]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT14(tt_project_6_uio_oe[14]),
+        .Tile_X0Y9_UIO_OE_TT_PROJECT15(tt_project_6_uio_oe[15]),
         .Tile_X0Y9_ENA_TT_PROJECT(tt_project_6_ena),
         .Tile_X0Y9_CLK_TT_PROJECT(tt_project_6_clk),
         .Tile_X0Y9_RST_N_TT_PROJECT(tt_project_6_rst_n),
+        .Tile_X0Y9_ENABLE_POWER_TT_PROJECT(tt_project_6_enable_power),
 
         // TT_PROJECT 7 (X5Y1)
         .Tile_X5Y1_UI_IN_TT_PROJECT0(tt_project_7_ui_in[0]),
@@ -713,6 +815,7 @@ module fabric_wrapper #(
         .Tile_X5Y1_ENA_TT_PROJECT(tt_project_7_ena),
         .Tile_X5Y1_CLK_TT_PROJECT(tt_project_7_clk),
         .Tile_X5Y1_RST_N_TT_PROJECT(tt_project_7_rst_n),
+        .Tile_X5Y1_ENABLE_POWER_TT_PROJECT(tt_project_7_enable_power),
 
         // TT_PROJECT 8 (X5Y2)
         .Tile_X5Y2_UI_IN_TT_PROJECT0(tt_project_8_ui_in[0]),
@@ -758,8 +861,10 @@ module fabric_wrapper #(
         .Tile_X5Y2_ENA_TT_PROJECT(tt_project_8_ena),
         .Tile_X5Y2_CLK_TT_PROJECT(tt_project_8_clk),
         .Tile_X5Y2_RST_N_TT_PROJECT(tt_project_8_rst_n),
+        .Tile_X5Y2_ENABLE_POWER_TT_PROJECT(tt_project_8_enable_power),
 
         // TT_PROJECT 9 (X5Y3)
+        .Tile_X5Y3_SELECT_SLOT_TT_PROJECT(tt_project_9_select_slot),
         .Tile_X5Y3_UI_IN_TT_PROJECT0(tt_project_9_ui_in[0]),
         .Tile_X5Y3_UI_IN_TT_PROJECT1(tt_project_9_ui_in[1]),
         .Tile_X5Y3_UI_IN_TT_PROJECT2(tt_project_9_ui_in[2]),
@@ -803,6 +908,7 @@ module fabric_wrapper #(
         .Tile_X5Y3_ENA_TT_PROJECT(tt_project_9_ena),
         .Tile_X5Y3_CLK_TT_PROJECT(tt_project_9_clk),
         .Tile_X5Y3_RST_N_TT_PROJECT(tt_project_9_rst_n),
+        .Tile_X5Y3_ENABLE_POWER_TT_PROJECT(tt_project_9_enable_power),
 
         // TT_PROJECT 10 (X5Y4)
         .Tile_X5Y4_UI_IN_TT_PROJECT0(tt_project_10_ui_in[0]),
@@ -848,6 +954,7 @@ module fabric_wrapper #(
         .Tile_X5Y4_ENA_TT_PROJECT(tt_project_10_ena),
         .Tile_X5Y4_CLK_TT_PROJECT(tt_project_10_clk),
         .Tile_X5Y4_RST_N_TT_PROJECT(tt_project_10_rst_n),
+        .Tile_X5Y4_ENABLE_POWER_TT_PROJECT(tt_project_10_enable_power),
 
         // TT_PROJECT 11 (X5Y7)
         .Tile_X5Y7_UI_IN_TT_PROJECT0(tt_project_11_ui_in[0]),
@@ -893,6 +1000,7 @@ module fabric_wrapper #(
         .Tile_X5Y7_ENA_TT_PROJECT(tt_project_11_ena),
         .Tile_X5Y7_CLK_TT_PROJECT(tt_project_11_clk),
         .Tile_X5Y7_RST_N_TT_PROJECT(tt_project_11_rst_n),
+        .Tile_X5Y7_ENABLE_POWER_TT_PROJECT(tt_project_11_enable_power),
 
         // TT_PROJECT 12 (X5Y8)
         .Tile_X5Y8_UI_IN_TT_PROJECT0(tt_project_12_ui_in[0]),
@@ -938,6 +1046,7 @@ module fabric_wrapper #(
         .Tile_X5Y8_ENA_TT_PROJECT(tt_project_12_ena),
         .Tile_X5Y8_CLK_TT_PROJECT(tt_project_12_clk),
         .Tile_X5Y8_RST_N_TT_PROJECT(tt_project_12_rst_n),
+        .Tile_X5Y8_ENABLE_POWER_TT_PROJECT(tt_project_12_enable_power),
 
         // TT_PROJECT 13 (X5Y9)
         .Tile_X5Y9_UI_IN_TT_PROJECT0(tt_project_13_ui_in[0]),
@@ -983,6 +1092,7 @@ module fabric_wrapper #(
         .Tile_X5Y9_ENA_TT_PROJECT(tt_project_13_ena),
         .Tile_X5Y9_CLK_TT_PROJECT(tt_project_13_clk),
         .Tile_X5Y9_RST_N_TT_PROJECT(tt_project_13_rst_n),
+        .Tile_X5Y9_ENABLE_POWER_TT_PROJECT(tt_project_13_enable_power),
 
         // SRAM 0
         .Tile_X5Y6_DOUT_SRAM0(fabric_sram0_dout_i[0]),
@@ -1101,157 +1211,180 @@ module fabric_wrapper #(
     );
 
     (* keep *) heichips26_example_large heichips26_example_large_0 (
-        .clk        (tt_project_0_clk),
-        .rst_n      (tt_project_0_rst_n),
-        .ena        (tt_project_0_ena),
-        .ui_in      (tt_project_0_ui_in),
-        .uio_in     (tt_project_0_uio_in),
-        .uo_out     (tt_project_0_uo_out),
-        .uio_out    (tt_project_0_uio_out),
-        .uio_oe     (tt_project_0_uio_oe)
+            .clk        (tt_project_0_clk),
+            .rst_n      (tt_project_0_rst_n),
+            .ena        (tt_project_0_ena),
+            .ui_in      (tt_project_0_ui_in),
+            .uio_in     (tt_project_0_uio_in),
+            .uo_out     (tt_project_0_uo_out),
+            .uio_out    (tt_project_0_uio_out),
+            .uio_oe     (tt_project_0_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_0 (
-        .clk        (tt_project_1_clk),
-        .rst_n      (tt_project_1_rst_n),
-        .ena        (tt_project_1_ena),
-        .ui_in      (tt_project_1_ui_in),
-        .uio_in     (tt_project_1_uio_in),
-        .uo_out     (tt_project_1_uo_out),
-        .uio_out    (tt_project_1_uio_out),
-        .uio_oe     (tt_project_1_uio_oe)
+            .clk        (tt_project_1_clk),
+            .rst_n      (tt_project_1_rst_n),
+            .ena        (tt_project_1_ena),
+            .ui_in      (tt_project_1_ui_in),
+            .uio_in     (tt_project_1_uio_in),
+            .uo_out     (tt_project_1_uo_out),
+            .uio_out    (tt_project_1_uio_out),
+            .uio_oe     (tt_project_1_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_1 (
-        .clk        (tt_project_2_clk),
-        .rst_n      (tt_project_2_rst_n),
-        .ena        (tt_project_2_ena),
-        .ui_in      (tt_project_2_ui_in),
-        .uio_in     (tt_project_2_uio_in),
-        .uo_out     (tt_project_2_uo_out),
-        .uio_out    (tt_project_2_uio_out),
-        .uio_oe     (tt_project_2_uio_oe)
+            .clk        (tt_project_2_clk),
+            .rst_n      (tt_project_2_rst_n),
+            .ena        (tt_project_2_ena),
+            .ui_in      (tt_project_2_ui_in),
+            .uio_in     (tt_project_2_uio_in),
+            .uo_out     (tt_project_2_uo_out),
+            .uio_out    (tt_project_2_uio_out),
+            .uio_oe     (tt_project_2_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_2 (
-        .clk        (tt_project_3_clk),
-        .rst_n      (tt_project_3_rst_n),
-        .ena        (tt_project_3_ena),
-        .ui_in      (tt_project_3_ui_in),
-        .uio_in     (tt_project_3_uio_in),
-        .uo_out     (tt_project_3_uo_out),
-        .uio_out    (tt_project_3_uio_out),
-        .uio_oe     (tt_project_3_uio_oe)
+            .clk        (tt_project_3_clk),
+            .rst_n      (tt_project_3_rst_n),
+            .ena        (tt_project_3_ena),
+            .ui_in      (tt_project_3_ui_in),
+            .uio_in     (tt_project_3_uio_in),
+            .uo_out     (tt_project_3_uo_out),
+            .uio_out    (tt_project_3_uio_out),
+            .uio_oe     (tt_project_3_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_3 (
-        .clk        (tt_project_4_clk),
-        .rst_n      (tt_project_4_rst_n),
-        .ena        (tt_project_4_ena),
-        .ui_in      (tt_project_4_ui_in),
-        .uio_in     (tt_project_4_uio_in),
-        .uo_out     (tt_project_4_uo_out),
-        .uio_out    (tt_project_4_uio_out),
-        .uio_oe     (tt_project_4_uio_oe)
+            .clk        (tt_project_4_clk),
+            .rst_n      (tt_project_4_rst_n),
+            .ena        (tt_project_4_ena),
+            .ui_in      (tt_project_4_ui_in),
+            .uio_in     (tt_project_4_uio_in),
+            .uo_out     (tt_project_4_uo_out),
+            .uio_out    (tt_project_4_uio_out),
+            .uio_oe     (tt_project_4_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_4 (
-        .clk        (tt_project_5_clk),
-        .rst_n      (tt_project_5_rst_n),
-        .ena        (tt_project_5_ena),
-        .ui_in      (tt_project_5_ui_in),
-        .uio_in     (tt_project_5_uio_in),
-        .uo_out     (tt_project_5_uo_out),
-        .uio_out    (tt_project_5_uio_out),
-        .uio_oe     (tt_project_5_uio_oe)
+            .clk        (tt_project_5_clk),
+            .rst_n      (tt_project_5_rst_n),
+            .ena        (tt_project_5_ena),
+            .ui_in      (tt_project_5_ui_in),
+            .uio_in     (tt_project_5_uio_in),
+            .uo_out     (tt_project_5_uo_out),
+            .uio_out    (tt_project_5_uio_out),
+            .uio_oe     (tt_project_5_uio_oe)
     );
 
     (* keep *) heichips26_example_large heichips26_example_large_1 (
-        .clk        (tt_project_6_clk),
-        .rst_n      (tt_project_6_rst_n),
-        .ena        (tt_project_6_ena),
-        .ui_in      (tt_project_6_ui_in),
-        .uio_in     (tt_project_6_uio_in),
-        .uo_out     (tt_project_6_uo_out),
-        .uio_out    (tt_project_6_uio_out),
-        .uio_oe     (tt_project_6_uio_oe)
+            .clk        (tt_project_6_clk),
+            .rst_n      (tt_project_6_rst_n),
+            .ena        (tt_project_6_ena),
+            .ui_in      (tt_project_6_ui_in),
+            .uio_in     (tt_project_6_uio_in),
+            .uo_out     (tt_project_6_uo_out),
+            .uio_out    (tt_project_6_uio_out),
+            .uio_oe     (tt_project_6_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_5 (
-        .clk        (tt_project_7_clk),
-        .rst_n      (tt_project_7_rst_n),
-        .ena        (tt_project_7_ena),
-        .ui_in      (tt_project_7_ui_in),
-        .uio_in     (tt_project_7_uio_in),
-        .uo_out     (tt_project_7_uo_out),
-        .uio_out    (tt_project_7_uio_out),
-        .uio_oe     (tt_project_7_uio_oe)
+            .clk        (tt_project_7_clk),
+            .rst_n      (tt_project_7_rst_n),
+            .ena        (tt_project_7_ena),
+            .ui_in      (tt_project_7_ui_in),
+            .uio_in     (tt_project_7_uio_in),
+            .uo_out     (tt_project_7_uo_out),
+            .uio_out    (tt_project_7_uio_out),
+            .uio_oe     (tt_project_7_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_6 (
-        .clk        (tt_project_8_clk),
-        .rst_n      (tt_project_8_rst_n),
-        .ena        (tt_project_8_ena),
-        .ui_in      (tt_project_8_ui_in),
-        .uio_in     (tt_project_8_uio_in),
-        .uo_out     (tt_project_8_uo_out),
-        .uio_out    (tt_project_8_uio_out),
-        .uio_oe     (tt_project_8_uio_oe)
+            .clk        (tt_project_8_clk),
+            .rst_n      (tt_project_8_rst_n),
+            .ena        (tt_project_8_ena),
+            .ui_in      (tt_project_8_ui_in),
+            .uio_in     (tt_project_8_uio_in),
+            .uo_out     (tt_project_8_uo_out),
+            .uio_out    (tt_project_8_uio_out),
+            .uio_oe     (tt_project_8_uio_oe)
     );
 
-    (* keep *) heichips26_example_small heichips26_example_small_7 (
-        .clk        (tt_project_9_clk),
-        .rst_n      (tt_project_9_rst_n),
-        .ena        (tt_project_9_ena),
-        .ui_in      (tt_project_9_ui_in),
-        .uio_in     (tt_project_9_uio_in),
-        .uo_out     (tt_project_9_uo_out),
-        .uio_out    (tt_project_9_uio_out),
-        .uio_oe     (tt_project_9_uio_oe)
+    logic [7:0] tt_project_9_0_uo_out;
+    logic [7:0] tt_project_9_0_uio_out;
+    logic [7:0] tt_project_9_0_uio_oe;
+
+    logic [7:0] tt_project_9_1_uo_out;
+    logic [7:0] tt_project_9_1_uio_out;
+    logic [7:0] tt_project_9_1_uio_oe;
+
+    assign tt_project_9_uo_out  = tt_project_9_select_slot ? tt_project_9_1_uo_out : tt_project_9_0_uo_out;
+    assign tt_project_9_uio_out = tt_project_9_select_slot ? tt_project_9_1_uio_out : tt_project_9_0_uio_out;
+    assign tt_project_9_uio_oe  = tt_project_9_select_slot ? tt_project_9_1_uio_oe : tt_project_9_0_uio_oe;
+
+    (* keep *) heichips26_example_tiny heichips26_example_tiny_7_0 (
+            .clk        (tt_project_9_clk),
+            .rst_n      (tt_project_9_rst_n),
+            .ena        (tt_project_9_ena),
+            .ui_in      (tt_project_9_ui_in),
+            .uio_in     (tt_project_9_uio_in),
+            .uo_out     (tt_project_9_0_uo_out),
+            .uio_out    (tt_project_9_0_uio_out),
+            .uio_oe     (tt_project_9_0_uio_oe)
+    );
+
+    (* keep *) heichips26_example_tiny heichips26_example_tiny_7_1 (
+            .clk        (tt_project_9_clk),
+            .rst_n      (tt_project_9_rst_n),
+            .ena        (tt_project_9_ena),
+            .ui_in      (tt_project_9_ui_in),
+            .uio_in     (tt_project_9_uio_in),
+            .uo_out     (tt_project_9_1_uo_out),
+            .uio_out    (tt_project_9_1_uio_out),
+            .uio_oe     (tt_project_9_1_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_8 (
-        .clk        (tt_project_10_clk),
-        .rst_n      (tt_project_10_rst_n),
-        .ena        (tt_project_10_ena),
-        .ui_in      (tt_project_10_ui_in),
-        .uio_in     (tt_project_10_uio_in),
-        .uo_out     (tt_project_10_uo_out),
-        .uio_out    (tt_project_10_uio_out),
-        .uio_oe     (tt_project_10_uio_oe)
+            .clk        (tt_project_10_clk),
+            .rst_n      (tt_project_10_rst_n),
+            .ena        (tt_project_10_ena),
+            .ui_in      (tt_project_10_ui_in),
+            .uio_in     (tt_project_10_uio_in),
+            .uo_out     (tt_project_10_uo_out),
+            .uio_out    (tt_project_10_uio_out),
+            .uio_oe     (tt_project_10_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_9 (
-        .clk        (tt_project_11_clk),
-        .rst_n      (tt_project_11_rst_n),
-        .ena        (tt_project_11_ena),
-        .ui_in      (tt_project_11_ui_in),
-        .uio_in     (tt_project_11_uio_in),
-        .uo_out     (tt_project_11_uo_out),
-        .uio_out    (tt_project_11_uio_out),
-        .uio_oe     (tt_project_11_uio_oe)
+            .clk        (tt_project_11_clk),
+            .rst_n      (tt_project_11_rst_n),
+            .ena        (tt_project_11_ena),
+            .ui_in      (tt_project_11_ui_in),
+            .uio_in     (tt_project_11_uio_in),
+            .uo_out     (tt_project_11_uo_out),
+            .uio_out    (tt_project_11_uio_out),
+            .uio_oe     (tt_project_11_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_10 (
-        .clk        (tt_project_12_clk),
-        .rst_n      (tt_project_12_rst_n),
-        .ena        (tt_project_12_ena),
-        .ui_in      (tt_project_12_ui_in),
-        .uio_in     (tt_project_12_uio_in),
-        .uo_out     (tt_project_12_uo_out),
-        .uio_out    (tt_project_12_uio_out),
-        .uio_oe     (tt_project_12_uio_oe)
+            .clk        (tt_project_12_clk),
+            .rst_n      (tt_project_12_rst_n),
+            .ena        (tt_project_12_ena),
+            .ui_in      (tt_project_12_ui_in),
+            .uio_in     (tt_project_12_uio_in),
+            .uo_out     (tt_project_12_uo_out),
+            .uio_out    (tt_project_12_uio_out),
+            .uio_oe     (tt_project_12_uio_oe)
     );
 
     (* keep *) heichips26_example_small heichips26_example_small_11 (
-        .clk        (tt_project_13_clk),
-        .rst_n      (tt_project_13_rst_n),
-        .ena        (tt_project_13_ena),
-        .ui_in      (tt_project_13_ui_in),
-        .uio_in     (tt_project_13_uio_in),
-        .uo_out     (tt_project_13_uo_out),
-        .uio_out    (tt_project_13_uio_out),
-        .uio_oe     (tt_project_13_uio_oe)
+            .clk        (tt_project_13_clk),
+            .rst_n      (tt_project_13_rst_n),
+            .ena        (tt_project_13_ena),
+            .ui_in      (tt_project_13_ui_in),
+            .uio_in     (tt_project_13_uio_in),
+            .uo_out     (tt_project_13_uo_out),
+            .uio_out    (tt_project_13_uio_out),
+            .uio_oe     (tt_project_13_uio_oe)
     );
 
     // SRAM 0 instances

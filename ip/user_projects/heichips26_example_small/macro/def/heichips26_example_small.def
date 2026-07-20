@@ -10119,7 +10119,7 @@ NETS 96 ;
       NEW Metal2 ( 15360 168000 ) ( 16320 * )
       NEW Metal1 ( 16320 164220 ) Via1_XY
       NEW Metal1 ( 15360 168000 ) Via1_XY ;
-    - clk ( PIN clk ) + USE CLOCK ;
+    - clk ( PIN clk ) + USE SIGNAL ;
     - ena ( PIN ena ) + USE SIGNAL ;
     - net ( PIN uio_oe[0] ) ( heichips26_example_small L_LO ) + USE SIGNAL
       + ROUTED Metal3 ( 200 78540 0 ) ( 2880 * )

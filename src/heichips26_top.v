@@ -606,4 +606,39 @@ module heichips26_top #(
     (* keep *) logo_fabulous logo_fabulous ();
     (* keep *) logo_credits logo_credits ();
 
+
+    wire VPWR_SW_TEST_0;
+    wire VPWR_SW_TEST_1;
+    wire VPWR_SW_TEST_2;
+
+    // Power gate test
+    (* keep *) lv_power_gate_small lv_power_gate_small_0 (
+        `ifdef USE_POWER_PINS
+        .VPWR  (VDD),
+        .VGND  (VSS),
+        .VPWR_SW (VPWR_SW_TEST_0),
+        `endif
+        .ena (1'b1)
+    );
+
+    // Power gate test
+    (* keep *) lv_power_gate_small lv_power_gate_small_1 (
+        `ifdef USE_POWER_PINS
+        .VPWR  (VDD),
+        .VGND  (VSS),
+        .VPWR_SW (VPWR_SW_TEST_1),
+        `endif
+        .ena (1'b1)
+    );
+
+    // Power gate test
+    (* keep *) lv_power_gate_small lv_power_gate_small_2 (
+        `ifdef USE_POWER_PINS
+        .VPWR  (VDD),
+        .VGND  (VSS),
+        .VPWR_SW (VPWR_SW_TEST_2),
+        `endif
+        .ena (1'b1)
+    );
+
 endmodule

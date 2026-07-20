@@ -22,7 +22,7 @@ set_global_connections
 
 set secondary []
 foreach vdd $::env(VDD_NETS) gnd $::env(GND_NETS) {
-    if { $vdd != $::env(VDD_NET)} {
+    if { $vdd != $::env(VDD_NET) && $vdd ne ""} {
         lappend secondary $vdd
 
         set db_net [[ord::get_db_block] findNet $vdd]
@@ -33,7 +33,7 @@ foreach vdd $::env(VDD_NETS) gnd $::env(GND_NETS) {
         }
     }
 
-    if { $gnd != $::env(GND_NET)} {
+    if { $gnd != $::env(GND_NET) && $gnd ne ""} {
         lappend secondary $gnd
 
         set db_net [[ord::get_db_block] findNet $gnd]
@@ -75,6 +75,7 @@ if { $::env(PDN_MULTILAYER) == 1 } {
         -offset $::env(PDN_VOFFSET) \
         -spacing $::env(PDN_VSPACING) \
         -starts_with POWER \
+        -nets "$::env(VDD_NET) $::env(GND_NET)" \
         {*}$arg_list
 
     add_pdn_stripe \
@@ -85,6 +86,7 @@ if { $::env(PDN_MULTILAYER) == 1 } {
         -offset $::env(PDN_HOFFSET) \
         -spacing $::env(PDN_HSPACING) \
         -starts_with POWER \
+        -nets "$::env(VDD_NET) $::env(GND_NET)" \
         {*}$arg_list
 
     add_pdn_connect \
@@ -157,6 +159,7 @@ if { $::env(PDN_CORE_RING) == 1 } {
             -widths "$::env(PDN_CORE_RING_VWIDTH) $::env(PDN_CORE_RING_HWIDTH)" \
             -spacings "$::env(PDN_CORE_RING_VSPACING) $::env(PDN_CORE_RING_HSPACING)" \
             -core_offset "$::env(PDN_CORE_RING_VOFFSET) $::env(PDN_CORE_RING_HOFFSET)" \
+            -nets "$::env(VDD_NET) $::env(GND_NET)" \
             {*}$arg_list
 
         if { [info exists ::env(PDN_CORE_VERTICAL_LAYER)] } {
@@ -205,3 +208,70 @@ heichips26_core.fabric_wrapper.sram0_1" \
 add_pdn_connect \
     -grid sram \
     -layers "Metal4 $::env(FP_PDN_HORIZONTAL_LAYER)"
+
+# Add stripes for switched power
+
+add_pdn_stripe \
+    -grid stdcell_grid \
+    -layer $::env(PDN_HORIZONTAL_LAYER) \
+    -width $::env(PDN_HWIDTH) \
+    -pitch 15 \
+    -offset 1500.0 \
+    -spacing $::env(PDN_HSPACING) \
+    -starts_with POWER \
+    -nets "VPWR_SW_TEST_0"
+    #-number_of_straps 10
+
+#define_pdn_grid \
+#    -macro \
+#    -instances "\
+#heichips26_core.fabric_wrapper.heichips26_example_small_0" \
+#    -name heichips26_example_small_0 \
+#    -starts_with POWER
+
+#set_voltage_domain -name DOMAIN_VPWR_SW_TEST_0 -power VPWR_SW_TEST_0 -ground $::env(GND_NET)
+
+#define_pdn_grid \
+#    -name VPWR_SW_TEST_0_grid \
+#    -starts_with POWER
+
+#add_pdn_stripe \
+#    -grid VPWR_SW_TEST_0_grid \
+#    -layer $::env(PDN_HORIZONTAL_LAYER) \
+#    -width $::env(PDN_HWIDTH) \
+#    -pitch 15 \
+#    -offset 1500.0 \
+#    -spacing $::env(PDN_HSPACING) \
+#    -starts_with POWER \
+#    -nets "VPWR_SW_TEST_0"
+#    #-number_of_straps 10
+
+#add_pdn_connect \
+#    -grid VPWR_SW_TEST_0_grid \
+#    -layers "Metal4 $::env(FP_PDN_HORIZONTAL_LAYER)"
+
+#add_pdn_connect \
+#    -grid heichips26_example_small_0 \
+#    -layers "Metal4 $::env(FP_PDN_HORIZONTAL_LAYER)"
+
+#add_pdn_stripe \
+#    -grid stdcell_grid \
+#    -layer $::env(PDN_HORIZONTAL_LAYER) \
+#    -width $::env(PDN_HWIDTH) \
+#    -pitch 15 \
+#    -offset 1500.0 \
+#    -spacing $::env(PDN_HSPACING) \
+#    -starts_with POWER \
+#    -nets "VPWR_SW_TEST_1"
+#    #-number_of_straps 10
+
+#add_pdn_stripe \
+#    -grid stdcell_grid \
+#    -layer $::env(PDN_HORIZONTAL_LAYER) \
+#    -width $::env(PDN_HWIDTH) \
+#    -pitch 15 \
+#    -offset 1505.0 \
+#    -spacing $::env(PDN_HSPACING) \
+#    -starts_with POWER \
+#    -nets "VPWR_SW_TEST_2"
+#    #-number_of_straps 10

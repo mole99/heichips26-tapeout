@@ -84,8 +84,9 @@ if __name__ == '__main__':
 	if not os.path.exists("def"):
 		os.mkdir("def")
 
-	generate_template(width=500, height=200, name="heichips26_template_small.def")
-	generate_template(width=500, height=415, name="heichips26_template_large.def")
+	generate_template(width=500, height=200, name="heichips26_template_small.def", src="src/heichips26_template.v")
+	generate_template(width=500, height=415, name="heichips26_template_large.def", src="src/heichips26_template_large.v")
+	generate_template(width=200, height=200, name="heichips26_template_tiny.def", src="src/heichips26_template.v")
 	
 	# Additional templates
 	generate_template(width=500, height=200, name="heichips26_template_small_hdmi.def", pins="pins_hdmi.cfg", src="src/heichips26_template_hdmi.v")
